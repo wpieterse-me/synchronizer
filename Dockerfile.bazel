@@ -1,0 +1,33 @@
+FROM development-toolchain:latest
+
+WORKDIR /source
+
+RUN wget \
+        -O /tmp/bazel.gpg.key \
+        "https://bazel.build/bazel-release.pub.gpg" \
+    && apt-key \
+        add /tmp/bazel.gpg.key \
+    && rm \
+        /tmp/bazel.gpg.key \
+    && apt-add-repository \
+        "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" \
+    && apt \
+        update \
+    && apt \
+        install \
+            --yes \
+            --no-install-recommends \
+            --no-install-suggests \
+            bazel \
+    && wget \
+        -O /usr/bin/buildifier \
+        "https://github.com/bazelbuild/buildtools/releases/download/4.2.0/buildifier-linux-amd64" \
+    && chmod \
+        +x /usr/bin/buildifier \
+    && wget \
+        -O /usr/bin/buildozer \
+        "https://github.com/bazelbuild/buildtools/releases/download/4.2.0/buildozer-linux-amd64" \
+    && chmod \
+        +x /usr/bin/buildozer
+
+COPY ./usr/bin/bazel_worker.sh /usr/bin/bazel_worker.sh

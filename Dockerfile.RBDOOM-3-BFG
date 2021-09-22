@@ -1,0 +1,13 @@
+FROM development-cmake:latest
+
+RUN apt \
+        install \
+            --yes \
+            --no-install-recommends \
+            --no-install-suggests \
+            libsdl2-dev \
+            libopenal-dev \
+            libavcodec-dev \
+            libavformat-dev \
+            libavutil-dev \
+            libswscale-dev

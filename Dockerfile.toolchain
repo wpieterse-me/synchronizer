@@ -1,0 +1,67 @@
+FROM ubuntu:focal
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV TZ=Africa/Johannesburg
+
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES all
+
+RUN apt \
+        update \
+    && apt \
+        install \
+            --yes \
+            --no-install-recommends \
+            --no-install-suggests \
+            ca-certificates \
+            software-properties-common \
+            apt-transport-https \
+            curl \
+            wget \
+            gnupg \
+            gnupg2
+
+RUN wget \
+        -O /tmp/llvm.gpg.key \
+        "https://apt.llvm.org/llvm-snapshot.gpg.key" \
+    && apt-key \
+        add /tmp/llvm.gpg.key \
+    && rm \
+        /tmp/llvm.gpg.key \
+    && apt-add-repository \
+        "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main" \
+    && wget \
+        -O /tmp/intel.gpg.key \
+        "https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB" \
+    && apt-key \
+        add /tmp/intel.gpg.key \
+    && rm \
+        /tmp/intel.gpg.key \
+    && apt-add-repository \
+        "deb https://apt.repos.intel.com/oneapi all main" \
+    && add-apt-repository \
+        ppa:intel-opencl/intel-opencl \
+    && apt \
+        update \
+    && apt \
+        install \
+            --yes \
+            --no-install-recommends \
+            --no-install-suggests \
+            build-essential \
+            make \
+            gcc-10 \
+            g++-10 \
+            clang-13 \
+            lld-13 \
+            intel-oneapi-compiler-dpcpp-cpp \
+            ocl-icd-libopencl1 \
+            opencl-headers \
+            clinfo \
+            intel-oneapi-runtime-opencl \
+            libze-loader \
+            libze-intel-gpu \
+            intel-opencl-icd
+
+COPY ./etc/OpenCL/vendors/nvidia.icd /etc/OpenCL/vendors/nvidia.icd

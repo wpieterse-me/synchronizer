@@ -1,0 +1,576 @@
+DEVELOPMENT_PATH=/shared/development
+BUILDS_PERSONAL_PATH=/shared/builds_personal
+BUILDS_OTHER_PATH=/shared/builds_other
+
+TOOL_GNU_C_COMPILER="gcc-10"
+TOOL_GNU_CPP_COMPILER="g++-10"
+TOOL_GNU_LINKER="ld"
+
+TOOL_LLVM_C_COMPILER="clang-13"
+TOOL_LLVM_CPP_COMPILER="clang++-13"
+TOOL_LLVM_LINKER="ld.lld-13"
+
+TOOL_INTEL_C_COMPILER="clang-13"
+TOOL_INTEL_CPP_COMPILER="dpcpp"
+TOOL_INTEL_LINKER="ld.lld-13"
+
+TOOL_NONE_C_COMPILER="gcc"
+TOOL_NONE_CPP_COMPILER="g++"
+TOOL_NONE_LINKER="ld"
+
+declare -a SUPPORTED_COMPILERS=(
+    "gnu"
+    "llvm"
+    "intel"
+)
+
+declare -a BAZEL_BUILD_TYPES=(
+    "dbg"
+    "fastbuild"
+    "opt"
+)
+
+declare -a CMAKE_BUILD_TYPES=(
+    "debug"
+    "relwithdebinfo"
+    "release"
+    "minsizerel"
+)
+
+function update_git_repository {
+    local REPOSITORY_REMOTE_BASE_PATH=$1
+    local REPOSITORY_LOCAL_BASE_PATH=$2
+    local REPOSITORY_NAME=$3
+    local REPOSITORY_BRANCH=$4
+
+    pushd ${REPOSITORY_LOCAL_BASE_PATH} > /dev/null
+
+    if [ ! -d "${REPOSITORY_NAME}" ]
+    then
+        echo "*** INITIAL CLONE ******************************************************************************************************"
+        echo ""
+
+        git \
+            clone \
+            "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_NAME}.git" \
+            --recurse-submodules
+
+        echo ""
+    fi
+
+    pushd "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_NAME}"  > /dev/null
+
+    git \
+        config \
+        pager.log false
+
+    echo "*** CLEAN **************************************************************************************************************"
+    echo ""
+
+    git \
+        clean \
+        -dxf
+
+    echo ""
+    echo "*** RESET **************************************************************************************************************"
+    echo ""
+
+    git \
+        reset \
+        --hard ${REPOSITORY_BRANCH}
+
+    echo ""
+    echo "*** CHECKOUT ***********************************************************************************************************"
+    echo ""
+
+    git \
+        checkout \
+        ${REPOSITORY_BRANCH}
+
+    echo ""
+    echo "*** PULL ***************************************************************************************************************"
+    echo ""
+
+    git \
+        pull \
+        --recurse-submodules \
+        --all
+
+    echo ""
+    echo "*** LOG ****************************************************************************************************************"
+    echo ""
+
+    git \
+        log \
+        -n1
+
+    echo ""
+
+    popd > /dev/null
+
+    popd > /dev/null
+}
+
+function build_docker_image {
+    local IMAGE_TAG=$1
+    local IMAGE_FILE=$2
+
+    docker \
+        build \
+            --tag ${IMAGE_TAG} \
+            --file ${IMAGE_FILE} \
+            /shared/development/image-roots/${IMAGE_TAG}
+}
+
+function do_bazel_docker_image {
+    local IMAGE_TAG=$1
+    local IMAGE_FILE=$2
+
+    echo "*** IMAGE **************************************************************************************************************"
+    echo ""
+
+    build_docker_image \
+        ${IMAGE_TAG} \
+        ${IMAGE_FILE}
+
+    echo ""
+}
+
+function do_bazel_test {
+    local IMAGE_TAG=$1
+    local SOURCE_PATH=$2
+    local BUILD_PATH=$3
+    local BUILD_COMPILER=$4
+    local BUILD_TYPE=$5
+
+    local _CONTAINER_NAME=${IMAGE_TAG}_${BUILD_COMPILER}-${BUILD_TYPE}-test
+
+    if [ "${BUILD_COMPILER}" = "gnu" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_GNU_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_GNU_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_GNU_LINKER}
+
+        if [ "${BUILD_TYPE}" = "dbg" ];
+        then
+            echo "*** TEST - GNU - DEBUG *************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "fastbuild" ];
+        then
+            echo "*** TEST - GNU - FAST BUILD ********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "opt" ];
+        then
+            echo "*** TEST - GNU - OPTIMIZED *********************************************************************************************"
+        else
+            echo "*** TEST - GNU - UNKNOWN ***********************************************************************************************"
+        fi
+    elif [ "${BUILD_COMPILER}" = "llvm" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_LLVM_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_LLVM_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_LLVM_LINKER}
+
+        if [ "${BUILD_TYPE}" = "dbg" ];
+        then
+            echo "*** TEST - LLVM - DEBUG ************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "fastbuild" ];
+        then
+            echo "*** TEST - LLVM - FAST BUILD *******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "opt" ];
+        then
+            echo "*** TEST - LLVM - OPTIMIZED ********************************************************************************************"
+        else
+            echo "*** TEST - LLVM - UNKNOWN **********************************************************************************************"
+        fi
+    elif [ "${BUILD_COMPILER}" = "intel" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_INTEL_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_INTEL_LINKER}
+
+        if [ "${BUILD_TYPE}" = "dbg" ];
+        then
+            echo "*** TEST - INTEL - DEBUG ***********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "fastbuild" ];
+        then
+            echo "*** TEST - INTEL - FAST BUILD ******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "opt" ];
+        then
+            echo "*** TEST - INTEL - OPTIMIZED *******************************************************************************************"
+        else
+            echo "*** TEST - INTEL - UNKNOWN *********************************************************************************************"
+        fi
+    else
+        _CONTAINER_C_COMPILER=${TOOL_NONE_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_NONE_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_NONE_LINKER}
+
+        if [ "${BUILD_TYPE}" = "dbg" ];
+        then
+            echo "*** TEST - UNKNOWN - DEBUG *********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "fastbuild" ];
+        then
+            echo "*** TEST - UNKNOWN - FAST BUILD ****************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "opt" ];
+        then
+            echo "*** TEST - UNKNOWN - OPTIMIZED *****************************************************************************************"
+        else
+            echo "*** TEST - UNKNOWN - UNKNOWN *******************************************************************************************"
+        fi
+    fi
+
+    echo ""
+
+    docker \
+        run \
+            --name ${_CONTAINER_NAME} \
+            --rm \
+            --gpus all \
+            --device /dev/dri \
+            --volume=${SOURCE_PATH}:/source \
+            --volume=${BUILD_PATH}/${BUILD_COMPILER}:/build \
+            ${IMAGE_TAG} \
+                bazel_worker.sh \
+                    --output_base=/build \
+                    test \
+                        --symlink_prefix=/ \
+                        --compilation_mode=${BUILD_TYPE} \
+                        --repo_env=CC=${_CONTAINER_C_COMPILER} \
+                        --repo_env=CXX=${_CONTAINER_CPP_COMPILER} \
+                        --repo_env=LD=${_CONTAINER_LINKER} \
+                        //...
+
+    echo ""
+}
+
+function do_bazel_test_all {
+    local IMAGE_TAG=$1
+    local SOURCE_PATH=$2
+    local BUILD_PATH=$3
+
+    for CURRENT_COMPILER in "${SUPPORTED_COMPILERS[@]}"
+    do
+        for CURRENT_BUILD_TYPE in "${BAZEL_BUILD_TYPES[@]}"
+        do
+                do_bazel_test \
+                    ${IMAGE_TAG} \
+                    ${SOURCE_PATH} \
+                    ${BUILD_PATH} \
+                    ${CURRENT_COMPILER} \
+                    ${CURRENT_BUILD_TYPE}
+        done
+    done
+}
+
+function do_bazel {
+    local IMAGE_TAG=$1
+    local IMAGE_FILE=$2
+    local SOURCE_PATH=$3
+    local BUILD_PATH=$4
+
+    do_bazel_docker_image \
+        ${IMAGE_TAG} \
+        ${IMAGE_FILE}
+
+    do_bazel_test_all \
+        ${IMAGE_TAG} \
+        ${SOURCE_PATH} \
+        ${BUILD_PATH}
+}
+
+function do_cmake_docker_image {
+    local IMAGE_TAG=$1
+    local IMAGE_FILE=$2
+
+    echo "*** IMAGE **************************************************************************************************************"
+    echo ""
+
+    build_docker_image \
+        ${IMAGE_TAG} \
+        ${IMAGE_FILE}
+
+    echo ""
+}
+
+function do_cmake_generate {
+    local IMAGE_TAG=$1
+    local SOURCE_MOUNT=$2
+    local SOURCE_PATH=$3
+    local BUILD_PATH=$4
+    local BUILD_COMPILER=$5
+    local BUILD_TYPE=$6
+    local EXTRA_PARAMETERS=$7
+
+    local _CONTAINER_NAME=${IMAGE_TAG}_${BUILD_COMPILER}-${BUILD_TYPE}-generate
+    local _CONTAINER_C_COMPILER=""
+    local _CONTAINER_CPP_COMPILER=""
+    local _CONTAINER_LINKER=""
+
+    if [ "${BUILD_COMPILER}" = "gnu" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_GNU_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_GNU_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_GNU_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** GENERATE - GNU - DEBUG *********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** GENERATE - GNU - RELEASE WITH DEBUG ********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** GENERATE - GNU - RELEASE *******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** GENERATE - GNU - MINIMUM SIZE RELEASE ******************************************************************************"
+        else
+            echo "*** GENERATE - GNU - UNKNOWN *******************************************************************************************"
+        fi
+    elif [ "${BUILD_COMPILER}" = "llvm" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_LLVM_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_LLVM_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_LLVM_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** GENERATE - LLVM - DEBUG ********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** GENERATE - LLVM - RELEASE WITH DEBUG *******************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** GENERATE - LLVM - RELEASE ******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** GENERATE - LLVM - MINIMUM SIZE RELEASE *****************************************************************************"
+        else
+            echo "*** GENERATE - LLVM - UNKNOWN ******************************************************************************************"
+        fi
+    elif [ "${BUILD_COMPILER}" = "intel" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_INTEL_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_INTEL_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** GENERATE - INTEL - DEBUG *******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** GENERATE - INTEL - RELEASE WITH DEBUG ******************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** GENERATE - INTEL - RELEASE *****************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** GENERATE - INTEL - MINIMUM SIZE RELEASE ****************************************************************************"
+        else
+            echo "*** GENERATE - INTEL - UNKNOWN *****************************************************************************************"
+        fi
+    else
+        _CONTAINER_C_COMPILER=${TOOL_NONE_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_NONE_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_NONE_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** GENERATE - UNKNOWN - DEBUG *****************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** GENERATE - UNKNOWN - RELEASE WITH DEBUG ****************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** GENERATE - UNKNOWN - RELEASE ***************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** GENERATE - UNKNOWN - MINIMUM SIZE RELEASE **************************************************************************"
+        else
+            echo "*** GENERATE - UNKNOWN - UNKNOWN ***************************************************************************************"
+        fi
+    fi
+
+    echo ""
+
+    docker \
+        run \
+            --name ${_CONTAINER_NAME} \
+            --rm \
+            --gpus all \
+            --device /dev/dri \
+            -e "CC=${_CONTAINER_C_COMPILER}" \
+            -e "CXX=${_CONTAINER_CPP_COMPILER}" \
+            -e "LD=${_CONTAINER_LINKER}" \
+            --volume=${SOURCE_MOUNT}:/source \
+            --volume=${BUILD_PATH}/${BUILD_COMPILER}/${BUILD_TYPE}:/build \
+            ${IMAGE_TAG} \
+                cmake_worker.sh \
+                    -G Ninja \
+                    -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+                    ${EXTRA_PARAMETERS} \
+                    ${SOURCE_PATH}
+
+    echo ""
+}
+
+function do_cmake_generate_all {
+    local IMAGE_TAG=$1
+    local SOURCE_MOUNT=$2
+    local SOURCE_PATH=$3
+    local BUILD_PATH=$4
+    local EXTRA_PARAMETERS=$5
+
+    for CURRENT_COMPILER in "${SUPPORTED_COMPILERS[@]}"
+    do
+        for CURRENT_BUILD_TYPE in "${CMAKE_BUILD_TYPES[@]}"
+        do
+                do_cmake_generate \
+                    ${IMAGE_TAG} \
+                    ${SOURCE_MOUNT} \
+                    ${SOURCE_PATH} \
+                    ${BUILD_PATH} \
+                    ${CURRENT_COMPILER} \
+                    ${CURRENT_BUILD_TYPE} \
+                    ${EXTRA_PARAMETERS}
+        done
+    done
+}
+
+function do_cmake_build {
+    local IMAGE_TAG=$1
+    local SOURCE_MOUNT=$2
+    local BUILD_PATH=$3
+    local BUILD_COMPILER=$4
+    local BUILD_TYPE=$5
+
+    local _CONTAINER_NAME=${IMAGE_TAG}_${BUILD_COMPILER}-${BUILD_TYPE}-build
+
+    if [ "${BUILD_COMPILER}" = "gnu" ];
+    then
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** BUILD - GNU - DEBUG ************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** BUILD - GNU - RELEASE WITH DEBUG ***********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** BUILD - GNU -RELEASE ***********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** BUILD - GNU - MINIMUM SIZE RELEASE *********************************************************************************"
+        else
+            echo "*** BUILD - GNU - UNKNOWN **********************************************************************************************"
+        fi
+    elif [ "${BUILD_COMPILER}" = "llvm" ];
+    then
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** BUILD - LLVM - DEBUG ***********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** BUILD - LLVM - RELEASE WITH DEBUG **********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** BUILD - LLVM -RELEASE **********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** BUILD - LLVM - MINIMUM SIZE RELEASE ********************************************************************************"
+        else
+            echo "*** BUILD - LLVM - UNKNOWN *********************************************************************************************"
+        fi
+    elif [ "${BUILD_COMPILER}" = "intel" ];
+    then
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** BUILD - INTEL - DEBUG **********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** BUILD - INTEL - RELEASE WITH DEBUG *********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** BUILD - INTEL -RELEASE *********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** BUILD - INTEL - MINIMUM SIZE RELEASE *******************************************************************************"
+        else
+            echo "*** BUILD - INTEL - UNKNOWN ********************************************************************************************"
+        fi
+    else
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** BUILD - UNKNOWN - DEBUG ********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** BUILD - UNKNOWN - RELEASE WITH DEBUG *******************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** BUILD - UNKNOWN -RELEASE *******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** BUILD - UNKNOWN - MINIMUM SIZE RELEASE *****************************************************************************"
+        else
+            echo "*** BUILD - UNKNOWN - UNKNOWN ******************************************************************************************"
+        fi
+    fi
+
+    echo ""
+
+    docker \
+        run \
+            --name ${_CONTAINER_NAME} \
+            --rm \
+            --gpus all \
+            --device /dev/dri \
+            --volume=${SOURCE_MOUNT}:/source \
+            --volume=${BUILD_PATH}/${BUILD_COMPILER}/${BUILD_TYPE}:/build \
+            ${IMAGE_TAG} \
+                cmake_worker.sh \
+                    --build .
+
+    echo ""
+}
+
+function do_cmake_build_all {
+    local IMAGE_TAG=$1
+    local SOURCE_MOUNT=$2
+    local BUILD_PATH=$3
+
+    for CURRENT_COMPILER in "${SUPPORTED_COMPILERS[@]}"
+    do
+        for CURRENT_BUILD_TYPE in "${CMAKE_BUILD_TYPES[@]}"
+        do
+                do_cmake_build \
+                    ${IMAGE_TAG} \
+                    ${SOURCE_MOUNT} \
+                    ${BUILD_PATH} \
+                    ${CURRENT_COMPILER} \
+                    ${CURRENT_BUILD_TYPE}
+        done
+    done
+}
+
+function do_cmake {
+    local IMAGE_TAG=$1
+    local IMAGE_FILE=$2
+    local SOURCE_MOUNT=$3
+    local SOURCE_PATH=$4
+    local BUILD_PATH=$5
+    local EXTRA_BUILD_PARAMETERS=$6
+
+    do_cmake_docker_image \
+        ${IMAGE_TAG} \
+        ${IMAGE_FILE}
+
+    do_cmake_generate_all \
+        ${IMAGE_TAG} \
+        ${SOURCE_MOUNT} \
+        ${SOURCE_PATH} \
+        ${BUILD_PATH} \
+        ${EXTRA_BUILD_PARAMETERS}
+
+    do_cmake_build_all \
+        ${IMAGE_TAG} \
+        ${SOURCE_MOUNT} \
+        ${BUILD_PATH}
+}
