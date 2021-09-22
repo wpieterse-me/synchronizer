@@ -1,0 +1,89 @@
+function PruneUnusedContainers {
+    docker \
+        image \
+        prune \
+            --force
+}
+
+function ComposeContainer {
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --project=*|--file=*)
+                INTERNAL_ARGUMENT="$1"
+                shift
+                set -- "${INTERNAL_ARGUMENT%%=*}" "${INTERNAL_ARGUMENT#*=}" "$@"
+                continue
+                ;;
+            --project)
+                if [[ $# -lt 2 ]]; then
+                    echo "ERROR"
+                    exit 1
+                fi
+
+                shift
+                declare COMPOSE_PROJECT="$1"
+                ;;
+            --file)
+                if [[ $# -lt 2 ]]; then
+                    echo "ERROR"
+                    exit 1
+                fi
+
+                shift
+                declare COMPOSE_FILE="$1"
+                ;;
+            --run-detached)
+                declare COMPOSE_RUN_DETACHED=1
+                ;;
+            --recreate-environment)
+                declare COMPOSE_RECREATE_ENVIRONMENT=1
+                ;;
+            --build-containers)
+                declare COMPOSE_BUILD_CONTAINERS=1
+                ;;
+            --remove-orphans)
+                declare COMPOSE_REMOVE_ORPHANS=1
+                ;;
+            *)
+                echo "ERROR"
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    if [ -z "${COMPOSE_FILE}" ];
+    then
+        echo "FILE EMPTY"
+    fi
+
+    local COMPOSE_ARGUMENTS=()
+
+    COMPOSE_ARGUMENTS+=("--project-name ${COMPOSE_PROJECT}")
+    COMPOSE_ARGUMENTS+=("--file ${COMPOSE_FILE}")
+    COMPOSE_ARGUMENTS+=("up")
+
+    if [ ! -z "${COMPOSE_RUN_DETACHED}" ];
+    then
+        COMPOSE_ARGUMENTS+=("--detach")
+    fi
+
+    if [ ! -z "${COMPOSE_RECREATE_ENVIRONMENT}" ];
+    then
+        COMPOSE_ARGUMENTS+=("--force-recreate")
+    fi
+
+    if [ ! -z "${COMPOSE_BUILD_CONTAINERS}" ];
+    then
+        COMPOSE_ARGUMENTS+=("--build")
+    fi
+
+    if [ ! -z "${COMPOSE_REMOVE_ORPHANS}" ];
+    then
+        COMPOSE_ARGUMENTS+=("--remove-orphans")
+    fi
+
+    docker-compose ${COMPOSE_ARGUMENTS[@]}
+}
