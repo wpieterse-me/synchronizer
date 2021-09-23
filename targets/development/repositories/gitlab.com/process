@@ -2,7 +2,7 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com"
+LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/gitlab.com"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -45,14 +45,6 @@ function Process {
         REPOSITORIES_ARGUMENTS+=("--disable-build")
     fi
 
-    "${LOCAL_ROOT_PATH}/axboe/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/chocolate-doom/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/dhewm3/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/id-Software/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/intel/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/KhronosGroup/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/prinexyz/process" ${REPOSITORIES_ARGUMENTS[@]}
-    "${LOCAL_ROOT_PATH}/RobertBeckebans/process" ${REPOSITORIES_ARGUMENTS[@]}
     "${LOCAL_ROOT_PATH}/wpietersexyz/process" ${REPOSITORIES_ARGUMENTS[@]}
 }
 

@@ -11,9 +11,6 @@ function Process {
             --disable-clear)
                 declare DISABLE_CLEAR=1
                 ;;
-            --disable-prune)
-                declare DISABLE_PRUNE=1
-                ;;
             --disable-clone)
                 declare DISABLE_CLONE=1
                 ;;
@@ -21,7 +18,7 @@ function Process {
                 declare DISABLE_BUILD=1
                 ;;
             *)
-                LogError "Process: Unknown argument $1."
+                echo "Process: Unknown argument $1."
                 exit 1
                 ;;
         esac
@@ -37,7 +34,6 @@ function Process {
     local REPOSITORIES_ARGUMENTS=()
 
     REPOSITORIES_ARGUMENTS+=("--disable-clear")
-    REPOSITORIES_ARGUMENTS+=("--disable-prune")
 
     if [ ! -z "${DISABLE_CLONE}" ];
     then
@@ -50,16 +46,7 @@ function Process {
     fi
 
     "${LOCAL_ROOT_PATH}/github.com/process" ${REPOSITORIES_ARGUMENTS[@]}
-
-    if [ -z "${DISABLE_PRUNE}" ];
-    then
-        echo "=== PRUNNING UNUSED CONTAINERS ========================================================================================="
-        echo ""
-
-        docker image prune --force
-
-        echo ""
-    fi
+    "${LOCAL_ROOT_PATH}/gitlab.com/process" ${REPOSITORIES_ARGUMENTS[@]}
 }
 
 Process $@

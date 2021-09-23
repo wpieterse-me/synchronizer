@@ -2,11 +2,11 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com/chocolate-doom"
+LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com/RobertBeckebans"
 
-REMOTE_DEVELOPMENT_PATH="github.com/chocolate-doom"
-LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/chocolate-doom"
-LOCAL_BUILD_PATH="${BUILDS_OTHER_ROOT_PATH}/server-pc/github.com/chocolate-doom"
+REMOTE_DEVELOPMENT_PATH="github.com/RobertBeckebans"
+LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/RobertBeckebans"
+LOCAL_BUILD_PATH="${BUILDS_OTHER_ROOT_PATH}/server-pc/github.com/RobertBeckebans"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -36,7 +36,7 @@ function Process {
     fi
 
     echo "************************************************************************************************************************"
-    echo "* github.com/chocolate-doom/chocolate-doom                                                                             *"
+    echo "* github.com/RobertBeckebans/RBDOOM-3-BFG                                                                              *"
     echo "************************************************************************************************************************"
     echo ""
 
@@ -45,16 +45,16 @@ function Process {
         ProcessGitRepository                                \
             --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
             --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
-            --name "chocolate-doom"                         \
+            --name "RBDOOM-3-BFG"                           \
             --branch "master"
     fi
 
     if [ -z "${DISABLE_BUILD}" ];
     then
-        ProcessCMake                                                    \
-            --source-path "${LOCAL_DEVELOPMENT_PATH}/chocolate-doom"    \
-            --build-path "${LOCAL_BUILD_PATH}/chocolate-doom"           \
-            --extra-parameters "-DUNUSED=OFF"
+        ProcessCMake                                                \
+            --source-path "${LOCAL_DEVELOPMENT_PATH}/RBDOOM-3-BFG/neo"  \
+            --build-path "${LOCAL_BUILD_PATH}/RBDOOM-3-BFG"         \
+            --extra-parameters "-Wno-dev"
     fi
 
     echo ""

@@ -11,11 +11,8 @@ function Process {
             --disable-clear)
                 declare DISABLE_CLEAR=1
                 ;;
-            --disable-prune)
-                declare DISABLE_PRUNE=1
-                ;;
             *)
-                LogError "Process: Unknown argument $1."
+                echo "Process: Unknown argument $1."
                 exit 1
                 ;;
         esac
@@ -26,16 +23,6 @@ function Process {
     if [ -z "${DISABLE_CLEAR}" ];
     then
         clear
-    fi
-
-    if [ -z "${DISABLE_PRUNE}" ];
-    then
-        echo "=== PRUNNING UNUSED CONTAINERS ========================================================================================="
-        echo ""
-
-        docker image prune --force
-
-        echo ""
     fi
 }
 
