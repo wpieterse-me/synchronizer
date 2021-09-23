@@ -1,0 +1,65 @@
+#!/bin/bash
+
+source "/shared/randoms/synchronizer/shared"
+
+LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com/chocolate-doom"
+
+REMOTE_DEVELOPMENT_PATH="github.com/chocolate-doom"
+LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/chocolate-doom"
+LOCAL_BUILD_PATH="${BUILDS_OTHER_ROOT_PATH}/github.com/chocolate-doom"
+
+function Process {
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --disable-clear)
+                declare DISABLE_CLEAR=1
+                ;;
+            --disable-prune)
+                declare DISABLE_PRUNE=1
+                ;;
+            --disable-clone)
+                declare DISABLE_CLONE=1
+                ;;
+            --disable-build)
+                declare DISABLE_BUILD=1
+                ;;
+            *)
+                LogError "Process: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    if [ -z "${DISABLE_CLEAR}" ];
+    then
+        clear
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/chocolate-doom/chocolate-doom                                                                             *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    ProcessGitRepository                                \
+        --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
+        --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+        --name "chocolate-doom"                         \
+        --branch "master"
+
+    echo ""
+
+    if [ -z "${DISABLE_PRUNE}" ];
+    then
+        echo "=== PRUNNING UNUSED CONTAINERS ========================================================================================="
+        echo ""
+
+        docker image prune --force
+
+        echo ""
+    fi
+}
+
+Process $@

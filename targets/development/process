@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/variables"
+source "/shared/randoms/synchronizer/shared"
 
 LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development"
 
@@ -20,6 +20,15 @@ function Process {
                 ;;
             --disable-toolchain)
                 declare DISABLE_TOOLCHAIN=1
+                ;;
+            --disable-repositories)
+                declare DISABLE_REPOSITORIES=1
+                ;;
+            --disable-repositories-clone)
+                declare DISABLE_REPOSITORIES_CLONE=1
+                ;;
+            --disable-repositories-build)
+                declare DISABLE_REPOSITORIES_BUILD=1
                 ;;
             *)
                 LogError "Process: Unknown argument $1."
@@ -52,6 +61,26 @@ function Process {
                 ${SHARED_TOOLCHAIN_ROOT}
 
         echo ""
+    fi
+
+    if [ -z "${DISABLE_REPOSITORIES}" ];
+    then
+        local REPOSITORIES_ARGUMENTS=()
+
+        REPOSITORIES_ARGUMENTS+=("--disable-clear")
+        REPOSITORIES_ARGUMENTS+=("--disable-prune")
+
+        if [ ! -z "${DISABLE_REPOSITORIES_CLONE}" ];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-clone")
+        fi
+
+        if [ ! -z "${DISABLE_REPOSITORIES_BUILD}" ];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-build")
+        fi
+
+        "${LOCAL_ROOT_PATH}/repositories/process" ${REPOSITORIES_ARGUMENTS[@]}
     fi
 
     if [ -z "${DISABLE_PRUNE}" ];

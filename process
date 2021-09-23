@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/variables"
+source "/shared/randoms/synchronizer/shared"
 
 LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}"
 

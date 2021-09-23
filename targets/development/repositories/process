@@ -2,7 +2,7 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/randoms"
+LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -13,6 +13,12 @@ function Process {
                 ;;
             --disable-prune)
                 declare DISABLE_PRUNE=1
+                ;;
+            --disable-clone)
+                declare DISABLE_CLONE=1
+                ;;
+            --disable-build)
+                declare DISABLE_BUILD=1
                 ;;
             *)
                 LogError "Process: Unknown argument $1."
@@ -27,6 +33,23 @@ function Process {
     then
         clear
     fi
+
+    local REPOSITORIES_ARGUMENTS=()
+
+    REPOSITORIES_ARGUMENTS+=("--disable-clear")
+    REPOSITORIES_ARGUMENTS+=("--disable-prune")
+
+    if [ ! -z "${DISABLE_CLONE}" ];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-clone")
+    fi
+
+    if [ ! -z "${DISABLE_BUILD}" ];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-build")
+    fi
+
+    "${LOCAL_ROOT_PATH}/github.com/process" ${REPOSITORIES_ARGUMENTS[@]}
 
     if [ -z "${DISABLE_PRUNE}" ];
     then

@@ -1,7 +1,0 @@
-CONTENT_ROOT_PATH="/shared/content"
-DEVELOPMENT_ROOT_PATH="/shared/development"
-RANDOMS_ROOT_PATH="/shared/randoms"
-BUILDS_PERSONAL_ROOT_PATH="/shared/builds_personal"
-BUILDS_OTHER_ROOT_PATH="/shared/builds_other"
-
-SYNCHRONIZER_ROOT_PATH="${RANDOMS_ROOT_PATH}/synchronizer"
