@@ -1,11 +1,12 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared/variables"
-
-source "${SYNCHRONIZER_ROOT_PATH}/shared/terminal"
-source "${SYNCHRONIZER_ROOT_PATH}/shared/containers"
+source "/shared/randoms/synchronizer/variables"
 
 LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development"
+
+SHARED_TOOLCHAIN_PATH="${LOCAL_ROOT_PATH}/toolchain/Dockerfile"
+SHARED_TOOLCHAIN_TAG="development-toolchain"
+SHARED_TOOLCHAIN_ROOT="${LOCAL_ROOT_PATH}/toolchain"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -17,8 +18,11 @@ function Process {
             --disable-prune)
                 declare DISABLE_PRUNE=1
                 ;;
+            --disable-toolchain)
+                declare DISABLE_TOOLCHAIN=1
+                ;;
             *)
-                LogError "Unknown argument $1."
+                LogError "Process: Unknown argument $1."
                 exit 1
                 ;;
         esac
@@ -31,12 +35,31 @@ function Process {
         clear
     fi
 
+    if [ -z "${DISABLE_TOOLCHAIN}" ];
+    then
+        echo "************************************************************************************************************************"
+        echo "* DEVELOPMENT TOOLCHAIN                                                                                                *"
+        echo "************************************************************************************************************************"
+        echo ""
+
+        echo "=== BUILD CONTAINER IMAGE =============================================================================================="
+        echo ""
+
+        docker \
+            build \
+                --file ${SHARED_TOOLCHAIN_PATH} \
+                --tag ${SHARED_TOOLCHAIN_TAG} \
+                ${SHARED_TOOLCHAIN_ROOT}
+
+        echo ""
+    fi
+
     if [ -z "${DISABLE_PRUNE}" ];
     then
         echo "=== PRUNNING UNUSED CONTAINERS ========================================================================================="
         echo ""
 
-        PruneUnusedContainers
+        docker image prune --force
 
         echo ""
     fi

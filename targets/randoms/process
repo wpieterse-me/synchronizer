@@ -1,9 +1,6 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared/variables"
-
-source "${SYNCHRONIZER_ROOT_PATH}/shared/terminal"
-source "${SYNCHRONIZER_ROOT_PATH}/shared/containers"
+source "/shared/randoms/synchronizer/variables"
 
 LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/randoms"
 
@@ -18,7 +15,7 @@ function Process {
                 declare DISABLE_PRUNE=1
                 ;;
             *)
-                LogError "Unknown argument $1."
+                LogError "Process: Unknown argument $1."
                 exit 1
                 ;;
         esac
@@ -36,7 +33,7 @@ function Process {
         echo "=== PRUNNING UNUSED CONTAINERS ========================================================================================="
         echo ""
 
-        PruneUnusedContainers
+        docker image prune --force
 
         echo ""
     fi
