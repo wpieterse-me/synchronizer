@@ -5,3 +5,134 @@ BUILDS_PERSONAL_ROOT_PATH="/shared/builds_personal"
 BUILDS_OTHER_ROOT_PATH="/shared/builds_other"
 
 SYNCHRONIZER_ROOT_PATH="${RANDOMS_ROOT_PATH}/synchronizer"
+
+function ProcessGitRepository {
+    local REPOSITORY_REMOTE_BASE_PATH=$1
+    local REPOSITORY_LOCAL_BASE_PATH=$2
+    local REPOSITORY_NAME=$3
+    local REPOSITORY_BRANCH=$4
+
+    while [[ $# -ne 0 ]]; do
+        case $1 in
+            --remote-base-path=*|--local-base-path=*|--name=*|--branch=*)
+                arg="$1"
+                shift
+                set -- "${arg%%=*}" "${arg#*=}" "$@"
+                continue
+                ;;
+            --remote-base-path)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessGitRepository: No argument after --remote-base-path"
+                    exit 1
+                fi
+
+                shift
+                REPOSITORY_REMOTE_BASE_PATH="$1"
+                ;;
+            --local-base-path)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessGitRepository: No argument after --local-base-path"
+                    exit 1
+                fi
+
+                shift
+                REPOSITORY_LOCAL_BASE_PATH="$1"
+                ;;
+            --name)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessGitRepository: No argument after --name"
+                    exit 1
+                fi
+
+                shift
+                REPOSITORY_NAME="$1"
+                ;;
+            --branch)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessGitRepository: No argument after --branch"
+                    exit 1
+                fi
+
+                shift
+                REPOSITORY_BRANCH="$1"
+                ;;
+            *)
+                echo "ProcessGitRepository: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    pushd ${REPOSITORY_LOCAL_BASE_PATH} > /dev/null
+
+    if [ ! -d "${REPOSITORY_NAME}" ]
+    then
+        echo "*** INITIAL CLONE ******************************************************************************************************"
+        echo ""
+
+        git \
+            clone \
+            "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_NAME}.git" \
+            --recurse-submodules
+
+        echo ""
+    fi
+
+    pushd "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_NAME}"  > /dev/null
+
+    git \
+        config \
+        pager.log false
+
+    echo "*** CLEAN **************************************************************************************************************"
+    echo ""
+
+    git \
+        clean \
+        -dxf
+
+    echo ""
+    echo "*** RESET **************************************************************************************************************"
+    echo ""
+
+    git \
+        reset \
+        --hard ${REPOSITORY_BRANCH}
+
+    echo ""
+    echo "*** CHECKOUT ***********************************************************************************************************"
+    echo ""
+
+    git \
+        checkout \
+        ${REPOSITORY_BRANCH}
+
+    echo ""
+    echo "*** PULL ***************************************************************************************************************"
+    echo ""
+
+    git \
+        pull \
+        --recurse-submodules \
+        --all
+
+    echo ""
+    echo "*** LOG ****************************************************************************************************************"
+    echo ""
+
+    git \
+        log \
+        -n1
+
+    echo ""
+
+    popd > /dev/null
+
+    popd > /dev/null
+}
