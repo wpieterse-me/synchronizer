@@ -66,3 +66,7 @@ RUN /scripts/do-vulkan-intel.sh
 
 COPY ./scripts/do-vulkan-nvidia.sh /scripts/do-vulkan-nvidia.sh
 RUN /scripts/do-vulkan-nvidia.sh
+
+COPY ./scripts/worker-make.sh /scripts/worker-make.sh
+COPY ./scripts/worker-cmake.sh /scripts/worker-cmake.sh
+COPY ./scripts/worker-bazel.sh /scripts/worker-bazel.sh

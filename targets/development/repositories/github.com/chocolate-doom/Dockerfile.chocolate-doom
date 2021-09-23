@@ -1,0 +1,13 @@
+FROM development-toolchain:latest
+
+RUN apt                             \
+        install                     \
+            --yes                   \
+            --no-install-recommends \
+            --no-install-suggests   \
+            libpng-dev              \
+            libsdl2-dev             \
+            libsdl2-mixer-dev       \
+            libsdl2-net-dev         \
+            libsdl2-image-dev       \
+            libsamplerate0-dev

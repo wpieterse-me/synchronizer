@@ -8,6 +8,10 @@ REMOTE_DEVELOPMENT_PATH="github.com/chocolate-doom"
 LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/chocolate-doom"
 LOCAL_BUILD_PATH="${BUILDS_OTHER_ROOT_PATH}/github.com/chocolate-doom"
 
+CHOCOLATE_DOOM_DOCKER_PATH="${LOCAL_ROOT_PATH}/Dockerfile.chocolate-doom"
+CHOCOLATE_DOOM_DOCKER_TAG="development-github_com-chocolate_doom-chocolate_doom"
+CHOCOLATE_DOOM_DOCKER_ROOT="${SYNCHRONIZER_ROOT_PATH}/targets/development/empty"
+
 function Process {
     while [[ $# -ne 0 ]];
     do
@@ -48,6 +52,16 @@ function Process {
         --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
         --name "chocolate-doom"                         \
         --branch "master"
+
+    echo ""
+    echo "*** BUILD IMAGE ********************************************************************************************************"
+    echo ""
+
+    docker                                          \
+        build                                       \
+            --file ${CHOCOLATE_DOOM_DOCKER_PATH}    \
+            --tag ${CHOCOLATE_DOOM_DOCKER_TAG}      \
+            ${CHOCOLATE_DOOM_DOCKER_ROOT}
 
     echo ""
 

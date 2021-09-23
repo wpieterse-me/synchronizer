@@ -4,9 +4,9 @@ source "/shared/randoms/synchronizer/shared"
 
 LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development"
 
-SHARED_TOOLCHAIN_PATH="${LOCAL_ROOT_PATH}/toolchain/Dockerfile"
-SHARED_TOOLCHAIN_TAG="development-toolchain"
-SHARED_TOOLCHAIN_ROOT="${LOCAL_ROOT_PATH}/toolchain"
+SHARED_TOOLCHAIN_DOCKER_PATH="${LOCAL_ROOT_PATH}/toolchain/Dockerfile"
+SHARED_TOOLCHAIN_DOCKER_TAG="development-toolchain"
+SHARED_TOOLCHAIN_DOCKER_ROOT="${LOCAL_ROOT_PATH}/toolchain"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -54,11 +54,11 @@ function Process {
         echo "=== BUILD CONTAINER IMAGE =============================================================================================="
         echo ""
 
-        docker \
-            build \
-                --file ${SHARED_TOOLCHAIN_PATH} \
-                --tag ${SHARED_TOOLCHAIN_TAG} \
-                ${SHARED_TOOLCHAIN_ROOT}
+        docker                                          \
+            build                                       \
+                --file ${SHARED_TOOLCHAIN_DOCKER_PATH}  \
+                --tag ${SHARED_TOOLCHAIN_DOCKER_TAG}    \
+                ${SHARED_TOOLCHAIN_DOCKER_ROOT}
 
         echo ""
     fi
