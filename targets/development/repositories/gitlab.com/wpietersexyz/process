@@ -79,10 +79,9 @@ function Process {
 
     if [ -z "${DISABLE_BUILD}" ];
     then
-        ProcessCMake                                            \
+        ProcessBazel                                                \
             --source-path "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook" \
-            --build-path "${BUILD_BASE_PATH}/scrapbook"        \
-            --extra-parameters "-DUNUSED=OFF"
+            --build-path "${BUILD_BASE_PATH}/scrapbook"
     fi
 
     echo "************************************************************************************************************************"

@@ -314,14 +314,16 @@ function ProcessBazelTest {
 
     echo ""
 
-    mkdir -p ${SOURCE_PATH}
+    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}"
+
+    mkdir -p ${_BUILD_PATH_FINAL}
 
     pushd ${SOURCE_PATH} > /dev/null
 
     source /opt/intel/oneapi/setvars.sh
 
     bazel                                               \
-        --output_base=${BUILD_PATH}                     \
+        --output_base=${_BUILD_PATH_FINAL}              \
         test                                            \
             --symlink_prefix=/                          \
             --compilation_mode=${BUILD_TYPE}            \
