@@ -2,11 +2,11 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com/wpietersexyz"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/wpietersexyz"
 
-REMOTE_DEVELOPMENT_PATH="github.com/wpietersexyz"
-LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/wpietersexyz"
-LOCAL_BUILD_PATH="${BUILDS_PERSONAL_ROOT_PATH}/server-pc/github.com/wpietersexyz"
+REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_SHARED_DEVELOPMENT_PATH}/github.com/wpietersexyz"
+BUILD_BASE_PATH="${SERVER_SHARED_BUILDS_PERSONAL_PATH}/github.com/wpietersexyz"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -43,8 +43,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "game-assets"                            \
             --branch "main"
     fi
@@ -57,8 +57,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "open-nt-400"                            \
             --branch "main"
     fi
@@ -71,8 +71,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "scrapbook"                              \
             --branch "main"
     fi
@@ -80,8 +80,8 @@ function Process {
     if [ -z "${DISABLE_BUILD}" ];
     then
         ProcessCMake                                            \
-            --source-path "${LOCAL_DEVELOPMENT_PATH}/scrapbook" \
-            --build-path "${LOCAL_BUILD_PATH}/scrapbook"        \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook" \
+            --build-path "${BUILD_BASE_PATH}/scrapbook"        \
             --extra-parameters "-DUNUSED=OFF"
     fi
 
@@ -93,8 +93,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "unrealengine-1-1996"                    \
             --branch "main"
     fi
@@ -107,8 +107,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "unrealengine-1-1997"                    \
             --branch "main"
     fi
@@ -121,8 +121,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "windows-10"                             \
             --branch "main"
     fi
@@ -135,8 +135,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "windows-nt-350"                         \
             --branch "main"
     fi
@@ -149,8 +149,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "windows-nt-400"                         \
             --branch "main"
     fi
@@ -163,8 +163,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "windows-nt-600"                         \
             --branch "main"
     fi
@@ -177,8 +177,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "windows-research-kernel"                \
             --branch "main"
     fi
@@ -191,8 +191,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "xbox"                                   \
             --branch "main"
     fi

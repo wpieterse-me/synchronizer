@@ -2,11 +2,11 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/axboe"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/personal/repositories/github.com/wpietersexyz"
 
-REPOSITORY_REMOTE_BASE_PATH="github.com/axboe"
-REPOSITORY_LOCAL_BASE_PATH="${SERVER_SHARED_DEVELOPMENT_PATH}/github.com/axboe"
-BUILD_BASE_PATH="${SERVER_SHARED_BUILDS_OTHER_PATH}/github.com/axboe"
+REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
+REPOSITORY_LOCAL_BASE_PATH="${PERSONAL_HOME_REPOSITORIES_PATH}/github.com/wpietersexyz"
+BUILD_BASE_PATH="${PERSONAL_HOME_BUILDS_PATH}/github.com/wpietersexyz"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -14,9 +14,6 @@ function Process {
         case $1 in
             --disable-clear)
                 declare DISABLE_CLEAR=1
-                ;;
-            --disable-clone)
-                declare DISABLE_CLONE=1
                 ;;
             --disable-build)
                 declare DISABLE_BUILD=1
@@ -36,17 +33,16 @@ function Process {
     fi
 
     echo "************************************************************************************************************************"
-    echo "* github.com/axboe/liburing                                                                                            *"
+    echo "* github.com/wpietersexyz/scrapbook                                                                                    *"
     echo "************************************************************************************************************************"
     echo ""
 
-    if [ -z "${DISABLE_CLONE}" ];
+    if [ -z "${DISABLE_BUILD}" ];
     then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "liburing"                               \
-            --branch "master"
+        ProcessCMake                                                \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook" \
+            --build-path "${BUILD_BASE_PATH}/scrapbook"             \
+            --extra-parameters "-DUNUSED=OFF"
     fi
 
     echo ""

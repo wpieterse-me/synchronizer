@@ -2,10 +2,10 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/content"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/content"
 
-DELUGE_COMPOSE_FILE="${LOCAL_ROOT_PATH}/deluge.yaml"
-PLEX_COMPOSE_FILE="${LOCAL_ROOT_PATH}/plex.yaml"
+DELUGE_COMPOSE_FILE="${SCRIPT_PATH}/deluge.yaml"
+PLEX_COMPOSE_FILE="${SCRIPT_PATH}/plex.yaml"
 
 function Process {
     while [[ $# -ne 0 ]];

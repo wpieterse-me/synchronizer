@@ -2,7 +2,7 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/randoms"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/randoms"
 
 function Process {
     while [[ $# -ne 0 ]];

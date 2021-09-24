@@ -2,11 +2,16 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com/intel"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/intel"
 
-REMOTE_DEVELOPMENT_PATH="github.com/intel"
-LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/intel"
-LOCAL_BUILD_PATH="${BUILDS_OTHER_ROOT_PATH}/server-pc/github.com/intel"
+REPOSITORY_REMOTE_BASE_PATH="github.com/intel"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_SHARED_DEVELOPMENT_PATH}/github.com/intel"
+BUILD_BASE_PATH="${SERVER_SHARED_BUILDS_OTHER_PATH}/github.com/intel"
+
+declare -a METRICS_DISCOVERY_CMAKE_BUILD_TYPES=(
+    "debug"
+    "release"
+)
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -43,18 +48,38 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "metrics-discovery"                      \
             --branch "master"
     fi
 
     if [ -z "${DISABLE_BUILD}" ];
     then
-        ProcessCMake                                                    \
-            --source-path "${LOCAL_DEVELOPMENT_PATH}/metrics-discovery" \
-            --build-path "${LOCAL_BUILD_PATH}/metrics-discovery"        \
-            --extra-parameters "-DUNUSED=OFF"
+        for CURRENT_COMPILER in "${SUPPORTED_COMPILERS[@]}"
+        do
+            for CURRENT_BUILD_TYPE in "${METRICS_DISCOVERY_CMAKE_BUILD_TYPES[@]}"
+            do
+                ProcessCMakeGenerate                                            \
+                    --source-path "${REPOSITORY_LOCAL_BASE_PATH}/metrics-discovery" \
+                    --build-path "${BUILD_BASE_PATH}/metrics-discovery"        \
+                    --extra-parameters "-Wno-dev"                               \
+                    --compiler ${CURRENT_COMPILER}                              \
+                    --build-type ${CURRENT_BUILD_TYPE}
+
+                ProcessCMakeBuild                                               \
+                    --source-path "${REPOSITORY_LOCAL_BASE_PATH}/metrics-discovery" \
+                    --build-path "${BUILD_BASE_PATH}/metrics-discovery"        \
+                    --compiler ${CURRENT_COMPILER}                              \
+                    --build-type ${CURRENT_BUILD_TYPE}
+
+                ProcessCMakeInstall                                             \
+                    --source-path "${REPOSITORY_LOCAL_BASE_PATH}/metrics-discovery" \
+                    --build-path "${BUILD_BASE_PATH}/metrics-discovery"        \
+                    --compiler ${CURRENT_COMPILER}                              \
+                    --build-type ${CURRENT_BUILD_TYPE}
+            done
+        done
     fi
 
     echo ""

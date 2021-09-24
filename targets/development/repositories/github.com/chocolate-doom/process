@@ -2,11 +2,11 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/github.com/chocolate-doom"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/chocolate-doom"
 
-REMOTE_DEVELOPMENT_PATH="github.com/chocolate-doom"
-LOCAL_DEVELOPMENT_PATH="${DEVELOPMENT_ROOT_PATH}/github.com/chocolate-doom"
-LOCAL_BUILD_PATH="${BUILDS_OTHER_ROOT_PATH}/server-pc/github.com/chocolate-doom"
+REPOSITORY_REMOTE_BASE_PATH="github.com/chocolate-doom"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_SHARED_DEVELOPMENT_PATH}/github.com/chocolate-doom"
+BUILD_BASE_PATH="${SERVER_SHARED_BUILDS_OTHER_PATH}/github.com/chocolate-doom"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -43,8 +43,8 @@ function Process {
     if [ -z "${DISABLE_CLONE}" ];
     then
         ProcessGitRepository                                \
-            --remote-base-path "${REMOTE_DEVELOPMENT_PATH}" \
-            --local-base-path "${LOCAL_DEVELOPMENT_PATH}"   \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
             --name "chocolate-doom"                         \
             --branch "master"
     fi
@@ -52,9 +52,9 @@ function Process {
     if [ -z "${DISABLE_BUILD}" ];
     then
         ProcessCMake                                                    \
-            --source-path "${LOCAL_DEVELOPMENT_PATH}/chocolate-doom"    \
-            --build-path "${LOCAL_BUILD_PATH}/chocolate-doom"           \
-            --extra-parameters "-DUNUSED=OFF"
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/chocolate-doom"    \
+            --build-path "${BUILD_BASE_PATH}/chocolate-doom"           \
+            --extra-parameters "-Wno-dev"
     fi
 
     echo ""

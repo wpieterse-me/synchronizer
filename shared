@@ -1,10 +1,13 @@
-CONTENT_ROOT_PATH="/shared/content"
-DEVELOPMENT_ROOT_PATH="/shared/development"
-RANDOMS_ROOT_PATH="/shared/randoms"
-BUILDS_PERSONAL_ROOT_PATH="/shared/builds_personal"
-BUILDS_OTHER_ROOT_PATH="/shared/builds_other"
+SERVER_SHARED_CONTENT_PATH="/shared/content"
+SERVER_SHARED_DEVELOPMENT_PATH="/shared/development"
+SERVER_SHARED_RANDOMS_PATH="/shared/randoms"
+SERVER_SHARED_BUILDS_PERSONAL_PATH="/shared/builds_personal"
+SERVER_SHARED_BUILDS_OTHER_PATH="/shared/builds_other"
 
-SYNCHRONIZER_ROOT_PATH="${RANDOMS_ROOT_PATH}/synchronizer"
+PERSONAL_HOME_REPOSITORIES_PATH="/home/wpieterse/repositories"
+PERSONAL_HOME_BUILDS_PATH="/home/wpieterse/builds"
+
+SYNCHRONIZER_REPOSITORY_PATH="${SERVER_SHARED_RANDOMS_PATH}/synchronizer"
 
 TOOL_GNU_C_COMPILER="gcc-10"
 TOOL_GNU_CPP_COMPILER="g++-10"
@@ -25,7 +28,6 @@ TOOL_NONE_LINKER="ld"
 declare -a SUPPORTED_COMPILERS=(
     "gnu"
     "llvm"
-    "intel"
 )
 
 declare -a BAZEL_BUILD_TYPES=(
@@ -316,6 +318,8 @@ function ProcessBazelTest {
 
     pushd ${SOURCE_PATH} > /dev/null
 
+    source /opt/intel/oneapi/setvars.sh
+
     bazel                                               \
         --output_base=${BUILD_PATH}                     \
         test                                            \
@@ -560,6 +564,8 @@ function ProcessCMakeGenerate {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
+    source /opt/intel/oneapi/setvars.sh
+
     CC=${_CONTAINER_C_COMPILER} CXX=${_CONTAINER_CPP_COMPILER} LD=${_CONTAINER_LINKER} cmake    \
         -G Ninja                                                                                \
         -DCMAKE_BUILD_TYPE=${BUILD_TYPE}                                                        \
@@ -711,6 +717,8 @@ function ProcessCMakeBuild {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
+    source /opt/intel/oneapi/setvars.sh
+
     cmake           \
         --build .
 
@@ -858,6 +866,8 @@ function ProcessCMakeInstall {
     local _INSTALL_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}/install"
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
+
+    source /opt/intel/oneapi/setvars.sh
 
     cmake                                   \
         --install .                         \

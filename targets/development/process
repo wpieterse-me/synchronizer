@@ -2,11 +2,11 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development"
 
-SHARED_TOOLCHAIN_DOCKER_PATH="${LOCAL_ROOT_PATH}/toolchain/Dockerfile"
+SHARED_TOOLCHAIN_DOCKER_PATH="${SCRIPT_PATH}/toolchain/Dockerfile"
 SHARED_TOOLCHAIN_DOCKER_TAG="development-toolchain"
-SHARED_TOOLCHAIN_DOCKER_ROOT="${LOCAL_ROOT_PATH}/toolchain"
+SHARED_TOOLCHAIN_DOCKER_ROOT="${SCRIPT_PATH}/toolchain"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -76,7 +76,7 @@ function Process {
             REPOSITORIES_ARGUMENTS+=("--disable-build")
         fi
 
-        "${LOCAL_ROOT_PATH}/repositories/process" ${REPOSITORIES_ARGUMENTS[@]}
+        "${SCRIPT_PATH}/repositories/process" ${REPOSITORIES_ARGUMENTS[@]}
     fi
 }
 

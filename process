@@ -2,11 +2,12 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}"
 
-CONTENT_PROCESS_FILE="${LOCAL_ROOT_PATH}/targets/content/process"
-DEVELOPMENT_PROCESS_FILE="${LOCAL_ROOT_PATH}/targets/development/process"
-RANDOMS_PROCESS_FILE="${LOCAL_ROOT_PATH}/targets/randoms/process"
+CONTENT_PROCESS_FILE="${SCRIPT_PATH}/targets/content/process"
+DEVELOPMENT_PROCESS_FILE="${SCRIPT_PATH}/targets/development/process"
+PERSONAL_PROCESS_FILE="${SCRIPT_PATH}/targets/personal/process"
+RANDOMS_PROCESS_FILE="${SCRIPT_PATH}/targets/randoms/process"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -15,14 +16,17 @@ function Process {
             --disable-clear)
                 declare DISABLE_CLEAR=1
                 ;;
-            --disable-process-content)
-                declare DISABLE_PROCESS_CONTENT=1
+            --disable-target-content)
+                declare DISABLE_TARGET_CONTENT=1
                 ;;
-            --disable-process-development)
-                declare DISABLE_PROCESS_DEVELOPMENT=1
+            --disable-target-development)
+                declare DISABLE_TARGET_DEVELOPMENT=1
                 ;;
-            --disable-process-randoms)
-                declare DISABLE_PROCESS_RANDOMS=1
+            --disable-target-personal)
+                declare DISABLE_TARGET_PERSONAL=1
+                ;;
+            --disable-target-randoms)
+                declare DISABLE_TARGET_RANDOMS=1
                 ;;
             *)
                 echo "Process: Unknown argument $1."
@@ -38,19 +42,25 @@ function Process {
         clear
     fi
 
-    if [ -z "${DISABLE_PROCESS_CONTENT}" ];
+    if [ -z "${DISABLE_TARGET_CONTENT}" ];
     then
         "${CONTENT_PROCESS_FILE}" \
             --disable-clear
     fi
 
-    if [ -z "${DISABLE_PROCESS_DEVELOPMENT}" ];
+    if [ -z "${DISABLE_TARGET_DEVELOPMENT}" ];
     then
         "${DEVELOPMENT_PROCESS_FILE}" \
             --disable-clear
     fi
 
-    if [ -z "${DISABLE_PROCESS_RANDOMS}" ];
+    if [ -z "${DISABLE_TARGET_PERSONAL}" ];
+    then
+        "${PERSONAL_PROCESS_FILE}" \
+            --disable-clear
+    fi
+
+    if [ -z "${DISABLE_TARGET_RANDOMS}" ];
     then
         "${RANDOMS_PROCESS_FILE}" \
             --disable-clear

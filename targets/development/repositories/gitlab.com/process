@@ -2,7 +2,7 @@
 
 source "/shared/randoms/synchronizer/shared"
 
-LOCAL_ROOT_PATH="${SYNCHRONIZER_ROOT_PATH}/targets/development/repositories/gitlab.com"
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/gitlab.com"
 
 function Process {
     while [[ $# -ne 0 ]];
@@ -45,7 +45,7 @@ function Process {
         REPOSITORIES_ARGUMENTS+=("--disable-build")
     fi
 
-    "${LOCAL_ROOT_PATH}/wpietersexyz/process" ${REPOSITORIES_ARGUMENTS[@]}
+    "${SCRIPT_PATH}/wpietersexyz/process" ${REPOSITORIES_ARGUMENTS[@]}
 }
 
 Process $@
