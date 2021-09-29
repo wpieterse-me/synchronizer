@@ -9,6 +9,8 @@ REPOSITORY_REMOTE_BASE_PATH="github.com/KhronosGroup"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/KhronosGroup"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/KhronosGroup"
 
+REPOSITORY_OPENCL_CTS_NAME="OpenCL-CTS"
+REPOSITORY_VK_GL_CTS_NAME="VK-GL-CTS"
 REPOSITORY_VULKAN_HEADERS_NAME="Vulkan-Headers"
 REPOSITORY_VULKAN_HPP_NAME="Vulkan-Hpp"
 REPOSITORY_VULKAN_LOADER_NAME="Vulkan-Loader"
@@ -22,6 +24,22 @@ REPOSITORY_OPENCL_ICD_LOADER_NAME="OpenCL-ICD-Loader"
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPENCL_CTS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_OPENCL_CTS_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_VK_GL_CTS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_VK_GL_CTS_NAME}" \
+        --branch "master"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_VULKAN_HEADERS_NAME}"
 
