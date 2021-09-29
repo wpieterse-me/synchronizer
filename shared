@@ -9,11 +9,11 @@ WYNAND_PC_HOME_BUILDS_PATH="/home/wpieterse/builds"
 
 SYNCHRONIZER_REPOSITORY_PATH="${SERVER_PC_SHARED_RANDOMS_PATH}/synchronizer"
 
-PARAMETER_DISABLE_CLEAR="0"
-PARAMETER_DISABLE_PRUNE="0"
-PARAMETER_DISABLE_REPOSITORIES="0"
-PARAMETER_DISABLE_CLONE="0"
-PARAMETER_DISABLE_BUILD="0"
+PARAMETER_DISABLE_CLEAR=0
+PARAMETER_DISABLE_PRUNE=0
+PARAMETER_DISABLE_REPOSITORIES=0
+PARAMETER_DISABLE_CLONE=0
+PARAMETER_DISABLE_BUILD=0
 
 TOOL_GNU_C_COMPILER="gcc-10"
 TOOL_GNU_CPP_COMPILER="g++-10"
@@ -326,7 +326,7 @@ function ProcessBazelTest {
 
     pushd ${SOURCE_PATH} > /dev/null
 
-    source /opt/intel/oneapi/setvars.sh
+    source /opt/intel/oneapi/setvars.sh > /dev/null
 
     bazel                                               \
         --output_base=${_BUILD_PATH_FINAL}              \
@@ -347,7 +347,7 @@ function ProcessBazel {
     local SOURCE_PATH=$3
     local BUILD_PATH=$4
 
-    if [ "${PARAMETER_DISABLE_BUILD}" = "0" ];
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
     then
         while [[ $# -ne 0 ]];
         do
@@ -575,7 +575,7 @@ function ProcessCMakeGenerate {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
-    source /opt/intel/oneapi/setvars.sh
+    source /opt/intel/oneapi/setvars.sh > /dev/null
 
     CC=${_CONTAINER_C_COMPILER} CXX=${_CONTAINER_CPP_COMPILER} LD=${_CONTAINER_LINKER} cmake    \
         -G Ninja                                                                                \
@@ -728,7 +728,7 @@ function ProcessCMakeBuild {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
-    source /opt/intel/oneapi/setvars.sh
+    source /opt/intel/oneapi/setvars.sh > /dev/null
 
     cmake           \
         --build .
@@ -878,7 +878,7 @@ function ProcessCMakeInstall {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
-    source /opt/intel/oneapi/setvars.sh
+    source /opt/intel/oneapi/setvars.sh > /dev/null
 
     cmake                                   \
         --install .                         \
@@ -980,19 +980,19 @@ function ProcessCommonArguments {
     do
         case $1 in
             --disable-clear)
-                PARAMETER_DISABLE_CLEAR="1"
+                PARAMETER_DISABLE_CLEAR=1
                 ;;
             --disable-prune)
-                PARAMETER_DISABLE_PRUNE="1"
+                PARAMETER_DISABLE_PRUNE=1
                 ;;
             --disable-repositories)
-                PARAMETER_DISABLE_REPOSITORIES="1"
+                PARAMETER_DISABLE_REPOSITORIES=1
                 ;;
             --disable-clone)
-                PARAMETER_DISABLE_CLONE="1"
+                PARAMETER_DISABLE_CLONE=1
                 ;;
             --disable-build)
-                PARAMETER_DISABLE_BUILD="1"
+                PARAMETER_DISABLE_BUILD=1
                 ;;
             *)
                 echo "Process: Unknown argument $1."
@@ -1005,14 +1005,14 @@ function ProcessCommonArguments {
 }
 
 function ProcessCommonPre {
-    if [ "${DISABLE_CLEAR}" = "0" ];
+    if [[ ${PARAMETER_DISABLE_CLEAR} -eq 0 ]];
     then
         clear
     fi
 }
 
 function ProcessCommonPost {
-    if [ "${DISABLE_PRUNE}" = "0" ];
+    if [[ ${PARAMETER_DISABLE_PRUNE} -eq 0 ]];
     then
         docker \
             system \
@@ -1023,19 +1023,19 @@ function ProcessCommonPost {
 }
 
 function ProcessRepositories {
-    if [ "${PARAMETER_DISABLE_REPOSITORIES}" = "0" ];
+    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
         local REPOSITORIES_ARGUMENTS=()
 
         REPOSITORIES_ARGUMENTS+=("--disable-clear")
         REPOSITORIES_ARGUMENTS+=("--disable-prune")
 
-        if [ "${PARAMETER_DISABLE_CLONE}" = "1" ];
+        if [[ ${PARAMETER_DISABLE_CLONE} -eq 1 ]];
         then
             REPOSITORIES_ARGUMENTS+=("--disable-clone")
         fi
 
-        if [ "${PARAMETER_DISABLE_BUILD}" = "1" ];
+        if [[ ${PARAMETER_DISABLE_BUILD} -eq 1 ]];
         then
             REPOSITORIES_ARGUMENTS+=("--disable-build")
         fi
