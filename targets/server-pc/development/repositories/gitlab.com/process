@@ -1,51 +1,20 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/gitlab.com"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+PROCESS_WPIETERSEXYZ_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpietersexyz/process"
 
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            --disable-clone)
-                declare DISABLE_CLONE=1
-                ;;
-            --disable-build)
-                declare DISABLE_BUILD=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
+    ProcessRepositories \
+        "${PROCESS_WPIETERSEXYZ_SCRIPT}"
 
-    if [ -z "${DISABLE_CLEAR}" ];
-    then
-        clear
-    fi
-
-    local REPOSITORIES_ARGUMENTS=()
-
-    REPOSITORIES_ARGUMENTS+=("--disable-clear")
-
-    if [ ! -z "${DISABLE_CLONE}" ];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-clone")
-    fi
-
-    if [ ! -z "${DISABLE_BUILD}" ];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-build")
-    fi
-
-    "${SCRIPT_PATH}/wpietersexyz/process" ${REPOSITORIES_ARGUMENTS[@]}
+    ProcessCommonPost
 }
 
 Process $@

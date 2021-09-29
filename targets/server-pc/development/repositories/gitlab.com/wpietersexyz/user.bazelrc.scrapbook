@@ -1,0 +1,5 @@
+startup --output_base=/shared/builds_personal/gitlab.com/wpietersexyz/scrapbook/llvm
+
+build --repo_env=CC=clang-13
+build --repo_env=CXX=clang++-13
+build --repo_env=LD=ld.lld-13
