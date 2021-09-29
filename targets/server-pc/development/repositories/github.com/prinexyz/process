@@ -1,97 +1,56 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/prinexyz"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 REPOSITORY_REMOTE_BASE_PATH="github.com/prinexyz"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/prinexyz"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/prinexyz"
 
+REPOSITORY_JHWMANUFACTURING_GITHUB_IO_NAME="jhwmanufacturing.github.io"
+REPOSITORY_PAXBOXXYZ_GITHUB_IO_NAME="paxboxxyz.github.io"
+REPOSITORY_PRINEXYZ_GITHUB_IO_NAME="prinexyz.github.io"
+REPOSITORY_WPIETERSEXYZ_GITHUB_IO_NAME="wpietersexyz.github.io"
+
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            --disable-clone)
-                declare DISABLE_CLONE=1
-                ;;
-            --disable-build)
-                declare DISABLE_BUILD=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_JHWMANUFACTURING_GITHUB_IO_NAME}"
 
-    if [ -z "${DISABLE_CLEAR}" ];
-    then
-        clear
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_JHWMANUFACTURING_GITHUB_IO_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/prinexyz/jhwmanufacturing.github.io                                                                       *"
-    echo "************************************************************************************************************************"
-    echo ""
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_PAXBOXXYZ_GITHUB_IO_NAME}"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "jhwmanufacturing.github.io"             \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_PAXBOXXYZ_GITHUB_IO_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/prinexyz/paxboxxyz.github.io                                                                              *"
-    echo "************************************************************************************************************************"
-    echo ""
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_PRINEXYZ_GITHUB_IO_NAME}"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "paxboxxyz.github.io"                    \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_PRINEXYZ_GITHUB_IO_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/prinexyz/prinexyz.github.io                                                                               *"
-    echo "************************************************************************************************************************"
-    echo ""
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WPIETERSEXYZ_GITHUB_IO_NAME}"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "prinexyz.github.io"                     \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WPIETERSEXYZ_GITHUB_IO_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/prinexyz/wpietersexyz.github.io                                                                           *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "wpietersexyz.github.io"                 \
-            --branch "main"
-    fi
-
-    echo ""
+    ProcessCommonPost
 }
 
 Process $@

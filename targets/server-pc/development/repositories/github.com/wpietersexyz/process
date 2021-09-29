@@ -1,206 +1,111 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/wpietersexyz"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
+REPOSITORY_REMOTE_BASE_PATH="github.com/wpietersexyz"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/wpietersexyz"
-BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/github.com/wpietersexyz"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/wpietersexyz"
+
+REPOSITORY_SCRAPBOOK_NAME="scrapbook"
+REPOSITORY_GAME_ASSETS_NAME="game-assets"
+REPOSITORY_UNREALENGINE_1_1996_NAME="unrealengine-1-1996"
+REPOSITORY_UNREALENGINE_1_1997_NAME="unrealengine-1-1997"
+REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
+REPOSITORY_WINDOWS_10_NAME="windows-10"
+REPOSITORY_WINDOWS_NT_350_NAME="windows-nt-350"
+REPOSITORY_WINDOWS_NT_400_NAME="windows-nt-400"
+REPOSITORY_WINDOWS_NT_600_NAME="windows-nt-600"
+REPOSITORY_WINDOWS_RESEARCH_KERNEL_NAME="windows-research-kernel"
+REPOSITORY_XBOX_NAME="xbox"
 
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            --disable-clone)
-                declare DISABLE_CLONE=1
-                ;;
-            --disable-build)
-                declare DISABLE_BUILD=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
-    if [ -z "${DISABLE_CLEAR}" ];
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_SCRAPBOOK_NAME}" \
+        --branch "main"
+
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
     then
-        clear
+        cp \
+            -f \
+            "${THIS_SCRIPT_DIRECTORY}/user.bazelrc.scrapbook" \
+            "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}/user.bazelrc"
     fi
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/game-assets                                                                                  *"
-    echo "************************************************************************************************************************"
-    echo ""
+    ProcessBazel \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "game-assets"                            \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GAME_ASSETS_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/open-nt-400                                                                                  *"
-    echo "************************************************************************************************************************"
-    echo ""
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_UNREALENGINE_1_1996_NAME}" \
+        --branch "main"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "open-nt-400"                            \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_UNREALENGINE_1_1997_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/scrapbook                                                                                    *"
-    echo "************************************************************************************************************************"
-    echo ""
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_OPEN_NT_400_NAME}" \
+        --branch "main"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "scrapbook"                              \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_10_NAME}" \
+        --branch "main"
 
-    if [ -z "${DISABLE_BUILD}" ];
-    then
-        cp                                                          \
-            "${SCRIPT_PATH}/user.bazelrc.scrapbook"                 \
-            "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook/user.bazelrc"
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_NT_350_NAME}" \
+        --branch "main"
 
-        ProcessBazel                                                \
-            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook" \
-            --build-path "${BUILD_BASE_PATH}/scrapbook"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_NT_400_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/unrealengine-1-1996                                                                          *"
-    echo "************************************************************************************************************************"
-    echo ""
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_NT_600_NAME}" \
+        --branch "main"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "unrealengine-1-1996"                    \
-            --branch "main"
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_RESEARCH_KERNEL_NAME}" \
+        --branch "main"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/unrealengine-1-1997                                                                          *"
-    echo "************************************************************************************************************************"
-    echo ""
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_XBOX_NAME}" \
+        --branch "main"
 
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "unrealengine-1-1997"                    \
-            --branch "main"
-    fi
-
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/windows-10                                                                                   *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "windows-10"                             \
-            --branch "main"
-    fi
-
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/windows-nt-350                                                                               *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "windows-nt-350"                         \
-            --branch "main"
-    fi
-
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/windows-nt-400                                                                               *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "windows-nt-400"                         \
-            --branch "main"
-    fi
-
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/windows-nt-600                                                                               *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "windows-nt-600"                         \
-            --branch "main"
-    fi
-
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/windows-research-kernel                                                                      *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "windows-research-kernel"                \
-            --branch "main"
-    fi
-
-    echo "************************************************************************************************************************"
-    echo "* github.com/wpietersexyz/xbox                                                                                         *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "xbox"                                   \
-            --branch "main"
-    fi
-
-    echo ""
+    ProcessCommonPost
 }
 
 Process $@

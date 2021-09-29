@@ -7,6 +7,7 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 PROCESS_AXBOE_SCRIPT="${THIS_SCRIPT_DIRECTORY}/axboe/process"
 PROCESS_CHOCOLATE_DOOM_SCRIPT="${THIS_SCRIPT_DIRECTORY}/chocolate-doom/process"
+PROCESS_DHEWM3_SCRIPT="${THIS_SCRIPT_DIRECTORY}/dhewm3/process"
 
 function Process {
     ProcessCommonArguments $@
