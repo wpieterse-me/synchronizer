@@ -1,0 +1,37 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+PROCESS_CONTENT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/content/process"
+PROCESS_DEVELOPMENT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/development/process"
+PROCESS_RANDOMS_SCRIPT="${THIS_SCRIPT_DIRECTORY}/randoms/process"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    if [[ ${PARAMETER_DISABLE_CONTENT} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${PROCESS_CONTENT_SCRIPT}"
+    fi
+
+    if [[ ${PARAMETER_DISABLE_DEVELOPMENT} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${PROCESS_DEVELOPMENT_SCRIPT}"
+    fi
+
+    if [[ ${PARAMETER_DISABLE_RANDOMS} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${PROCESS_RANDOMS_SCRIPT}"
+    fi
+
+    ProcessCommonPost
+}
+
+Process $@

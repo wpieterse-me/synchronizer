@@ -19,16 +19,19 @@ function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    ProcessRepositories \
-        "${PROCESS_AXBOE_SCRIPT}" \
-        "${PROCESS_CHOCOLATE_DOOM_SCRIPT}" \
-        "${PROCESS_DHEWM3_SCRIPT}" \
-        "${PROCESS_ID_SOFTWARE_SCRIPT}" \
-        "${PROCESS_INTEL_SCRIPT}" \
-        "${PROCESS_KHRONOSGROUP_SCRIPT}" \
-        "${PROCESS_PRINEXYZ_SCRIPT}" \
-        "${PROCESS_ROBERTBECKEBANS_SCRIPT}" \
-        "${PROCESS_WPIETERSEXYZ_SCRIPT}"
+    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${PROCESS_AXBOE_SCRIPT}" \
+            "${PROCESS_CHOCOLATE_DOOM_SCRIPT}" \
+            "${PROCESS_DHEWM3_SCRIPT}" \
+            "${PROCESS_ID_SOFTWARE_SCRIPT}" \
+            "${PROCESS_INTEL_SCRIPT}" \
+            "${PROCESS_KHRONOSGROUP_SCRIPT}" \
+            "${PROCESS_PRINEXYZ_SCRIPT}" \
+            "${PROCESS_ROBERTBECKEBANS_SCRIPT}" \
+            "${PROCESS_WPIETERSEXYZ_SCRIPT}"
+    fi
 
     ProcessCommonPost
 }

@@ -14,13 +14,9 @@ function Process {
 
     if [[ ${PARAMETER_DISABLE_SERVICES} -eq 0 ]];
     then
-        local SERVICE_PARAMETERS=()
-
-        SERVICE_PARAMETERS+=("--disable-clear")
-        SERVICE_PARAMETERS+=("--disable-prune")
-
-        "${SERVICE_DELUGE_SCRIPT}" "${SERVICE_PARAMETERS[@]}"
-        "${SERVICE_PLEX_SCRIPT}" "${SERVICE_PARAMETERS[@]}"
+        ProcessCallSubScripts \
+            "${SERVICE_DELUGE_SCRIPT}" \
+            "${SERVICE_PLEX_SCRIPT}"
     fi
 
     ProcessCommonPost

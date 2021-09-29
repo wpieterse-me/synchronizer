@@ -1,83 +1,23 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-SHARED_TOOLCHAIN_DOCKER_PATH="${SCRIPT_PATH}/toolchain/Dockerfile"
-SHARED_TOOLCHAIN_DOCKER_TAG="development-toolchain"
-SHARED_TOOLCHAIN_DOCKER_ROOT="${SCRIPT_PATH}/toolchain"
+REPOSITORIES_SCRIPT="${THIS_SCRIPT_DIRECTORY}/repositories/process"
 
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            --disable-toolchain)
-                declare DISABLE_TOOLCHAIN=1
-                ;;
-            --disable-repositories)
-                declare DISABLE_REPOSITORIES=1
-                ;;
-            --disable-repositories-clone)
-                declare DISABLE_REPOSITORIES_CLONE=1
-                ;;
-            --disable-repositories-build)
-                declare DISABLE_REPOSITORIES_BUILD=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
-
-    if [ -z "${DISABLE_CLEAR}" ];
+    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
-        clear
+        ProcessCallSubScripts \
+            "${REPOSITORIES_SCRIPT}"
     fi
 
-    if [ -z "${DISABLE_TOOLCHAIN}" ];
-    then
-        echo "************************************************************************************************************************"
-        echo "* DEVELOPMENT TOOLCHAIN                                                                                                *"
-        echo "************************************************************************************************************************"
-        echo ""
-
-        echo "=== BUILD CONTAINER IMAGE =============================================================================================="
-        echo ""
-
-        docker                                          \
-            build                                       \
-                --file ${SHARED_TOOLCHAIN_DOCKER_PATH}  \
-                --tag ${SHARED_TOOLCHAIN_DOCKER_TAG}    \
-                ${SHARED_TOOLCHAIN_DOCKER_ROOT}
-
-        echo ""
-    fi
-
-    if [ -z "${DISABLE_REPOSITORIES}" ];
-    then
-        local REPOSITORIES_ARGUMENTS=()
-
-        REPOSITORIES_ARGUMENTS+=("--disable-clear")
-
-        if [ ! -z "${DISABLE_REPOSITORIES_CLONE}" ];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-clone")
-        fi
-
-        if [ ! -z "${DISABLE_REPOSITORIES_BUILD}" ];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-build")
-        fi
-
-        "${SCRIPT_PATH}/repositories/process" ${REPOSITORIES_ARGUMENTS[@]}
-    fi
+    ProcessCommonPost
 }
 
 Process $@

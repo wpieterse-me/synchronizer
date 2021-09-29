@@ -11,9 +11,11 @@ function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    "${SERVICES_SCRIPT}" \
-        --disable-clear \
-        --disable-prune
+    if [[ ${PARAMETER_DISABLE_SERVICES} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${SERVICES_SCRIPT}"
+    fi
 
     ProcessCommonPost
 }

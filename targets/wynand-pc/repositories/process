@@ -11,8 +11,11 @@ function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    ProcessRepositories \
-        "${PROCESS_GITHUB_COM_SCRIPT}"
+    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${PROCESS_GITHUB_COM_SCRIPT}"
+    fi
 
     ProcessCommonPost
 }

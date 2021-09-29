@@ -11,12 +11,15 @@ SYNCHRONIZER_REPOSITORY_PATH="${SERVER_PC_SHARED_RANDOMS_PATH}/synchronizer"
 
 PARAMETER_DISABLE_CLEAR=0
 PARAMETER_DISABLE_PRUNE=0
-PARAMETER_DISABLE_REPOSITORIES=0
-PARAMETER_DISABLE_CLONE=0
-PARAMETER_DISABLE_BUILD=0
+PARAMETER_DISABLE_CONTENT=0
 PARAMETER_DISABLE_SERVICES=0
 PARAMETER_DISABLE_DELUGE=0
 PARAMETER_DISABLE_PLEX=0
+PARAMETER_DISABLE_DEVELOPMENT=0
+PARAMETER_DISABLE_REPOSITORIES=0
+PARAMETER_DISABLE_CLONE=0
+PARAMETER_DISABLE_BUILD=0
+PARAMETER_DISABLE_RANDOMS=0
 
 TOOL_GNU_C_COMPILER="gcc-10"
 TOOL_GNU_CPP_COMPILER="g++-10"
@@ -979,6 +982,7 @@ function ProcessCMake {
 }
 
 function PrintBanner {
+    echo ""
     echo "************************************************************************************************************************"
     echo "* $1"
     echo "************************************************************************************************************************"
@@ -995,14 +999,8 @@ function ProcessCommonArguments {
             --disable-prune)
                 PARAMETER_DISABLE_PRUNE=1
                 ;;
-            --disable-repositories)
-                PARAMETER_DISABLE_REPOSITORIES=1
-                ;;
-            --disable-clone)
-                PARAMETER_DISABLE_CLONE=1
-                ;;
-            --disable-build)
-                PARAMETER_DISABLE_BUILD=1
+            --disable-content)
+                PARAMETER_DISABLE_CONTENT=1
                 ;;
             --disable-services)
                 PARAMETER_DISABLE_SERVICES=1
@@ -1012,6 +1010,21 @@ function ProcessCommonArguments {
                 ;;
             --disable-plex)
                 PARAMETER_DISABLE_PLEX=1
+                ;;
+            --disable-development)
+                PARAMETER_DISABLE_DEVELOPMENT=1
+                ;;
+            --disable-repositories)
+                PARAMETER_DISABLE_REPOSITORIES=1
+                ;;
+            --disable-clone)
+                PARAMETER_DISABLE_CLONE=1
+                ;;
+            --disable-build)
+                PARAMETER_DISABLE_BUILD=1
+                ;;
+            --disable-randoms)
+                PARAMETER_DISABLE_RANDOMS=1
                 ;;
             *)
                 echo "Process: Unknown argument $1."
@@ -1041,13 +1054,43 @@ function ProcessCommonPost {
     fi
 }
 
-function ProcessRepositories {
+function ProcessCallSubScripts {
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
         local REPOSITORIES_ARGUMENTS=()
 
         REPOSITORIES_ARGUMENTS+=("--disable-clear")
         REPOSITORIES_ARGUMENTS+=("--disable-prune")
+
+        if [[ ${PARAMETER_DISABLE_CONTENT} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-content")
+        fi
+
+        if [[ ${PARAMETER_DISABLE_SERVICES} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-services")
+        fi
+
+        if [[ ${PARAMETER_DISABLE_DELUGE} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-deluge")
+        fi
+
+        if [[ ${PARAMETER_DISABLE_PLEX} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-plex")
+        fi
+
+        if [[ ${PARAMETER_DISABLE_DEVELOPMENT} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-development")
+        fi
+
+        if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-repositories")
+        fi
 
         if [[ ${PARAMETER_DISABLE_CLONE} -eq 1 ]];
         then
@@ -1057,6 +1100,11 @@ function ProcessRepositories {
         if [[ ${PARAMETER_DISABLE_BUILD} -eq 1 ]];
         then
             REPOSITORIES_ARGUMENTS+=("--disable-build")
+        fi
+
+        if [[ ${PARAMETER_DISABLE_RANDOMS} -eq 1 ]];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-randoms")
         fi
 
         while [[ $# -ne 0 ]];
