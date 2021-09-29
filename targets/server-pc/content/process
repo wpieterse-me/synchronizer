@@ -1,82 +1,21 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/content"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-DELUGE_COMPOSE_FILE="${SCRIPT_PATH}/deluge.yaml"
-PLEX_COMPOSE_FILE="${SCRIPT_PATH}/plex.yaml"
+SERVICES_SCRIPT="${THIS_SCRIPT_DIRECTORY}/services/process"
 
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            --disable-service-deluge)
-                declare DISABLE_SERVICE_DELUGE=1
-                ;;
-            --disable-service-plex)
-                declare DISABLE_SERVICE_PLEX=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
+    "${SERVICES_SCRIPT}" \
+        --disable-clear \
+        --disable-prune
 
-    if [ -z "${DISABLE_CLEAR}" ];
-    then
-        clear
-    fi
-
-    if [ -z "${DISABLE_SERVICE_DELUGE}" ];
-    then
-        echo "************************************************************************************************************************"
-        echo "* DELUGE SERVER CONTAINER                                                                                              *"
-        echo "************************************************************************************************************************"
-        echo ""
-
-        echo "=== RECREATE CONTAINER ================================================================================================="
-        echo ""
-
-        docker-compose                      \
-            --project-name "deluge-project" \
-            --file "${DELUGE_COMPOSE_FILE}" \
-            up                              \
-                --detach                    \
-                --force-recreate            \
-                --build                     \
-                --remove-orphans
-
-        echo ""
-    fi
-
-    if [ -z "${DISABLE_SERVICE_PLEX}" ];
-    then
-        echo "************************************************************************************************************************"
-        echo "* PLEX SERVER CONTAINER                                                                                                *"
-        echo "************************************************************************************************************************"
-        echo ""
-
-        echo "=== RECREATE CONTAINER ================================================================================================="
-        echo ""
-
-        docker-compose                      \
-            --project-name "plex-project"   \
-            --file "${PLEX_COMPOSE_FILE}"   \
-            up                              \
-                --detach                    \
-                --force-recreate            \
-                --build                     \
-                --remove-orphans
-
-        echo ""
-    fi
+    ProcessCommonPost
 }
 
 Process $@

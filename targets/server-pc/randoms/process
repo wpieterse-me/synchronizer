@@ -1,29 +1,15 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/randoms"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
-
-    if [ -z "${DISABLE_CLEAR}" ];
-    then
-        clear
-    fi
+    ProcessCommonPost
 }
 
 Process $@

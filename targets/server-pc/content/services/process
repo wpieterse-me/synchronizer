@@ -1,0 +1,29 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+SERVICE_DELUGE_SCRIPT="${THIS_SCRIPT_DIRECTORY}/deluge/process"
+SERVICE_PLEX_SCRIPT="${THIS_SCRIPT_DIRECTORY}/plex/process"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    if [[ ${PARAMETER_DISABLE_SERVICES} -eq 0 ]];
+    then
+        local SERVICE_PARAMETERS=()
+
+        SERVICE_PARAMETERS+=("--disable-clear")
+        SERVICE_PARAMETERS+=("--disable-prune")
+
+        "${SERVICE_DELUGE_SCRIPT}" "${SERVICE_PARAMETERS[@]}"
+        "${SERVICE_PLEX_SCRIPT}" "${SERVICE_PARAMETERS[@]}"
+    fi
+
+    ProcessCommonPost
+}
+
+Process $@
