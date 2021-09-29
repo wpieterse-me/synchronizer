@@ -15,7 +15,7 @@ function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    PrintBanner "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
     ProcessBazel \
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \

@@ -1,55 +1,29 @@
 #!/bin/bash
 
-source "/shared/randoms/synchronizer/shared"
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
-SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/axboe"
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 REPOSITORY_REMOTE_BASE_PATH="github.com/axboe"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/axboe"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/axboe"
 
+REPOSITORY_LIBURING_NAME="liburing"
+
 function Process {
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --disable-clear)
-                declare DISABLE_CLEAR=1
-                ;;
-            --disable-clone)
-                declare DISABLE_CLONE=1
-                ;;
-            --disable-build)
-                declare DISABLE_BUILD=1
-                ;;
-            *)
-                echo "Process: Unknown argument $1."
-                exit 1
-                ;;
-        esac
+    ProcessCommonArguments $@
+    ProcessCommonPre
 
-        shift
-    done
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_LIBURING_NAME}"
 
-    if [ -z "${DISABLE_CLEAR}" ];
-    then
-        clear
-    fi
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_LIBURING_NAME}" \
+        --branch "master"
 
-    echo "************************************************************************************************************************"
-    echo "* github.com/axboe/liburing                                                                                            *"
-    echo "************************************************************************************************************************"
-    echo ""
-
-    if [ -z "${DISABLE_CLONE}" ];
-    then
-        ProcessGitRepository                                \
-            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
-            --name "liburing"                               \
-            --branch "master"
-    fi
-
-    echo ""
+    ProcessCommonPost
 }
 
 Process $@
