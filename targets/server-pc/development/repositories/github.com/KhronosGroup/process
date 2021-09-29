@@ -5,7 +5,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORY_REMOTE_BASE_PATH="github.com/KhronosGroup"
+REPOSITORY_REMOTE_BASE_PATH="https://github.com/KhronosGroup"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/KhronosGroup"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/KhronosGroup"
 
@@ -47,7 +47,7 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_VULKAN_HEADERS_NAME}" \
-        --branch "master"
+        --branch "main"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_VULKAN_HPP_NAME}"
 

@@ -121,6 +121,8 @@ function ProcessGitRepository {
             shift
         done
 
+        mkdir -p ${REPOSITORY_LOCAL_BASE_PATH}
+
         pushd ${REPOSITORY_LOCAL_BASE_PATH} > /dev/null
 
         if [ ! -d "${REPOSITORY_NAME}" ];
@@ -1110,6 +1112,8 @@ function ProcessCallSubScripts {
         while [[ $# -ne 0 ]];
         do
             local REPOSITORY_SCRIPT_NAME=$1
+
+            chmod +x "${REPOSITORY_SCRIPT_NAME}"
 
             "${REPOSITORY_SCRIPT_NAME}" ${REPOSITORIES_ARGUMENTS[@]}
 

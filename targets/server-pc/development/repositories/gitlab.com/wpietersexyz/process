@@ -5,7 +5,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORY_REMOTE_BASE_PATH="gitlab.com/wpietersexyz"
+REPOSITORY_REMOTE_BASE_PATH="gitlab-wpietersexyz:wpietersexyz"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/gitlab.com/wpietersexyz"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/gitlab.com/wpietersexyz"
 
@@ -45,11 +45,15 @@ function Process {
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GAME_ASSETS_NAME}"
+
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_GAME_ASSETS_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALENGINE_1_1996_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
@@ -57,11 +61,15 @@ function Process {
         --name "${REPOSITORY_UNREALENGINE_1_1996_NAME}" \
         --branch "main"
 
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALENGINE_1_1997_NAME}"
+
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_UNREALENGINE_1_1997_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
@@ -69,11 +77,15 @@ function Process {
         --name "${REPOSITORY_OPEN_NT_400_NAME}" \
         --branch "main"
 
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_10_NAME}"
+
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_WINDOWS_10_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_350_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
@@ -81,11 +93,15 @@ function Process {
         --name "${REPOSITORY_WINDOWS_NT_350_NAME}" \
         --branch "main"
 
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_400_NAME}"
+
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_WINDOWS_NT_400_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_600_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
@@ -93,11 +109,15 @@ function Process {
         --name "${REPOSITORY_WINDOWS_NT_600_NAME}" \
         --branch "main"
 
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_RESEARCH_KERNEL_NAME}"
+
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_WINDOWS_RESEARCH_KERNEL_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_XBOX_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
