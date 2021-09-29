@@ -1,0 +1,206 @@
+#!/bin/bash
+
+source "/shared/randoms/synchronizer/shared"
+
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/wpietersexyz"
+
+REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/wpietersexyz"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/github.com/wpietersexyz"
+
+function Process {
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --disable-clear)
+                declare DISABLE_CLEAR=1
+                ;;
+            --disable-clone)
+                declare DISABLE_CLONE=1
+                ;;
+            --disable-build)
+                declare DISABLE_BUILD=1
+                ;;
+            *)
+                echo "Process: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    if [ -z "${DISABLE_CLEAR}" ];
+    then
+        clear
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/game-assets                                                                                  *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "game-assets"                            \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/open-nt-400                                                                                  *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "open-nt-400"                            \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/scrapbook                                                                                    *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "scrapbook"                              \
+            --branch "main"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        cp                                                          \
+            "${SCRIPT_PATH}/user.bazelrc.scrapbook"                 \
+            "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook/user.bazelrc"
+
+        ProcessBazel                                                \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/scrapbook" \
+            --build-path "${BUILD_BASE_PATH}/scrapbook"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/unrealengine-1-1996                                                                          *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "unrealengine-1-1996"                    \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/unrealengine-1-1997                                                                          *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "unrealengine-1-1997"                    \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/windows-10                                                                                   *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "windows-10"                             \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/windows-nt-350                                                                               *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "windows-nt-350"                         \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/windows-nt-400                                                                               *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "windows-nt-400"                         \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/windows-nt-600                                                                               *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "windows-nt-600"                         \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/windows-research-kernel                                                                      *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "windows-research-kernel"                \
+            --branch "main"
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/wpietersexyz/xbox                                                                                         *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "xbox"                                   \
+            --branch "main"
+    fi
+
+    echo ""
+}
+
+Process $@

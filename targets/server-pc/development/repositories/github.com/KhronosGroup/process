@@ -1,0 +1,255 @@
+#!/bin/bash
+
+source "/shared/randoms/synchronizer/shared"
+
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/KhronosGroup"
+
+REPOSITORY_REMOTE_BASE_PATH="github.com/KhronosGroup"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/KhronosGroup"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/KhronosGroup"
+
+function Process {
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --disable-clear)
+                declare DISABLE_CLEAR=1
+                ;;
+            --disable-clone)
+                declare DISABLE_CLONE=1
+                ;;
+            --disable-build)
+                declare DISABLE_BUILD=1
+                ;;
+            *)
+                echo "Process: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    if [ -z "${DISABLE_CLEAR}" ];
+    then
+        clear
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/Vulkan-Headers                                                                               *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "Vulkan-Headers"                         \
+            --branch "main"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                    \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-Headers"    \
+            --build-path "${BUILD_BASE_PATH}/Vulkan-Headers"           \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/Vulkan-Hpp                                                                                   *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "Vulkan-Hpp"                             \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-Hpp"    \
+            --build-path "${BUILD_BASE_PATH}/Vulkan-Hpp"           \
+            --extra-parameters "-Wno-dev\t-DVULKAN_HPP_VULKAN_HEADERS_SRC_DIR=${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-Headers\t-DVULKAN_HPP_PATH=${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-Headers\t-DVULKAN_HPP_RUN_GENERATOR=ON\t-DVULKAN_HPP_INSTALL=ON\t-DDSAMPLES_BUILD_WITH_LOCAL_VULKAN_HPP=ON\t-DSAMPLES_BUILD=ON\t-DTESTS_BUILD_WITH_LOCAL_VULKAN_HPP=ON\t-DTESTS_BUILD=ON"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/Vulkan-Loader                                                                                *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "Vulkan-Loader"                          \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-Loader" \
+            --build-path "${BUILD_BASE_PATH}/Vulkan-Loader"        \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/Vulkan-ValidationLayers                                                                      *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "Vulkan-ValidationLayers"                \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                            \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-ValidationLayers"   \
+            --build-path "${BUILD_BASE_PATH}/Vulkan-ValidationLayers"          \
+            --extra-parameters "-Wno-dev\t-DUPDATE_DEPS=ON\t-DBUILD_TESTS=ON\t-DINSTALL_TESTS=ON\t-C${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-ValidationLayers/external/helper.cmake"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/Vulkan-Samples                                                                               *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "Vulkan-Samples"                         \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                    \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/Vulkan-Samples"    \
+            --build-path "${BUILD_BASE_PATH}/Vulkan-Samples"           \
+            --extra-parameters "-Wno-dev\t-DVKB_BUILD_TESTS=ON"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/glslang                                                                                      *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "glslang"                                \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                            \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/glslang"   \
+            --build-path "${BUILD_BASE_PATH}/glslang"          \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/OpenCL-CLHPP                                                                                 *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "OpenCL-CLHPP"                           \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/OpenCL-CLHPP"  \
+            --build-path "${BUILD_BASE_PATH}/OpenCL-CLHPP"         \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/OpenCL-Headers                                                                               *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "OpenCL-Headers"                         \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                    \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/OpenCL-Headers"    \
+            --build-path "${BUILD_BASE_PATH}/OpenCL-Headers"           \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/KhronosGroup/OpenCL-ICD-Loader                                                                            *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "OpenCL-ICD-Loader"                      \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                    \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/OpenCL-ICD-Loader" \
+            --build-path "${BUILD_BASE_PATH}/OpenCL-ICD-Loader"        \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+}
+
+Process $@

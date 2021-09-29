@@ -1,0 +1,20 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+PROCESS_GITHUB_COM_SCRIPT="${THIS_SCRIPT_DIRECTORY}/github.com/process"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    ProcessRepositories \
+        "${PROCESS_GITHUB_COM_SCRIPT}"
+
+    ProcessCommonPost
+}
+
+Process $@

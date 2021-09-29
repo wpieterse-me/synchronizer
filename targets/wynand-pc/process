@@ -1,0 +1,20 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+PROCESS_REPOSITORIES_SCRIPT="${THIS_SCRIPT_DIRECTORY}/repositories/process"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    ProcessRepositories \
+        "${PROCESS_REPOSITORIES_SCRIPT}"
+
+    ProcessCommonPost
+}
+
+Process $@

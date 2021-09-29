@@ -1,0 +1,27 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
+REPOSITORY_LOCAL_BASE_PATH="${WYNAND_PC_HOME_REPOSITORIES_PATH}/github.com/wpietersexyz"
+BUILD_BASE_PATH="${WYNAND_PC_HOME_BUILDS_PATH}/github.com/wpietersexyz"
+
+REPOSITORY_SCRAPBOOK_NAME="scrapbook"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
+
+    ProcessBazel \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
+
+    ProcessCommonPost
+}
+
+Process $@

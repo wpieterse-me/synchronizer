@@ -1,0 +1,63 @@
+#!/bin/bash
+
+source "/shared/randoms/synchronizer/shared"
+
+SCRIPT_PATH="${SYNCHRONIZER_REPOSITORY_PATH}/targets/development/repositories/github.com/RobertBeckebans"
+
+REPOSITORY_REMOTE_BASE_PATH="github.com/RobertBeckebans"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/RobertBeckebans"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/RobertBeckebans"
+
+function Process {
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --disable-clear)
+                declare DISABLE_CLEAR=1
+                ;;
+            --disable-clone)
+                declare DISABLE_CLONE=1
+                ;;
+            --disable-build)
+                declare DISABLE_BUILD=1
+                ;;
+            *)
+                echo "Process: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    if [ -z "${DISABLE_CLEAR}" ];
+    then
+        clear
+    fi
+
+    echo "************************************************************************************************************************"
+    echo "* github.com/RobertBeckebans/RBDOOM-3-BFG                                                                              *"
+    echo "************************************************************************************************************************"
+    echo ""
+
+    if [ -z "${DISABLE_CLONE}" ];
+    then
+        ProcessGitRepository                                \
+            --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+            --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}"   \
+            --name "RBDOOM-3-BFG"                           \
+            --branch "master"
+    fi
+
+    if [ -z "${DISABLE_BUILD}" ];
+    then
+        ProcessCMake                                                \
+            --source-path "${REPOSITORY_LOCAL_BASE_PATH}/RBDOOM-3-BFG/neo"  \
+            --build-path "${BUILD_BASE_PATH}/RBDOOM-3-BFG"         \
+            --extra-parameters "-Wno-dev"
+    fi
+
+    echo ""
+}
+
+Process $@

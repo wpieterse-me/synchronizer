@@ -1,13 +1,19 @@
-SERVER_SHARED_CONTENT_PATH="/shared/content"
-SERVER_SHARED_DEVELOPMENT_PATH="/shared/development"
-SERVER_SHARED_RANDOMS_PATH="/shared/randoms"
-SERVER_SHARED_BUILDS_PERSONAL_PATH="/shared/builds_personal"
-SERVER_SHARED_BUILDS_OTHER_PATH="/shared/builds_other"
+SERVER_PC_SHARED_CONTENT_PATH="/shared/content"
+SERVER_PC_SHARED_DEVELOPMENT_PATH="/shared/development"
+SERVER_PC_SHARED_RANDOMS_PATH="/shared/randoms"
+SERVER_PC_SHARED_BUILDS_PERSONAL_PATH="/shared/builds_personal"
+SERVER_PC_SHARED_BUILDS_OTHER_PATH="/shared/builds_other"
 
-PERSONAL_HOME_REPOSITORIES_PATH="/home/wpieterse/repositories"
-PERSONAL_HOME_BUILDS_PATH="/home/wpieterse/builds"
+WYNAND_PC_HOME_REPOSITORIES_PATH="/home/wpieterse/repositories"
+WYNAND_PC_HOME_BUILDS_PATH="/home/wpieterse/builds"
 
-SYNCHRONIZER_REPOSITORY_PATH="${SERVER_SHARED_RANDOMS_PATH}/synchronizer"
+SYNCHRONIZER_REPOSITORY_PATH="${SERVER_PC_SHARED_RANDOMS_PATH}/synchronizer"
+
+PARAMETER_DISABLE_CLEAR="0"
+PARAMETER_DISABLE_PRUNE="0"
+PARAMETER_DISABLE_REPOSITORIES="0"
+PARAMETER_DISABLE_CLONE="0"
+PARAMETER_DISABLE_BUILD="0"
 
 TOOL_GNU_C_COMPILER="gcc-10"
 TOOL_GNU_CPP_COMPILER="g++-10"
@@ -25,18 +31,18 @@ TOOL_NONE_C_COMPILER="gcc"
 TOOL_NONE_CPP_COMPILER="g++"
 TOOL_NONE_LINKER="ld"
 
-declare -a SUPPORTED_COMPILERS=(
+declare -a DEFAULT_SUPPORTED_COMPILERS=(
     "gnu"
     "llvm"
 )
 
-declare -a BAZEL_BUILD_TYPES=(
+declare -a DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES=(
     "dbg"
     "fastbuild"
     "opt"
 )
 
-declare -a CMAKE_BUILD_TYPES=(
+declare -a DEFAULT_SUPPORTED_CMAKE_BUILD_TYPES=(
     "debug"
     "relwithdebinfo"
     "release"
@@ -341,55 +347,58 @@ function ProcessBazel {
     local SOURCE_PATH=$3
     local BUILD_PATH=$4
 
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --source-path=*|--build-path=*|--compiler=*|--build-type=*)
-                arg="$1"
-                shift
-                set -- "${arg%%=*}" "${arg#*=}" "$@"
-                continue
-                ;;
-            --source-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessBazel: No argument after --source-path"
-                    exit 1
-                fi
-
-                shift
-                SOURCE_PATH="$1"
-                ;;
-            --build-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessBazel: No argument after --build-path"
-                    exit 1
-                fi
-
-                shift
-                BUILD_PATH="$1"
-                ;;
-            *)
-                echo "ProcessBazel: Unknown argument $1."
-                exit 1
-                ;;
-        esac
-
-        shift
-    done
-
-    for CURRENT_COMPILER in "${SUPPORTED_COMPILERS[@]}"
-    do
-        for CURRENT_BUILD_TYPE in "${BAZEL_BUILD_TYPES[@]}"
+    if [ "${PARAMETER_DISABLE_BUILD}" = "0" ];
+    then
+        while [[ $# -ne 0 ]];
         do
-            ProcessBazelTest                        \
-                --source-path ${SOURCE_PATH}        \
-                --build-path ${BUILD_PATH}          \
-                --compiler ${CURRENT_COMPILER}      \
-                --build-type ${CURRENT_BUILD_TYPE}
+            case $1 in
+                --source-path=*|--build-path=*|--compiler=*|--build-type=*)
+                    arg="$1"
+                    shift
+                    set -- "${arg%%=*}" "${arg#*=}" "$@"
+                    continue
+                    ;;
+                --source-path)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessBazel: No argument after --source-path"
+                        exit 1
+                    fi
+
+                    shift
+                    SOURCE_PATH="$1"
+                    ;;
+                --build-path)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessBazel: No argument after --build-path"
+                        exit 1
+                    fi
+
+                    shift
+                    BUILD_PATH="$1"
+                    ;;
+                *)
+                    echo "ProcessBazel: Unknown argument $1."
+                    exit 1
+                    ;;
+            esac
+
+            shift
         done
-    done
+
+        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_COMPILERS[@]}"
+        do
+            for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES[@]}"
+            do
+                ProcessBazelTest                        \
+                    --source-path ${SOURCE_PATH}        \
+                    --build-path ${BUILD_PATH}          \
+                    --compiler ${CURRENT_COMPILER}      \
+                    --build-type ${CURRENT_BUILD_TYPE}
+            done
+        done
+    fi
 }
 
 function ProcessCMakeGenerate {
@@ -933,9 +942,9 @@ function ProcessCMake {
         shift
     done
 
-    for CURRENT_COMPILER in "${SUPPORTED_COMPILERS[@]}"
+    for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_COMPILERS[@]}"
     do
-        for CURRENT_BUILD_TYPE in "${CMAKE_BUILD_TYPES[@]}"
+        for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_CMAKE_BUILD_TYPES[@]}"
         do
             ProcessCMakeGenerate                        \
                 --source-path ${SOURCE_PATH}            \
@@ -957,4 +966,87 @@ function ProcessCMake {
                 --build-type ${CURRENT_BUILD_TYPE}
         done
     done
+}
+
+function PrintBanner {
+    echo "************************************************************************************************************************"
+    echo "* $1"
+    echo "************************************************************************************************************************"
+    echo ""
+}
+
+function ProcessCommonArguments {
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --disable-clear)
+                PARAMETER_DISABLE_CLEAR="1"
+                ;;
+            --disable-prune)
+                PARAMETER_DISABLE_PRUNE="1"
+                ;;
+            --disable-repositories)
+                PARAMETER_DISABLE_REPOSITORIES="1"
+                ;;
+            --disable-clone)
+                PARAMETER_DISABLE_CLONE="1"
+                ;;
+            --disable-build)
+                PARAMETER_DISABLE_BUILD="1"
+                ;;
+            *)
+                echo "Process: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+}
+
+function ProcessCommonPre {
+    if [ "${DISABLE_CLEAR}" = "0" ];
+    then
+        clear
+    fi
+}
+
+function ProcessCommonPost {
+    if [ "${DISABLE_PRUNE}" = "0" ];
+    then
+        docker \
+            system \
+                prune \
+                    --force \
+                    --volumes
+    fi
+}
+
+function ProcessRepositories {
+    if [ "${PARAMETER_DISABLE_REPOSITORIES}" = "0" ];
+    then
+        local REPOSITORIES_ARGUMENTS=()
+
+        REPOSITORIES_ARGUMENTS+=("--disable-clear")
+        REPOSITORIES_ARGUMENTS+=("--disable-prune")
+
+        if [ "${PARAMETER_DISABLE_CLONE}" = "1" ];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-clone")
+        fi
+
+        if [ "${PARAMETER_DISABLE_BUILD}" = "1" ];
+        then
+            REPOSITORIES_ARGUMENTS+=("--disable-build")
+        fi
+
+        while [[ $# -ne 0 ]];
+        do
+            local REPOSITORY_SCRIPT_NAME=$1
+
+            "${REPOSITORY_SCRIPT_NAME}" ${REPOSITORIES_ARGUMENTS[@]}
+
+            shift
+        done
+    fi
 }
