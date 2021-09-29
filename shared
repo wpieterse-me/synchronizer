@@ -138,6 +138,7 @@ function ProcessGitRepository {
 
         echo "*** CLEAN **************************************************************************************************************"
         echo ""
+        echo "Cleaning"
 
         git         \
             clean   \

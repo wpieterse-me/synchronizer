@@ -8,6 +8,10 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 PROCESS_AXBOE_SCRIPT="${THIS_SCRIPT_DIRECTORY}/axboe/process"
 PROCESS_CHOCOLATE_DOOM_SCRIPT="${THIS_SCRIPT_DIRECTORY}/chocolate-doom/process"
 PROCESS_DHEWM3_SCRIPT="${THIS_SCRIPT_DIRECTORY}/dhewm3/process"
+PROCESS_ID_SOFTWARE_SCRIPT="${THIS_SCRIPT_DIRECTORY}/id-Software/process"
+PROCESS_PRINEXYZ_SCRIPT="${THIS_SCRIPT_DIRECTORY}/prinexyz/process"
+PROCESS_ROBERTBECKEBANS_SCRIPT="${THIS_SCRIPT_DIRECTORY}/RobertBeckebans/process"
+PROCESS_WPIETERSEXYZ_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpietersexyz/process"
 
 function Process {
     ProcessCommonArguments $@
@@ -15,7 +19,12 @@ function Process {
 
     ProcessRepositories \
         "${PROCESS_AXBOE_SCRIPT}" \
-        "${PROCESS_CHOCOLATE_DOOM_SCRIPT}"
+        "${PROCESS_CHOCOLATE_DOOM_SCRIPT}" \
+        "${PROCESS_DHEWM3_SCRIPT}" \
+        "${PROCESS_ID_SOFTWARE_SCRIPT}" \
+        "${PROCESS_PRINEXYZ_SCRIPT}" \
+        "${PROCESS_ROBERTBECKEBANS_SCRIPT}" \
+        "${PROCESS_WPIETERSEXYZ_SCRIPT}"
 
     ProcessCommonPost
 }
