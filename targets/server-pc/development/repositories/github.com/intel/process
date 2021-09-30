@@ -9,11 +9,39 @@ REPOSITORY_REMOTE_BASE_PATH="https://github.com/intel"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/intel"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/intel"
 
+REPOSITORY_COMPUTE_RUNTIME_NAME="compute-runtime"
+REPOSITORY_GRAPHICS_COMPILER_NAME="intel-graphics-compiler"
+REPOSITORY_GMMLIB_NAME="gmmlib"
 REPOSITORY_METRICS_DISCOVERY_NAME="metrics-discovery"
+REPOSITORY_METRICS_LIBRARY_NAME="metrics-library"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_COMPUTE_RUNTIME_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_COMPUTE_RUNTIME_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GRAPHICS_COMPILER_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GRAPHICS_COMPILER_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GMMLIB_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GMMLIB_NAME}" \
+        --branch "master"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_METRICS_DISCOVERY_NAME}"
 
@@ -21,6 +49,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_METRICS_DISCOVERY_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_METRICS_LIBRARY_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_METRICS_LIBRARY_NAME}" \
         --branch "master"
 
     ProcessCommonPost
