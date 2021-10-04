@@ -10,15 +10,16 @@ REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/goog
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/google"
 
 REPOSITORY_SWIFTSHADER_NAME="swiftshader"
+REPOSITORY_ZETASQL_NAME="zetasql"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SWIFTSHADER_NAME}"
-
     #
     # FIXME: A sub-module requires a password.
+    #
+    # PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SWIFTSHADER_NAME}"
     #
     # ProcessGitRepository \
     #     --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
@@ -26,6 +27,14 @@ function Process {
     #     --name "${REPOSITORY_SWIFTSHADER_NAME}" \
     #     --branch "master"
     #
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ZETASQL_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ZETASQL_NAME}" \
+        --branch "master"
 
     ProcessCommonPost
 }

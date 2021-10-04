@@ -10,6 +10,7 @@ REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/micr
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/microsoft"
 
 REPOSITORY_DIRECTXSHADERCOMPILER_NAME="DirectXShaderCompiler"
+REPOSITORY_DIRECTX_SPECS_NAME="DirectX-Specs"
 
 function Process {
     ProcessCommonArguments $@
@@ -21,6 +22,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_DIRECTXSHADERCOMPILER_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_DIRECTX_SPECS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_DIRECTX_SPECS_NAME}" \
         --branch "master"
 
     ProcessCommonPost
