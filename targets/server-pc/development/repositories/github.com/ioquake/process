@@ -23,11 +23,6 @@ function Process {
         --name "${REPOSITORY_IOQ3_NAME}" \
         --branch "main"
 
-    ProcessCMake \
-        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_IOQ3_NAME}/code" \
-        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_IOQ3_NAME}" \
-        --extra-parameters "-Wno-dev"
-
     ProcessCommonPost
 }
 

@@ -5,22 +5,22 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORY_REMOTE_BASE_PATH="https://github.com/oneapi-src"
-REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/oneapi-src"
-BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/oneapi-src"
+REPOSITORY_REMOTE_BASE_PATH="https://github.com/boostorg"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/boostorg"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/boostorg"
 
-REPOSITORY_LEVEL_ZERO_NAME="level-zero"
+REPOSITORY_BOOST_NAME="boost"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_LEVEL_ZERO_NAME}"
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_BOOST_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_LEVEL_ZERO_NAME}" \
+        --name "${REPOSITORY_BOOST_NAME}" \
         --branch "master"
 
     ProcessCommonPost

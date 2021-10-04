@@ -1,0 +1,56 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="https://gitlab.freedesktop.org/mesa"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/gitlab.freedesktop.org/mesa"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/gitlab.freedesktop.org/mesa"
+
+REPOSITORY_MESA_NAME="mesa"
+REPOSITORY_PIGLIT_NAME="piglit"
+REPOSITORY_SHADER_DB_NAME="shader-db"
+REPOSITORY_VKPIPELINE_DB_NAME="vkpipeline-db"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_MESA_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_MESA_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_PIGLIT_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_PIGLIT_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SHADER_DB_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_SHADER_DB_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_VKPIPELINE_DB_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_VKPIPELINE_DB_NAME}" \
+        --branch "master"
+
+    ProcessCommonPost
+}
+
+Process $@
