@@ -5,6 +5,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
+PROCESS_GIT_KERNEL_ORG_SCRIPT="${THIS_SCRIPT_DIRECTORY}/git.kernel.org/process"
 PROCESS_GITHUB_COM_SCRIPT="${THIS_SCRIPT_DIRECTORY}/github.com/process"
 PROCESS_GITLAB_COM_SCRIPT="${THIS_SCRIPT_DIRECTORY}/gitlab.com/process"
 PROCESS_GITLAB_FREEDESKTOP_ORG_SCRIPT="${THIS_SCRIPT_DIRECTORY}/gitlab.freedesktop.org/process"
@@ -16,6 +17,7 @@ function Process {
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
         ProcessCallSubScripts \
+            "${PROCESS_GIT_KERNEL_ORG_SCRIPT}" \
             "${PROCESS_GITHUB_COM_SCRIPT}" \
             "${PROCESS_GITLAB_COM_SCRIPT}" \
             "${PROCESS_GITLAB_FREEDESKTOP_ORG_SCRIPT}"

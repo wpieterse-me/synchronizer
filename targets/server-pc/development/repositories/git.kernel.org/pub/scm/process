@@ -1,0 +1,23 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+PROCESS_LINUX_SCRIPT="${THIS_SCRIPT_DIRECTORY}/linux/process"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
+    then
+        ProcessCallSubScripts \
+            "${PROCESS_LINUX_SCRIPT}"
+    fi
+
+    ProcessCommonPost
+}
+
+Process $@
