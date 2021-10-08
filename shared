@@ -193,6 +193,54 @@ function ProcessGitRepository {
     fi
 }
 
+function ProcessMake {
+    local SOURCE_PATH=""
+    local BUILD_PATH=""
+    local COMPILER=""
+    local BUILD_TYPE=""
+
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --source-path=*)
+                arg="$1"
+                shift
+                set -- "${arg%%=*}" "${arg#*=}" "$@"
+                continue
+                ;;
+            --source-path)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessMake: No argument after --source-path"
+                    exit 1
+                fi
+
+                shift
+                SOURCE_PATH="$1"
+                ;;
+            *)
+                echo "ProcessMake: Unknown argument $1."
+                exit 1
+                ;;
+        esac
+
+        shift
+    done
+
+    echo "*** MAKE ***************************************************************************************************************"
+    echo ""
+
+    pushd ${SOURCE_PATH} > /dev/null
+
+    source /opt/intel/oneapi/setvars.sh > /dev/null
+
+    make -j6
+
+    popd > /dev/null
+
+    echo ""
+}
+
 function ProcessBazelTest {
     local SOURCE_PATH=""
     local BUILD_PATH=""

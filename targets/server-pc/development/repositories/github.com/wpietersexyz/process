@@ -13,6 +13,12 @@ REPOSITORY_SCRAPBOOK_NAME="scrapbook"
 REPOSITORY_GAME_ASSETS_NAME="game-assets"
 REPOSITORY_UNREALENGINE_1_1996_NAME="unrealengine-1-1996"
 REPOSITORY_UNREALENGINE_1_1997_NAME="unrealengine-1-1997"
+REPOSITORY_GTKRADIANT_NAME="gtkradiant"
+REPOSITORY_QUAKE_1_NAME="quake-1"
+REPOSITORY_QUAKE_1_TOOLS_NAME="quake-1-tools"
+REPOSITORY_QUAKE_2_NAME="quake-2"
+REPOSITORY_QUAKE_2_TOOLS_NAME="quake-2-tools"
+REPOSITORY_QUAKE_3_ARENA_NAME="quake-3-arena"
 REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
 REPOSITORY_WINDOWS_10_NAME="windows-10"
 REPOSITORY_WINDOWS_NT_350_NAME="windows-nt-350"
@@ -68,6 +74,54 @@ function Process {
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_UNREALENGINE_1_1997_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GTKRADIANT_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GTKRADIANT_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_1_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_QUAKE_1_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_1_TOOLS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_QUAKE_1_TOOLS_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_2_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_QUAKE_2_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_2_TOOLS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_QUAKE_2_TOOLS_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_3_ARENA_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_QUAKE_3_ARENA_NAME}" \
+        --branch "master"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
 

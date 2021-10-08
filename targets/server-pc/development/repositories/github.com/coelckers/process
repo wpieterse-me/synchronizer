@@ -1,0 +1,99 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="https://github.com/coelckers"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/coelckers"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/coelckers"
+
+REPOSITORY_RAZE_NAME="Raze"
+REPOSITORY_GZDOOM_NAME="gzdoom"
+REPOSITORY_WADEXT_NAME="wadext"
+REPOSITORY_ZDBSP_NAME="zdbsp"
+REPOSITORY_ZED_NAME="zed"
+REPOSITORY_ZMUSIC_NAME="ZMusic"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ZMUSIC_NAME}" \
+        --branch "master"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_RAZE_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_RAZE_NAME}" \
+        --branch "master"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_RAZE_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_RAZE_NAME}" \
+        --extra-parameters "-Wno-dev\t-DNO_FMOD=ON\t-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/include\t-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/lib"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GZDOOM_NAME}" \
+        --branch "master"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}" \
+        --extra-parameters "-Wno-dev\t-DNO_FMOD=ON\t-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/include\t-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/lib"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WADEXT_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WADEXT_NAME}" \
+        --branch "master"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_WADEXT_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_WADEXT_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ZDBSP_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ZDBSP_NAME}" \
+        --branch "master"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ZDBSP_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ZDBSP_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ZED_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ZED_NAME}" \
+        --branch "master"
+
+    ProcessCommonPost
+}
+
+Process $@
