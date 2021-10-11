@@ -464,7 +464,7 @@ function ProcessBazel {
 function ProcessCMakeGenerate {
     local SOURCE_PATH=""
     local BUILD_PATH=""
-    local EXTRA_PARAMETERS=""
+    local EXTRA_PARAMETERS=()
     local COMPILER=""
     local BUILD_TYPE=""
 
@@ -505,7 +505,7 @@ function ProcessCMakeGenerate {
                 fi
 
                 shift
-                EXTRA_PARAMETERS="$1"
+                EXTRA_PARAMETERS+=("$1")
                 ;;
             --compiler)
                 if [[ $# -lt 2 ]];
@@ -641,7 +641,7 @@ function ProcessCMakeGenerate {
         -G Ninja                                                                                \
         -DCMAKE_BUILD_TYPE=${BUILD_TYPE}                                                        \
         -DCMAKE_INSTALL_PREFIX=${_INSTALL_PATH_FINAL}                                           \
-        ${EXTRA_PARAMETERS}                                                                     \
+        ${EXTRA_PARAMETERS[@]}                                                                  \
         ${SOURCE_PATH}
 
     popd > /dev/null
@@ -952,7 +952,7 @@ function ProcessCMakeInstall {
 function ProcessCMake {
     local SOURCE_PATH=""
     local BUILD_PATH=""
-    local EXTRA_BUILD_PARAMETERS=""
+    local EXTRA_PARAMETERS=()
 
     if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
     then
@@ -993,7 +993,7 @@ function ProcessCMake {
                     fi
 
                     shift
-                    EXTRA_PARAMETERS="$1"
+                    EXTRA_PARAMETERS+=("--extra-parameters $1")
                     ;;
                 *)
                     echo "ProcessCMake: Unknown argument $1."
@@ -1011,7 +1011,7 @@ function ProcessCMake {
                 ProcessCMakeGenerate                        \
                     --source-path ${SOURCE_PATH}            \
                     --build-path ${BUILD_PATH}              \
-                    --extra-parameters ${EXTRA_PARAMETERS}  \
+                    ${EXTRA_PARAMETERS[@]} \
                     --compiler ${CURRENT_COMPILER}          \
                     --build-type ${CURRENT_BUILD_TYPE}
 

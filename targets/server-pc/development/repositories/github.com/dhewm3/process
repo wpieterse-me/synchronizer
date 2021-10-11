@@ -26,7 +26,11 @@ function Process {
     ProcessCMake \
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_DHEWM3_NAME}/neo" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_DHEWM3_NAME}" \
-        --extra-parameters "-Wno-dev"
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DDEDICATED=ON" \
+        --extra-parameters "-DONATIVE=ON" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DREPRODUCIBLE_BUILD=ON"
 
     ProcessCommonPost
 }

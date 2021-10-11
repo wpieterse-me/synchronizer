@@ -1,0 +1,83 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="https://github.com/fabiensanglard"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/fabiensanglard"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/fabiensanglard"
+
+REPOSITORY_GEBBDOOM_NAME="gebbdoom"
+REPOSITORY_GEBBWOLF3_NAME="gebbwolf3"
+REPOSITORY_CHOCOLATE_WOLFENSTEIN_3D_NAME="Chocolate-Wolfenstein-3D"
+REPOSITORY_ANOTHER_WORLD_BYTECODE_INTERPRETER_NAME="Another-World-Bytecode-Interpreter"
+REPOSITORY_CHOCOLATE_DUKE3D_NAME="chocolate_duke3D"
+REPOSITORY_PCDOOM_V2_NAME="PCDoom-v2"
+REPOSITORY_WOLF3DEXTRACT_NAME="Wolf3DExtract"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GEBBDOOM_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GEBBDOOM_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GEBBWOLF3_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_GEBBWOLF3_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_CHOCOLATE_WOLFENSTEIN_3D_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_CHOCOLATE_WOLFENSTEIN_3D_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ANOTHER_WORLD_BYTECODE_INTERPRETER_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ANOTHER_WORLD_BYTECODE_INTERPRETER_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_CHOCOLATE_DUKE3D_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_CHOCOLATE_DUKE3D_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_PCDOOM_V2_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_PCDOOM_V2_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WOLF3DEXTRACT_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WOLF3DEXTRACT_NAME}" \
+        --branch "master"
+
+    ProcessCommonPost
+}
+
+Process $@

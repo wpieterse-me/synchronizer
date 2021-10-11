@@ -26,7 +26,9 @@ function Process {
     ProcessCMake \
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_RBDOOM_3_BFG_NAME}/neo" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_RBDOOM_3_BFG_NAME}" \
-        --extra-parameters "-Wno-dev"
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DSPIRV_SHADERC=OFF"
 
     ProcessCommonPost
 }

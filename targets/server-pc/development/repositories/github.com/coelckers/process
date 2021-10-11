@@ -44,7 +44,10 @@ function Process {
     ProcessCMake \
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_RAZE_NAME}" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_RAZE_NAME}" \
-        --extra-parameters "-Wno-dev\t-DNO_FMOD=ON\t-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/include\t-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/lib"
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DNO_FMOD=ON" \
+        --extra-parameters "-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/include" \
+        --extra-parameters "-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/lib"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}"
 
@@ -57,7 +60,10 @@ function Process {
     ProcessCMake \
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}" \
-        --extra-parameters "-Wno-dev\t-DNO_FMOD=ON\t-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/include\t-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/lib"
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DNO_FMOD=ON" \
+        --extra-parameters "-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/include" \
+        --extra-parameters "-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/gnu/minsizerel/install/lib"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WADEXT_NAME}"
 
