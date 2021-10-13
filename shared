@@ -21,25 +21,31 @@ PARAMETER_DISABLE_CLONE=0
 PARAMETER_DISABLE_BUILD=0
 PARAMETER_DISABLE_RANDOMS=0
 
-TOOL_GNU_C_COMPILER="gcc-10"
-TOOL_GNU_CPP_COMPILER="g++-10"
-TOOL_GNU_LINKER="ld"
+TOOL_GNU_C_COMPILER="/usr/bin/gcc-10"
+TOOL_GNU_CPP_COMPILER="/usr/bin/g++-10"
+TOOL_GNU_LINKER="/usr/bin/ld"
 
-TOOL_LLVM_C_COMPILER="clang-13"
-TOOL_LLVM_CPP_COMPILER="clang++-13"
-TOOL_LLVM_LINKER="ld.lld-13"
+TOOL_LLVM_C_COMPILER="/usr/bin/clang-13"
+TOOL_LLVM_CPP_COMPILER="/usr/bin/clang++-13"
+TOOL_LLVM_LINKER="/usr/bin/ld.lld-13"
 
-TOOL_INTEL_C_COMPILER="clang-13"
-TOOL_INTEL_CPP_COMPILER="dpcpp"
-TOOL_INTEL_LINKER="ld.lld-13"
+TOOL_AMD_C_COMPILER="/opt/AMD/aocc-compiler-3.1.0/bin/clang"
+TOOL_AMD_CPP_COMPILER="/opt/AMD/aocc-compiler-3.1.0/bin/clang++"
+TOOL_AMD_LINKER="/opt/AMD/aocc-compiler-3.1.0/bin/ld.lld"
 
-TOOL_NONE_C_COMPILER="gcc"
-TOOL_NONE_CPP_COMPILER="g++"
-TOOL_NONE_LINKER="ld"
+TOOL_INTEL_C_COMPILER="/opt/intel/oneapi/compiler/latest/linux/bin/clang"
+TOOL_INTEL_CPP_COMPILER="/opt/intel/oneapi/compiler/latest/linux/bin/dpcpp"
+TOOL_INTEL_LINKER="/opt/intel/oneapi/compiler/latest/linux/bin/ld.lld"
+
+TOOL_NONE_C_COMPILER="/usr/bin/gcc"
+TOOL_NONE_CPP_COMPILER="/usr/bin/g++"
+TOOL_NONE_LINKER="/usr/bin/ld"
 
 declare -a DEFAULT_SUPPORTED_COMPILERS=(
     "gnu"
     "llvm"
+    "amd"
+    "intel"
 )
 
 declare -a DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES=(
@@ -341,6 +347,24 @@ function ProcessBazelTest {
         else
             echo "*** TEST - LLVM - UNKNOWN **********************************************************************************************"
         fi
+    elif [ "${COMPILER}" = "amd" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_AMD_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_AMD_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_AMD_LINKER}
+
+        if [ "${BUILD_TYPE}" = "dbg" ];
+        then
+            echo "*** TEST - AMD - DEBUG *************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "fastbuild" ];
+        then
+            echo "*** TEST - AMD - FAST BUILD ********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "opt" ];
+        then
+            echo "*** TEST - AMD - OPTIMIZED *********************************************************************************************"
+        else
+            echo "*** TEST - AMD - UNKNOWN ***********************************************************************************************"
+        fi
     elif [ "${COMPILER}" = "intel" ];
     then
         _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
@@ -386,6 +410,7 @@ function ProcessBazelTest {
 
     pushd ${SOURCE_PATH} > /dev/null
 
+    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
     source /opt/intel/oneapi/setvars.sh > /dev/null
 
     bazel                                               \
@@ -582,6 +607,27 @@ function ProcessCMakeGenerate {
         else
             echo "*** GENERATE - LLVM - UNKNOWN ******************************************************************************************"
         fi
+    elif [ "${COMPILER}" = "amd" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_AMD_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_AMD_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_AMD_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** GENERATE - AMD - DEBUG *********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** GENERATE - AMD - RELEASE WITH DEBUG ********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** GENERATE - AMD - RELEASE *******************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** GENERATE - AMD - MINIMUM SIZE RELEASE ******************************************************************************"
+        else
+            echo "*** GENERATE - AMD - UNKNOWN *******************************************************************************************"
+        fi
     elif [ "${COMPILER}" = "intel" ];
     then
         _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
@@ -635,6 +681,7 @@ function ProcessCMakeGenerate {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
+    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
     source /opt/intel/oneapi/setvars.sh > /dev/null
 
     CC=${_CONTAINER_C_COMPILER} CXX=${_CONTAINER_CPP_COMPILER} LD=${_CONTAINER_LINKER} cmake    \
@@ -747,6 +794,23 @@ function ProcessCMakeBuild {
         else
             echo "*** BUILD - LLVM - UNKNOWN *********************************************************************************************"
         fi
+    elif [ "${COMPILER}" = "amd" ];
+    then
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** BUILD - AMD - DEBUG ************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** BUILD - AMD - RELEASE WITH DEBUG ***********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** BUILD - AMD - RELEASE **********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** BUILD - AMD - MINIMUM SIZE RELEASE *********************************************************************************"
+        else
+            echo "*** BUILD - AMD - UNKNOWN **********************************************************************************************"
+        fi
     elif [ "${COMPILER}" = "intel" ];
     then
         if [ "${BUILD_TYPE}" = "debug" ];
@@ -788,6 +852,7 @@ function ProcessCMakeBuild {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
+    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
     source /opt/intel/oneapi/setvars.sh > /dev/null
 
     cmake           \
@@ -896,6 +961,23 @@ function ProcessCMakeInstall {
         else
             echo "*** INSTALL - LLVM - UNKNOWN *******************************************************************************************"
         fi
+    elif [ "${COMPILER}" = "amd" ];
+    then
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** INSTALL - AMD - DEBUG **********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
+        then
+            echo "*** INSTALL - AMD - RELEASE WITH DEBUG *********************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** INSTALL - AMD - RELEASE ********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "minsizerel" ];
+        then
+            echo "*** INSTALL - AMD - MINIMUM SIZE RELEASE *******************************************************************************"
+        else
+            echo "*** INSTALL - AMD - UNKNOWN ********************************************************************************************"
+        fi
     elif [ "${COMPILER}" = "intel" ];
     then
         if [ "${BUILD_TYPE}" = "debug" ];
@@ -938,6 +1020,7 @@ function ProcessCMakeInstall {
 
     pushd ${_BUILD_PATH_FINAL} > /dev/null
 
+    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
     source /opt/intel/oneapi/setvars.sh > /dev/null
 
     cmake                                   \

@@ -19,6 +19,7 @@ REPOSITORY_QUAKE_1_TOOLS_NAME="quake-1-tools"
 REPOSITORY_QUAKE_2_NAME="quake-2"
 REPOSITORY_QUAKE_2_TOOLS_NAME="quake-2-tools"
 REPOSITORY_QUAKE_3_ARENA_NAME="quake-3-arena"
+REPOSITORY_DOOM_3_NAME="doom-3"
 REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
 REPOSITORY_WINDOWS_10_NAME="windows-10"
 REPOSITORY_WINDOWS_NT_350_NAME="windows-nt-350"
@@ -122,6 +123,22 @@ function Process {
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_QUAKE_3_ARENA_NAME}" \
         --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_DOOM_3_NAME}" \
+        --branch "master"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}/neo" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}" \
+        --extra-parameters "-DDEDICATED=ON" \
+        --extra-parameters "-DONATIVE=ON" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DREPRODUCIBLE_BUILD=ON"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
 

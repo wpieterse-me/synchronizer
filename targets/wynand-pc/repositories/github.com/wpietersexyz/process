@@ -10,6 +10,7 @@ REPOSITORY_LOCAL_BASE_PATH="${WYNAND_PC_HOME_REPOSITORIES_PATH}/github.com/wpiet
 BUILD_BASE_PATH="${WYNAND_PC_HOME_BUILDS_PATH}/github.com/wpietersexyz"
 
 REPOSITORY_SCRAPBOOK_NAME="scrapbook"
+REPOSITORY_DOOM_3_NAME="doom-3"
 
 function Process {
     ProcessCommonArguments $@
@@ -20,6 +21,16 @@ function Process {
     ProcessBazel \
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}/neo" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}" \
+        --extra-parameters "-DDEDICATED=ON" \
+        --extra-parameters "-DONATIVE=ON" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DREPRODUCIBLE_BUILD=ON"
 
     ProcessCommonPost
 }
