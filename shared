@@ -48,6 +48,15 @@ declare -a DEFAULT_SUPPORTED_COMPILERS=(
     "intel"
 )
 
+# FIXME : Need to fix this issue with Make not having output directories
+declare -a DEFAULT_SUPPORTED_MAKE_COMPILERS=(
+    "gnu"
+)
+
+declare -a DEFAULT_SUPPORTED_MAKE_BUILD_TYPES=(
+    "release"
+)
+
 declare -a DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES=(
     "dbg"
     "fastbuild"
@@ -199,7 +208,7 @@ function ProcessGitRepository {
     fi
 }
 
-function ProcessMake {
+function ProcessMakeBuild {
     local SOURCE_PATH=""
     local BUILD_PATH=""
     local COMPILER=""
@@ -208,7 +217,7 @@ function ProcessMake {
     while [[ $# -ne 0 ]];
     do
         case $1 in
-            --source-path=*)
+            --source-path=*|--build-path=*|--compiler=*|--build-type=*)
                 arg="$1"
                 shift
                 set -- "${arg%%=*}" "${arg#*=}" "$@"
@@ -217,15 +226,45 @@ function ProcessMake {
             --source-path)
                 if [[ $# -lt 2 ]];
                 then
-                    echo "ProcessMake: No argument after --source-path"
+                    echo "ProcessMakeBuild: No argument after --source-path"
                     exit 1
                 fi
 
                 shift
                 SOURCE_PATH="$1"
                 ;;
+            --build-path)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessMakeBuild: No argument after --build-path"
+                    exit 1
+                fi
+
+                shift
+                BUILD_PATH="$1"
+                ;;
+            --compiler)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessMakeBuild: No argument after --compiler"
+                    exit 1
+                fi
+
+                shift
+                COMPILER="$1"
+                ;;
+            --build-type)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessMakeBuild: No argument after --build-type"
+                    exit 1
+                fi
+
+                shift
+                BUILD_TYPE="$1"
+                ;;
             *)
-                echo "ProcessMake: Unknown argument $1."
+                echo "ProcessMakeBuild: Unknown argument $1."
                 exit 1
                 ;;
         esac
@@ -233,18 +272,162 @@ function ProcessMake {
         shift
     done
 
-    echo "*** MAKE ***************************************************************************************************************"
+    if [ "${COMPILER}" = "gnu" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_GNU_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_GNU_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_GNU_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** MAKE - GNU - DEBUG *************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** MAKE - GNU - RELEASE ***********************************************************************************************"
+        else
+            echo "*** MAKE - GNU - UNKNOWN ***********************************************************************************************"
+        fi
+    elif [ "${COMPILER}" = "llvm" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_LLVM_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_LLVM_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_LLVM_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** MAKE - LLVM - DEBUG ************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** MAKE - LLVM - RELEASE **********************************************************************************************"
+        else
+            echo "*** MAKE - LLVM - UNKNOWN **********************************************************************************************"
+        fi
+    elif [ "${COMPILER}" = "amd" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_AMD_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_AMD_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_AMD_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** MAKE - AMD - DEBUG *************************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** MAKE - AMD - RELEASE ***********************************************************************************************"
+        else
+            echo "*** MAKE - AMD - UNKNOWN ***********************************************************************************************"
+        fi
+    elif [ "${COMPILER}" = "intel" ];
+    then
+        _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_INTEL_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_INTEL_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** MAKE - INTEL - DEBUG ***********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** MAKE - INTEL - RELEASE *********************************************************************************************"
+        else
+            echo "*** MAKE - INTEL - UNKNOWN *********************************************************************************************"
+        fi
+    else
+        _CONTAINER_C_COMPILER=${TOOL_NONE_C_COMPILER}
+        _CONTAINER_CPP_COMPILER=${TOOL_NONE_CPP_COMPILER}
+        _CONTAINER_LINKER=${TOOL_NONE_LINKER}
+
+        if [ "${BUILD_TYPE}" = "debug" ];
+        then
+            echo "*** MAKE - UNKNOWN - DEBUG *********************************************************************************************"
+        elif [ "${BUILD_TYPE}" = "release" ];
+        then
+            echo "*** MAKE - UNKNOWN - RELEASE *******************************************************************************************"
+        else
+            echo "*** MAKE - UNKNOWN - UNKNOWN *******************************************************************************************"
+        fi
+    fi
+
     echo ""
 
-    pushd ${SOURCE_PATH} > /dev/null
+    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}"
 
+    mkdir -p ${_BUILD_PATH_FINAL}
+
+    pushd ${_BUILD_PATH_FINAL} > /dev/null
+
+    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
     source /opt/intel/oneapi/setvars.sh > /dev/null
 
-    make -j6
+    CC=${_CONTAINER_C_COMPILER} \
+    CXX=${_CONTAINER_CPP_COMPILER} \
+    LD=${_CONTAINER_LINKER} \
+        make \
+            --always-make \
+            --directory=${SOURCE_PATH} \
+            --jobs=6
 
     popd > /dev/null
 
     echo ""
+}
+
+function ProcessMake {
+    local SOURCE_PATH=$3
+    local BUILD_PATH=$4
+
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
+    then
+        while [[ $# -ne 0 ]];
+        do
+            case $1 in
+                --source-path=*|--build-path=*|--compiler=*|--build-type=*)
+                    arg="$1"
+                    shift
+                    set -- "${arg%%=*}" "${arg#*=}" "$@"
+                    continue
+                    ;;
+                --source-path)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessMake: No argument after --source-path"
+                        exit 1
+                    fi
+
+                    shift
+                    SOURCE_PATH="$1"
+                    ;;
+                --build-path)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessMake: No argument after --build-path"
+                        exit 1
+                    fi
+
+                    shift
+                    BUILD_PATH="$1"
+                    ;;
+                *)
+                    echo "ProcessMake: Unknown argument $1."
+                    exit 1
+                    ;;
+            esac
+
+            shift
+        done
+
+        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_MAKE_COMPILERS[@]}"
+        do
+            for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_MAKE_BUILD_TYPES[@]}"
+            do
+                ProcessMakeBuild                        \
+                    --source-path ${SOURCE_PATH}        \
+                    --build-path ${BUILD_PATH}          \
+                    --compiler ${CURRENT_COMPILER}      \
+                    --build-type ${CURRENT_BUILD_TYPE}
+            done
+        done
+    fi
 }
 
 function ProcessBazelTest {
@@ -489,7 +672,7 @@ function ProcessBazel {
 function ProcessCMakeGenerate {
     local SOURCE_PATH=""
     local BUILD_PATH=""
-    local EXTRA_PARAMETERS=()
+    local EXTRA_PARAMETERS_WORK=()
     local COMPILER=""
     local BUILD_TYPE=""
 
@@ -530,7 +713,7 @@ function ProcessCMakeGenerate {
                 fi
 
                 shift
-                EXTRA_PARAMETERS+=("$1")
+                EXTRA_PARAMETERS_WORK+=("$1")
                 ;;
             --compiler)
                 if [[ $# -lt 2 ]];
@@ -670,6 +853,18 @@ function ProcessCMakeGenerate {
             echo "*** GENERATE - UNKNOWN - UNKNOWN ***************************************************************************************"
         fi
     fi
+
+    local EXTRA_PARAMETERS=()
+
+    for CURRENT_EXTRA_PARAMETER in "${EXTRA_PARAMETERS_WORK[@]}"
+    do
+        local REPLACE_COMPILER="${CURRENT_EXTRA_PARAMETER/__BUILD_COMPILER__/"$COMPILER"}"
+        local REPLACE_CONFIGURATION="${REPLACE_COMPILER/__BUILD_CONFIGURATION__/"$BUILD_TYPE"}"
+
+        EXTRA_PARAMETERS+=("${REPLACE_CONFIGURATION}")
+    done
+
+    echo "${EXTRA_PARAMETERS[@]}"
 
     echo ""
 

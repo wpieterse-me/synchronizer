@@ -46,8 +46,8 @@ function Process {
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_RAZE_NAME}" \
         --extra-parameters "-Wno-dev" \
         --extra-parameters "-DNO_FMOD=ON" \
-        --extra-parameters "-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/llvm/minsizerel/install/include/" \
-        --extra-parameters "-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/llvm/minsizerel/install/lib/"
+        --extra-parameters "-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/__BUILD_COMPILER__/__BUILD_CONFIGURATION__/install/include" \
+        --extra-parameters "-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/__BUILD_COMPILER__/__BUILD_CONFIGURATION__/install/lib"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}"
 
@@ -62,8 +62,8 @@ function Process {
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_GZDOOM_NAME}" \
         --extra-parameters "-Wno-dev" \
         --extra-parameters "-DNO_FMOD=ON" \
-        --extra-parameters "-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/llvm/minsizerel/install/include/" \
-        --extra-parameters "-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/llvm/minsizerel/install/lib/"
+        --extra-parameters "-DZMUSIC_INCLUDE_DIR=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/__BUILD_COMPILER__/__BUILD_CONFIGURATION__/install/include" \
+        --extra-parameters "-DZMUSIC_LIBRARIES=${BUILD_BASE_PATH}/${REPOSITORY_ZMUSIC_NAME}/__BUILD_COMPILER__/__BUILD_CONFIGURATION__/install/lib"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WADEXT_NAME}"
 
