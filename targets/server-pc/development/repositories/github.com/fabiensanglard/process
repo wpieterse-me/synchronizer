@@ -16,6 +16,7 @@ REPOSITORY_ANOTHER_WORLD_BYTECODE_INTERPRETER_NAME="Another-World-Bytecode-Inter
 REPOSITORY_CHOCOLATE_DUKE3D_NAME="chocolate_duke3D"
 REPOSITORY_PCDOOM_V2_NAME="PCDoom-v2"
 REPOSITORY_WOLF3DEXTRACT_NAME="Wolf3DExtract"
+REPOSITORY_CARMACK_NAME="carmack"
 
 function Process {
     ProcessCommonArguments $@
@@ -75,6 +76,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_WOLF3DEXTRACT_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_CARMACK_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_CARMACK_NAME}" \
         --branch "master"
 
     ProcessCommonPost

@@ -9,12 +9,26 @@ REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
 REPOSITORY_LOCAL_BASE_PATH="${WYNAND_PC_HOME_REPOSITORIES_PATH}/github.com/wpietersexyz"
 BUILD_BASE_PATH="${WYNAND_PC_HOME_BUILDS_PATH}/github.com/wpietersexyz"
 
+REPOSITORY_NEURON_NAME="neuron"
 REPOSITORY_SCRAPBOOK_NAME="scrapbook"
-REPOSITORY_DOOM_3_NAME="doom-3"
+REPOSITORY_ID_TECH_EDITOR_NAME="id-tech-editor"
+REPOSITORY_ID_TECH_OLD_NAME="id-tech-old"
+REPOSITORY_ID_TECH_0_NAME="id-tech-0"
+REPOSITORY_ID_TECH_1_NAME="id-tech-1"
+REPOSITORY_ID_TECH_2_NAME="id-tech-2"
+REPOSITORY_ID_TECH_3_NAME="id-tech-3"
+REPOSITORY_ID_TECH_4_NAME="id-tech-4"
+REPOSITORY_ID_TECH_4_5_NAME="id-tech-4-5"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_NEURON_NAME}"
+
+    ProcessBazel \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_NEURON_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_NEURON_NAME}"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
@@ -22,15 +36,130 @@ function Process {
         --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \
         --build-path "${BUILD_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}"
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}"
 
     ProcessCMake \
-        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}/neo" \
-        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}" \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
+    then
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/defaults" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/fonts" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/games" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/icons" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/images" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/manual" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/shader" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/stylesheets" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+        
+        cp \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/copyright" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/LICENSE.txt" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/trenchbroom.desktop" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+    fi
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_OLD_NAME}"
+
+    ProcessMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_OLD_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_OLD_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_0_NAME}"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_0_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_0_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_1_NAME}"
+
+    ProcessMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_1_NAME}/Quake" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_1_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_2_NAME}"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_2_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_2_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_3_NAME}"
+
+    ProcessMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_3_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_3_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_4_NAME}"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_4_NAME}/neo" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_4_NAME}" \
+        --extra-parameters "-Wno-dev" \
         --extra-parameters "-DDEDICATED=ON" \
         --extra-parameters "-DONATIVE=ON" \
         --extra-parameters "-DSDL2=ON" \
         --extra-parameters "-DREPRODUCIBLE_BUILD=ON"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_4_5_NAME}"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_4_5_NAME}/neo" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_4_5_NAME}" \
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DSPIRV_SHADERC=OFF"
 
     ProcessCommonPost
 }

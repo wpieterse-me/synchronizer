@@ -9,28 +9,52 @@ REPOSITORY_REMOTE_BASE_PATH="github-wpietersexyz:wpietersexyz"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/wpietersexyz"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/github.com/wpietersexyz"
 
+REPOSITORY_NEURON_NAME="neuron"
 REPOSITORY_SCRAPBOOK_NAME="scrapbook"
+REPOSITORY_ID_TECH_EDITOR_NAME="id-tech-editor"
+REPOSITORY_ID_TECH_OLD_NAME="id-tech-old"
+REPOSITORY_ID_TECH_0_NAME="id-tech-0"
+REPOSITORY_ID_TECH_1_NAME="id-tech-1"
+REPOSITORY_ID_TECH_1_TOOLS_NAME="id-tech-1-tools"
+REPOSITORY_ID_TECH_2_NAME="id-tech-2"
+REPOSITORY_ID_TECH_2_TOOLS_NAME="id-tech-2-tools"
+REPOSITORY_ID_TECH_3_NAME="id-tech-3"
+REPOSITORY_ID_TECH_4_NAME="id-tech-4"
+REPOSITORY_ID_TECH_4_5_NAME="id-tech-4-5"
 REPOSITORY_GAME_ASSETS_NAME="game-assets"
 REPOSITORY_UNREALENGINE_1_1996_NAME="unrealengine-1-1996"
 REPOSITORY_UNREALENGINE_1_1997_NAME="unrealengine-1-1997"
-REPOSITORY_GTKRADIANT_NAME="gtkradiant"
-REPOSITORY_QUAKE_1_NAME="quake-1"
-REPOSITORY_QUAKE_1_TOOLS_NAME="quake-1-tools"
-REPOSITORY_QUAKE_2_NAME="quake-2"
-REPOSITORY_QUAKE_2_TOOLS_NAME="quake-2-tools"
-REPOSITORY_QUAKE_3_ARENA_NAME="quake-3-arena"
-REPOSITORY_DOOM_3_NAME="doom-3"
-REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
-REPOSITORY_WINDOWS_10_NAME="windows-10"
 REPOSITORY_WINDOWS_NT_350_NAME="windows-nt-350"
 REPOSITORY_WINDOWS_NT_400_NAME="windows-nt-400"
+REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
 REPOSITORY_WINDOWS_NT_600_NAME="windows-nt-600"
 REPOSITORY_WINDOWS_RESEARCH_KERNEL_NAME="windows-research-kernel"
 REPOSITORY_XBOX_NAME="xbox"
+REPOSITORY_WINDOWS_10_NAME="windows-10"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_NEURON_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_NEURON_NAME}" \
+        --branch "main"
+
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
+    then
+        cp \
+            -f \
+            "${THIS_SCRIPT_DIRECTORY}/neuron-user.bazelrc" \
+            "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_NEURON_NAME}/user.bazelrc"
+    fi
+
+    ProcessBazel \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_NEURON_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_NEURON_NAME}"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
@@ -44,7 +68,7 @@ function Process {
     then
         cp \
             -f \
-            "${THIS_SCRIPT_DIRECTORY}/user.bazelrc.scrapbook" \
+            "${THIS_SCRIPT_DIRECTORY}/scrapbook-user.bazelrc" \
             "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}/user.bazelrc"
     fi
 
@@ -59,6 +83,195 @@ function Process {
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_GAME_ASSETS_NAME}" \
         --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_EDITOR_NAME}" \
+        --branch "main"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
+    then
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/defaults" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/fonts" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/games" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/icons" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/images" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/manual" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/shader" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -r \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/stylesheets" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+        
+        cp \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/copyright" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/LICENSE.txt" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+
+        cp \
+            -f \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/share/TrenchBroom/trenchbroom.desktop" \
+            "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_EDITOR_NAME}/gnu/minsizerel/install/bin"
+    fi
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_OLD_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_OLD_NAME}" \
+        --branch "main"
+
+    ProcessMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_OLD_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_OLD_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_0_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_0_NAME}" \
+        --branch "main"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_0_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_0_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_1_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_1_NAME}" \
+        --branch "main"
+
+    ProcessMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_1_NAME}/Quake" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_1_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_1_TOOLS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_1_TOOLS_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_2_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_2_NAME}" \
+        --branch "main"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_2_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_2_NAME}" \
+        --extra-parameters "-Wno-dev"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_2_TOOLS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_2_TOOLS_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_3_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_3_NAME}" \
+        --branch "main"
+
+    ProcessMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_3_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_3_NAME}"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_4_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_4_NAME}" \
+        --branch "main"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_4_NAME}/neo" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_4_NAME}" \
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DDEDICATED=ON" \
+        --extra-parameters "-DONATIVE=ON" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DREPRODUCIBLE_BUILD=ON"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_ID_TECH_4_5_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_ID_TECH_4_5_NAME}" \
+        --branch "main"
+
+    ProcessCMake \
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_ID_TECH_4_5_NAME}/neo" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_ID_TECH_4_5_NAME}" \
+        --extra-parameters "-Wno-dev" \
+        --extra-parameters "-DSDL2=ON" \
+        --extra-parameters "-DSPIRV_SHADERC=OFF"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALENGINE_1_1996_NAME}"
 
@@ -76,86 +289,6 @@ function Process {
         --name "${REPOSITORY_UNREALENGINE_1_1997_NAME}" \
         --branch "main"
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GTKRADIANT_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_GTKRADIANT_NAME}" \
-        --branch "master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_1_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_QUAKE_1_NAME}" \
-        --branch "master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_1_TOOLS_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_QUAKE_1_TOOLS_NAME}" \
-        --branch "master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_2_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_QUAKE_2_NAME}" \
-        --branch "master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_2_TOOLS_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_QUAKE_2_TOOLS_NAME}" \
-        --branch "master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_3_ARENA_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_QUAKE_3_ARENA_NAME}" \
-        --branch "master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_DOOM_3_NAME}" \
-        --branch "master"
-
-    ProcessCMake \
-        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}/neo" \
-        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_DOOM_3_NAME}" \
-        --extra-parameters "-DDEDICATED=ON" \
-        --extra-parameters "-DONATIVE=ON" \
-        --extra-parameters "-DSDL2=ON" \
-        --extra-parameters "-DREPRODUCIBLE_BUILD=ON"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_OPEN_NT_400_NAME}" \
-        --branch "main"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_10_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_WINDOWS_10_NAME}" \
-        --branch "main"
-
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_350_NAME}"
 
     ProcessGitRepository \
@@ -170,6 +303,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_WINDOWS_NT_400_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_OPEN_NT_400_NAME}" \
         --branch "main"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_600_NAME}"
@@ -194,6 +335,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_XBOX_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_10_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_10_NAME}" \
         --branch "main"
 
     ProcessCommonPost

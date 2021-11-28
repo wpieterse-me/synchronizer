@@ -24,7 +24,8 @@ function Process {
         --branch "main"
 
     ProcessMake \
-        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_IOQ3_NAME}"
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_IOQ3_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_IOQ3_NAME}"
 
     ProcessCommonPost
 }

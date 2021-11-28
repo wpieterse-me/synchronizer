@@ -41,6 +41,7 @@ TOOL_NONE_C_COMPILER="/usr/bin/gcc"
 TOOL_NONE_CPP_COMPILER="/usr/bin/g++"
 TOOL_NONE_LINKER="/usr/bin/ld"
 
+# FIXME: Fix issues with other compilers
 declare -a DEFAULT_SUPPORTED_COMPILERS=(
     "gnu"
     "llvm"
@@ -49,12 +50,8 @@ declare -a DEFAULT_SUPPORTED_COMPILERS=(
 )
 
 # FIXME : Need to fix this issue with Make not having output directories
-declare -a DEFAULT_SUPPORTED_MAKE_COMPILERS=(
-    "gnu"
-)
-
 declare -a DEFAULT_SUPPORTED_MAKE_BUILD_TYPES=(
-    "release"
+    "unused"
 )
 
 declare -a DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES=(
@@ -416,7 +413,7 @@ function ProcessMake {
             shift
         done
 
-        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_MAKE_COMPILERS[@]}"
+        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_COMPILERS[@]}"
         do
             for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_MAKE_BUILD_TYPES[@]}"
             do
@@ -863,8 +860,6 @@ function ProcessCMakeGenerate {
 
         EXTRA_PARAMETERS+=("${REPLACE_CONFIGURATION}")
     done
-
-    echo "${EXTRA_PARAMETERS[@]}"
 
     echo ""
 

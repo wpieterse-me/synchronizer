@@ -24,7 +24,8 @@ function Process {
         --branch "master"
 
     ProcessMake \
-        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_VKQUAKE3_NAME}"
+        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_VKQUAKE3_NAME}" \
+        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_VKQUAKE3_NAME}"
 
     ProcessCommonPost
 }
