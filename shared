@@ -16,6 +16,7 @@ PARAMETER_DISABLE_SERVICES=0
 PARAMETER_DISABLE_DELUGE=0
 PARAMETER_DISABLE_PLEX=0
 PARAMETER_DISABLE_DEVELOPMENT=0
+PARAMETER_DISABLE_TOOLCHAINS=0
 PARAMETER_DISABLE_REPOSITORIES=0
 PARAMETER_DISABLE_CLONE=0
 PARAMETER_DISABLE_BUILD=0
@@ -1337,6 +1338,10 @@ function ProcessCommonArguments {
             --disable-development)
                 PARAMETER_DISABLE_DEVELOPMENT=1
                 ;;
+            --disable-toolchains)
+                PARAMETER_DISABLE_TOOLCHAINS=1
+                PARAMETER_DISABLE_BUILD=1
+                ;;
             --disable-repositories)
                 PARAMETER_DISABLE_REPOSITORIES=1
                 ;;
@@ -1378,67 +1383,69 @@ function ProcessCommonPost {
 }
 
 function ProcessCallSubScripts {
-    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
+    local REPOSITORIES_ARGUMENTS=()
+
+    REPOSITORIES_ARGUMENTS+=("--disable-clear")
+    REPOSITORIES_ARGUMENTS+=("--disable-prune")
+
+    if [[ ${PARAMETER_DISABLE_CONTENT} -eq 1 ]];
     then
-        local REPOSITORIES_ARGUMENTS=()
-
-        REPOSITORIES_ARGUMENTS+=("--disable-clear")
-        REPOSITORIES_ARGUMENTS+=("--disable-prune")
-
-        if [[ ${PARAMETER_DISABLE_CONTENT} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-content")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_SERVICES} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-services")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_DELUGE} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-deluge")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_PLEX} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-plex")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_DEVELOPMENT} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-development")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-repositories")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_CLONE} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-clone")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_BUILD} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-build")
-        fi
-
-        if [[ ${PARAMETER_DISABLE_RANDOMS} -eq 1 ]];
-        then
-            REPOSITORIES_ARGUMENTS+=("--disable-randoms")
-        fi
-
-        while [[ $# -ne 0 ]];
-        do
-            local REPOSITORY_SCRIPT_NAME=$1
-
-            chmod +x "${REPOSITORY_SCRIPT_NAME}"
-
-            "${REPOSITORY_SCRIPT_NAME}" ${REPOSITORIES_ARGUMENTS[@]}
-
-            shift
-        done
+        REPOSITORIES_ARGUMENTS+=("--disable-content")
     fi
+
+    if [[ ${PARAMETER_DISABLE_SERVICES} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-services")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_DELUGE} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-deluge")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_PLEX} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-plex")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_DEVELOPMENT} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-development")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_TOOLCHAINS} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-toolchains")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-repositories")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_CLONE} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-clone")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_BUILD} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-build")
+    fi
+
+    if [[ ${PARAMETER_DISABLE_RANDOMS} -eq 1 ]];
+    then
+        REPOSITORIES_ARGUMENTS+=("--disable-randoms")
+    fi
+
+    while [[ $# -ne 0 ]];
+    do
+        local REPOSITORY_SCRIPT_NAME=$1
+
+        chmod +x "${REPOSITORY_SCRIPT_NAME}"
+
+        "${REPOSITORY_SCRIPT_NAME}" ${REPOSITORIES_ARGUMENTS[@]}
+
+        shift
+    done
 }
