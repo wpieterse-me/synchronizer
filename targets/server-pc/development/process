@@ -5,18 +5,11 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-TOOLCHAINS_SCRIPT="${THIS_SCRIPT_DIRECTORY}/toolchains/process"
 REPOSITORIES_SCRIPT="${THIS_SCRIPT_DIRECTORY}/repositories/process"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
-
-    if [[ ${PARAMETER_DISABLE_TOOLCHAINS} -eq 0 ]];
-    then
-        ProcessCallSubScripts \
-            "${TOOLCHAINS_SCRIPT}"
-    fi
 
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then

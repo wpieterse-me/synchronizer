@@ -16,10 +16,9 @@ PARAMETER_DISABLE_SERVICES=0
 PARAMETER_DISABLE_DELUGE=0
 PARAMETER_DISABLE_PLEX=0
 PARAMETER_DISABLE_DEVELOPMENT=0
-PARAMETER_DISABLE_TOOLCHAINS=0
 PARAMETER_DISABLE_REPOSITORIES=0
 PARAMETER_DISABLE_CLONE=0
-PARAMETER_DISABLE_BUILD=0
+PARAMETER_DISABLE_BUILD=1
 PARAMETER_DISABLE_RANDOMS=0
 
 TOOL_GNU_C_COMPILER="/usr/bin/gcc-10"
@@ -1338,10 +1337,6 @@ function ProcessCommonArguments {
             --disable-development)
                 PARAMETER_DISABLE_DEVELOPMENT=1
                 ;;
-            --disable-toolchains)
-                PARAMETER_DISABLE_TOOLCHAINS=1
-                PARAMETER_DISABLE_BUILD=1
-                ;;
             --disable-repositories)
                 PARAMETER_DISABLE_REPOSITORIES=1
                 ;;
@@ -1411,11 +1406,6 @@ function ProcessCallSubScripts {
     if [[ ${PARAMETER_DISABLE_DEVELOPMENT} -eq 1 ]];
     then
         REPOSITORIES_ARGUMENTS+=("--disable-development")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_TOOLCHAINS} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-toolchains")
     fi
 
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 1 ]];
