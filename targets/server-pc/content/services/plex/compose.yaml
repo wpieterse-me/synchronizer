@@ -6,11 +6,11 @@ services:
     container_name: plex
     restart: unless-stopped
     network_mode: host
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - capabilities: [gpu]
     devices:
       - /dev/dri:/dev/dri
     environment:
