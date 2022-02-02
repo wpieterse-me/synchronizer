@@ -5,17 +5,13 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-PROCESS_WPIETERSE2825_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpieterse2825/process"
+REPOSITORY_REMOTE_BASE_PATH="github-wpieterse2825:wpieterse2825"
+REPOSITORY_LOCAL_BASE_PATH="${WYNAND_PC_HOME_REPOSITORIES_PATH}/github.com/wpieterse2825"
+BUILD_BASE_PATH="${WYNAND_PC_HOME_BUILDS_PATH}/github.com/wpieterse2825"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
-
-    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
-    then
-        ProcessCallSubScripts \
-            "${PROCESS_WPIETERSE2825_SCRIPT}"
-    fi
 
     ProcessCommonPost
 }

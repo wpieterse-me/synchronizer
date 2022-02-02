@@ -5,7 +5,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-PROCESS_WPIETERSEXYZ_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpietersexyz/process"
+PROCESS_WPIETERSE2825_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpieterse2825/process"
 
 function Process {
     ProcessCommonArguments $@
@@ -14,7 +14,7 @@ function Process {
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
         ProcessCallSubScripts \
-            "${PROCESS_WPIETERSEXYZ_SCRIPT}"
+            "${PROCESS_WPIETERSE2825_SCRIPT}"
     fi
 
     ProcessCommonPost

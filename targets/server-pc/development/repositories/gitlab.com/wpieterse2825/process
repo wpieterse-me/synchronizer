@@ -5,11 +5,10 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORY_REMOTE_BASE_PATH="gitlab-wpietersexyz:wpietersexyz"
-REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/gitlab.com/wpietersexyz"
-BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/gitlab.com/wpietersexyz"
+REPOSITORY_REMOTE_BASE_PATH="gitlab-wpieterse2825:wpieterse2825"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/gitlab.com/wpieterse2825"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/gitlab.com/wpieterse2825"
 
-REPOSITORY_SCRAPBOOK_NAME="scrapbook"
 REPOSITORY_GAME_ASSETS_NAME="game-assets"
 REPOSITORY_UNREALENGINE_1_1996_NAME="unrealengine-1-1996"
 REPOSITORY_UNREALENGINE_1_1997_NAME="unrealengine-1-1997"
@@ -24,26 +23,6 @@ REPOSITORY_XBOX_NAME="xbox"
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_SCRAPBOOK_NAME}" \
-        --branch "main"
-
-    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
-    then
-        cp \
-            -f \
-            "${THIS_SCRIPT_DIRECTORY}/user.bazelrc.scrapbook" \
-            "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}/user.bazelrc"
-    fi
-
-    ProcessBazel \
-        --source-path "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}" \
-        --build-path "${BUILD_BASE_PATH}/${REPOSITORY_SCRAPBOOK_NAME}"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GAME_ASSETS_NAME}"
 
