@@ -9,6 +9,7 @@ REPOSITORY_REMOTE_BASE_PATH="github-wpieterse2825:wpieterse2825"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/wpieterse2825"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/github.com/wpieterse2825"
 
+REPOSITORY_NEURON_NAME="neuron"
 REPOSITORY_GAME_ASSETS_NAME="game-assets"
 REPOSITORY_UNREALENGINE_1_1996_NAME="unrealengine-1-1996"
 REPOSITORY_UNREALENGINE_1_1997_NAME="unrealengine-1-1997"
@@ -23,6 +24,14 @@ REPOSITORY_WINDOWS_10_NAME="windows-10"
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_NEURON_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_NEURON_NAME}" \
+        --branch "main"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GAME_ASSETS_NAME}"
 

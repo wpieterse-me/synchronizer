@@ -171,7 +171,7 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_BOOK_NAME}" \
-        --branch "master"
+        --branch "main"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_GLACIER_NAME}"
 
