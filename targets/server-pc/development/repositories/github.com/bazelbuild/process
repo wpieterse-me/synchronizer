@@ -9,19 +9,19 @@ REPOSITORY_REMOTE_BASE_PATH="https://github.com/bazelbuild"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/bazelbuild"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/bazelbuild"
 
-REPOSITORY_RULES_CC_NAME="rules_cc"
+REPOSITORY_BAZEL_NAME="bazel"
 
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_RULES_CC_NAME}"
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_BAZEL_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_RULES_CC_NAME}" \
-        --branch "main"
+        --name "${REPOSITORY_BAZEL_NAME}" \
+        --branch "master"
 
     ProcessCommonPost
 }

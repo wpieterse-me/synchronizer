@@ -1,6 +1,5 @@
 SERVER_PC_SHARED_CONTENT_PATH="/shared/content"
 SERVER_PC_SHARED_DEVELOPMENT_PATH="/shared/development"
-SERVER_PC_SHARED_RANDOMS_PATH="/shared/randoms"
 SERVER_PC_SHARED_BUILDS_PERSONAL_PATH="/shared/builds_personal"
 SERVER_PC_SHARED_BUILDS_OTHER_PATH="/shared/builds_other"
 
@@ -19,7 +18,6 @@ PARAMETER_DISABLE_DEVELOPMENT=0
 PARAMETER_DISABLE_REPOSITORIES=0
 PARAMETER_DISABLE_CLONE=0
 PARAMETER_DISABLE_BUILD=1
-PARAMETER_DISABLE_RANDOMS=0
 
 TOOL_GNU_C_COMPILER="/usr/bin/gcc-10"
 TOOL_GNU_CPP_COMPILER="/usr/bin/g++-10"
@@ -1346,9 +1344,6 @@ function ProcessCommonArguments {
             --disable-build)
                 PARAMETER_DISABLE_BUILD=1
                 ;;
-            --disable-randoms)
-                PARAMETER_DISABLE_RANDOMS=1
-                ;;
             *)
                 echo "Process: Unknown argument $1."
                 exit 1
@@ -1421,11 +1416,6 @@ function ProcessCallSubScripts {
     if [[ ${PARAMETER_DISABLE_BUILD} -eq 1 ]];
     then
         REPOSITORIES_ARGUMENTS+=("--disable-build")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_RANDOMS} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-randoms")
     fi
 
     while [[ $# -ne 0 ]];

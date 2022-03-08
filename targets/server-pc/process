@@ -7,7 +7,6 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 PROCESS_CONTENT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/content/process"
 PROCESS_DEVELOPMENT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/development/process"
-PROCESS_RANDOMS_SCRIPT="${THIS_SCRIPT_DIRECTORY}/randoms/process"
 
 function Process {
     ProcessCommonArguments $@
@@ -23,12 +22,6 @@ function Process {
     then
         ProcessCallSubScripts \
             "${PROCESS_DEVELOPMENT_SCRIPT}"
-    fi
-
-    if [[ ${PARAMETER_DISABLE_RANDOMS} -eq 0 ]];
-    then
-        ProcessCallSubScripts \
-            "${PROCESS_RANDOMS_SCRIPT}"
     fi
 
     ProcessCommonPost
