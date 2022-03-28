@@ -1,0 +1,47 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="https://cgit.freebsd.org/"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/git.savannah.gnu.org"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/git.savannah.gnu.org"
+
+REPOSITORY_DOC_NAME="doc"
+REPOSITORY_PORTS_NAME="ports"
+REPOSITORY_SRC_NAME="src"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_DOC_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_DOC_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_PORTS_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_PORTS_NAME}" \
+        --branch "master"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_SRC_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_SRC_NAME}" \
+        --branch "master"
+
+    ProcessCommonPost
+}
+
+Process $@

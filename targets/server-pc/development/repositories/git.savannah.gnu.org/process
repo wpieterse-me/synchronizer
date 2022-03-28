@@ -5,8 +5,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-PROCESS_QEMU_PROJECT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/qemu-project/process"
-PROCESS_WPIETERSE2825_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpieterse2825/process"
+PROCESS_GIT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/git/process"
 
 function Process {
     ProcessCommonArguments $@
@@ -15,8 +14,7 @@ function Process {
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
         ProcessCallSubScripts \
-            "${PROCESS_QEMU_PROJECT_SCRIPT}" \
-            "${PROCESS_WPIETERSE2825_SCRIPT}"
+            ${PROCESS_GIT_SCRIPT}
     fi
 
     ProcessCommonPost

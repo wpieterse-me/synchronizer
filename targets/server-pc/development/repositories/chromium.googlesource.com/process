@@ -1,0 +1,40 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="https://chromium.googlesource.com/chromium/tools/"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/chromium.googlesource.com"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/chromium.googlesource.com"
+
+REPOSITORY_DEPOT_TOOLS_NAME="depot_tools"
+REPOSITORY_SOURCE_NAME="source"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "chromium.googlesource.com - ${REPOSITORY_DEPOT_TOOLS_NAME}"
+    
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_DEPOT_TOOLS_NAME}" \
+        --branch "main"
+
+    PrintBanner "chromium.googlesource.com - ${REPOSITORY_SOURCE_NAME}"
+
+    mkdir -p "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SOURCE_NAME}"
+
+    pushd "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_SOURCE_NAME}" > /dev/null
+
+    "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_DEPOT_TOOLS_NAME}/fetch" --nohooks chromium
+
+    popd > /dev/null
+
+    ProcessCommonPost
+}
+
+Process $@
