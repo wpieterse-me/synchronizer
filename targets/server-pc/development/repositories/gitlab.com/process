@@ -6,6 +6,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 PROCESS_QEMU_PROJECT_SCRIPT="${THIS_SCRIPT_DIRECTORY}/qemu-project/process"
+PROCESS_SAMBA_TEAM_SCRIPT="${THIS_SCRIPT_DIRECTORY}/samba-team/process"
 PROCESS_WPIETERSE2825_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpieterse2825/process"
 
 function Process {
@@ -16,6 +17,7 @@ function Process {
     then
         ProcessCallSubScripts \
             "${PROCESS_QEMU_PROJECT_SCRIPT}" \
+            "${PROCESS_SAMBA_TEAM_SCRIPT}" \
             "${PROCESS_WPIETERSE2825_SCRIPT}"
     fi
 

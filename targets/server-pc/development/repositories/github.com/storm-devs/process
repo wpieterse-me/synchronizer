@@ -1,0 +1,29 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+REPOSITORY_REMOTE_BASE_PATH="https://github.com/storm-devs"
+REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/storm-devs"
+BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/storm-devs"
+
+REPOSITORY_STORM_ENGINE_NAME="storm-engine"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_STORM_ENGINE_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_STORM_ENGINE_NAME}" \
+        --branch "develop"
+
+    ProcessCommonPost
+}
+
+Process $@

@@ -5,7 +5,7 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORY_REMOTE_BASE_PATH="github-wpieterse2825:EpicGames/"
+REPOSITORY_REMOTE_BASE_PATH="github-wpieterse2825:EpicGames"
 REPOSITORY_LOCAL_BASE_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/EpicGames"
 BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_OTHER_PATH}/github.com/EpicGames"
 
@@ -25,11 +25,9 @@ function Process {
         --name "${REPOSITORY_UNREALENGINE_NAME}" \
         --branch "release"
 
-    pushd ${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_UNREALENGINE_NAME} > /dev/null
-
-    ./Setup.sh
-
-    popd > /dev/null
+    # pushd ${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_UNREALENGINE_NAME} > /dev/null
+    # ./Setup.sh
+    # popd > /dev/null
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME}"
 
@@ -39,11 +37,9 @@ function Process {
         --name "${REPOSITORY_UNREALTOURNAMENT_NAME}" \
         --branch "clean-master"
 
-    pushd ${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME} > /dev/null
-
-    ./Setup.sh
-
-    popd > /dev/null
+    # pushd ${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME} > /dev/null
+    # ./Setup.sh
+    # popd > /dev/null
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_BLENDERTOOLS_NAME}"
 
