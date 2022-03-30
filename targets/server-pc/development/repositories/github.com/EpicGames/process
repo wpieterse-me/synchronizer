@@ -17,29 +17,29 @@ function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALENGINE_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_UNREALENGINE_NAME}" \
-        --branch "release"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_UNREALTOURNAMENT_NAME}" \
-        --branch "clean-master"
-
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_BLENDERTOOLS_NAME}"
-
-    ProcessGitRepository \
-        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
-        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_BLENDERTOOLS_NAME}" \
-        --branch "master"
+#    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALENGINE_NAME}"
+#
+#    ProcessGitRepository \
+#        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+#        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+#        --name "${REPOSITORY_UNREALENGINE_NAME}" \
+#        --branch "release"
+#
+#    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME}"
+#
+#    ProcessGitRepository \
+#        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+#        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+#        --name "${REPOSITORY_UNREALTOURNAMENT_NAME}" \
+#        --branch "clean-master"
+#
+#    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_BLENDERTOOLS_NAME}"
+#
+#    ProcessGitRepository \
+#        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+#        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+#        --name "${REPOSITORY_BLENDERTOOLS_NAME}" \
+#        --branch "master"
 
     ProcessCommonPost
 }
