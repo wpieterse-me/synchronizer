@@ -21,7 +21,7 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_REACTOS_NAME}" \
-        --branch "main"
+        --branch "master"
 
     ProcessCommonPost
 }
