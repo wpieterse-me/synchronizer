@@ -9,6 +9,8 @@ function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
+    PrintBanner "Docker : development-git"
+
     docker \
         build \
             --tag development-git \

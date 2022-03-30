@@ -1,0 +1,68 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    ProcessSubScripts \
+        --root "${THIS_SCRIPT_DIRECTORY}" \
+        --script "process_0ad" \
+        --script "process_andikleen" \
+        --script "process_Ardour" \
+        --script "process_audacity" \
+        --script "process_aws" \
+        --script "process_axboe" \
+        --script "process_bazelbuild" \
+        --script "process_boostorg" \
+        --script "process_bulletphysics" \
+        --script "process_chocolate-doom" \
+        --script "process_cmangos" \
+        --script "process_Croteam-official" \
+        --script "process_CRYTEK" \
+        --script "process_electronicarts" \
+        --script "process_EpicGames" \
+        --script "process_FreeCAD" \
+        --script "process_FrictionalGames" \
+        --script "process_google" \
+        --script "process_googleapis" \
+        --script "process_GoogleCloudPlatform" \
+        --script "process_haiku" \
+        --script "process_hrydgard" \
+        --script "process_id-Software" \
+        --script "process_ihhub" \
+        --script "process_ioquake" \
+        --script "process_KDE" \
+        --script "process_KranX" \
+        --script "process_leandromoreira" \
+        --script "process_llvm" \
+        --script "process_minetest" \
+        --script "process_NightDive-Studio" \
+        --script "process_Novum" \
+        --script "process_OpenLoco" \
+        --script "process_OpenMW" \
+        --script "process_OpenRA" \
+        --script "process_OpenRCT2" \
+        --script "process_OpenTTD" \
+        --script "process_OpenXRay" \
+        --script "process_pocl" \
+        --script "process_reactos" \
+        --script "process_RedProjects" \
+        --script "process_RobertBeckebans" \
+        --script "process_runuo" \
+        --script "process_SFTtech" \
+        --script "process_spring" \
+        --script "process_storm-devs" \
+        --script "process_tensorflow" \
+        --script "process_wpieterse2825" \
+        --script "process_yquake2" \
+        --script "process_yuzu-emu"
+
+    ProcessCommonPost
+}
+
+Process $@

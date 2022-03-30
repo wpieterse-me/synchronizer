@@ -1,0 +1,22 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    ProcessGitRepositories \
+        --remote-base-path "https://github.com/llvm" \
+        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/llvm" \
+        --repository "llvm-project" --branch "main" \
+        --repository "llvm-test-suite" --branch "main" \
+        --repository "llvm-lnt" --branch "main"
+
+    ProcessCommonPost
+}
+
+Process $@

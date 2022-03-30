@@ -13,7 +13,7 @@ function Process {
 
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
-        ProcessCallSubScripts \
+        ProcessSubScripts \
             "${PROCESS_REPOSITORIES_SCRIPT}"
     fi
 

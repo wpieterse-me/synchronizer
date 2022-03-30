@@ -5,17 +5,14 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-PROCESS_WPIETERSE2825_SCRIPT="${THIS_SCRIPT_DIRECTORY}/wpieterse2825/process"
-
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
-    then
-        ProcessSubScripts \
-            "${PROCESS_WPIETERSE2825_SCRIPT}"
-    fi
+    ProcessGitRepositories \
+        --remote-base-path "https://github.com/OpenLoco" \
+        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenLoco" \
+        --repository "OpenLoco" --branch "bleed"
 
     ProcessCommonPost
 }

@@ -5,17 +5,14 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-SERVICES_SCRIPT="${THIS_SCRIPT_DIRECTORY}/services/process"
-
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    if [[ ${PARAMETER_DISABLE_SERVICES} -eq 0 ]];
-    then
-        ProcessCallSubScripts \
-            "${SERVICES_SCRIPT}"
-    fi
+    ProcessSubScripts \
+        --root "${THIS_SCRIPT_DIRECTORY}" \
+        --script "process_service_deluge" \
+        --script "process_service_plex"
 
     ProcessCommonPost
 }

@@ -1,69 +1,12 @@
-SERVER_PC_SHARED_CONTENT_PATH="/shared/content"
-SERVER_PC_SHARED_DEVELOPMENT_PATH="/shared/development"
-SERVER_PC_SHARED_BUILDS_PERSONAL_PATH="/shared/builds_personal"
-SERVER_PC_SHARED_BUILDS_OTHER_PATH="/shared/builds_other"
+SERVER_PC_CONTENT_PATH="/shared/content"
+SERVER_PC_DEVELOPMENT_PATH="/shared/development"
+SERVER_PC_BUILDS_PATH="/shared/builds"
 
-WYNAND_PC_HOME_REPOSITORIES_PATH="/home/wpieterse/repositories"
-WYNAND_PC_HOME_BUILDS_PATH="/home/wpieterse/builds"
-
-SYNCHRONIZER_REPOSITORY_PATH="${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/wpieterse2825/synchronizer"
+WYNAND_PC_REPOSITORIES_PATH="/home/wpieterse/repositories"
+WYNAND_PC_BUILDS_PATH="/home/wpieterse/builds"
 
 PARAMETER_DISABLE_CLEAR=0
 PARAMETER_DISABLE_PRUNE=0
-PARAMETER_DISABLE_CONTENT=0
-PARAMETER_DISABLE_SERVICES=0
-PARAMETER_DISABLE_DELUGE=0
-PARAMETER_DISABLE_PLEX=0
-PARAMETER_DISABLE_DEVELOPMENT=0
-PARAMETER_DISABLE_REPOSITORIES=0
-PARAMETER_DISABLE_CLONE=0
-PARAMETER_DISABLE_BUILD=1
-
-TOOL_GNU_C_COMPILER="/usr/bin/gcc-10"
-TOOL_GNU_CPP_COMPILER="/usr/bin/g++-10"
-TOOL_GNU_LINKER="/usr/bin/ld"
-
-TOOL_LLVM_C_COMPILER="/usr/bin/clang-13"
-TOOL_LLVM_CPP_COMPILER="/usr/bin/clang++-13"
-TOOL_LLVM_LINKER="/usr/bin/ld.lld-13"
-
-TOOL_AMD_C_COMPILER="/opt/AMD/aocc-compiler-3.1.0/bin/clang"
-TOOL_AMD_CPP_COMPILER="/opt/AMD/aocc-compiler-3.1.0/bin/clang++"
-TOOL_AMD_LINKER="/opt/AMD/aocc-compiler-3.1.0/bin/ld.lld"
-
-TOOL_INTEL_C_COMPILER="/opt/intel/oneapi/compiler/latest/linux/bin/clang"
-TOOL_INTEL_CPP_COMPILER="/opt/intel/oneapi/compiler/latest/linux/bin/dpcpp"
-TOOL_INTEL_LINKER="/opt/intel/oneapi/compiler/latest/linux/bin/ld.lld"
-
-TOOL_NONE_C_COMPILER="/usr/bin/gcc"
-TOOL_NONE_CPP_COMPILER="/usr/bin/g++"
-TOOL_NONE_LINKER="/usr/bin/ld"
-
-# FIXME: Fix issues with other compilers
-declare -a DEFAULT_SUPPORTED_COMPILERS=(
-    "gnu"
-    "llvm"
-    "amd"
-    "intel"
-)
-
-# FIXME : Need to fix this issue with Make not having output directories
-declare -a DEFAULT_SUPPORTED_MAKE_BUILD_TYPES=(
-    "unused"
-)
-
-declare -a DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES=(
-    "dbg"
-    "fastbuild"
-    "opt"
-)
-
-declare -a DEFAULT_SUPPORTED_CMAKE_BUILD_TYPES=(
-    "debug"
-    "relwithdebinfo"
-    "release"
-    "minsizerel"
-)
 
 function PrintBanner {
     echo ""
@@ -73,287 +16,63 @@ function PrintBanner {
     echo ""
 }
 
-function ProcessGitRepository {
-    local REPOSITORY_REMOTE_BASE_PATH=""
-    local REPOSITORY_LOCAL_BASE_PATH=""
-    local REPOSITORY_NAME=""
-    local REPOSITORY_BRANCH=""
-
-    if [[ ${PARAMETER_DISABLE_CLONE} -eq 0 ]];
-    then
-        while [[ $# -ne 0 ]];
-        do
-            case $1 in
-                --remote-base-path=*|--local-base-path=*|--name=*|--branch=*)
-                    arg="$1"
-                    shift
-                    set -- "${arg%%=*}" "${arg#*=}" "$@"
-                    continue
-                    ;;
-                --remote-base-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepository: No argument after --remote-base-path"
-                        exit 1
-                    fi
-
-                    shift
-                    REPOSITORY_REMOTE_BASE_PATH="$1"
-                    ;;
-                --local-base-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepository: No argument after --local-base-path"
-                        exit 1
-                    fi
-
-                    shift
-                    REPOSITORY_LOCAL_BASE_PATH="$1"
-                    ;;
-                --name)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepository: No argument after --name"
-                        exit 1
-                    fi
-
-                    shift
-                    REPOSITORY_NAME="$1"
-                    ;;
-                --branch)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepository: No argument after --branch"
-                        exit 1
-                    fi
-
-                    shift
-                    REPOSITORY_BRANCH="$1"
-                    ;;
-                *)
-                    echo "ProcessGitRepository: Unknown argument $1."
-                    exit 1
-                    ;;
-            esac
-
-            shift
-        done
-
-        mkdir -p ${REPOSITORY_LOCAL_BASE_PATH}
-
-        pushd ${REPOSITORY_LOCAL_BASE_PATH} > /dev/null
-
-        if [ ! -d "${REPOSITORY_NAME}" ];
-        then
-            echo "*** INITIAL CLONE ******************************************************************************************************"
-            echo ""
-
-            git                                                         \
-                clone                                                   \
-                "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_NAME}.git" \
-                --recurse-submodules
-
-            echo ""
-        fi
-
-        pushd "${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_NAME}"  > /dev/null
-
-        git                 \
-            config          \
-            pager.log false
-
-        # echo "*** CLEAN **************************************************************************************************************"
-        # echo ""
-        # echo "Cleaning"
-
-        git         \
-            clean   \
-            -dxf
-
-        echo ""
-        echo "*** RESET **************************************************************************************************************"
-        echo ""
-
-        git                             \
-            reset                       \
-            --hard ${REPOSITORY_BRANCH}
-
-        echo ""
-        echo "*** CHECKOUT ***********************************************************************************************************"
-        echo ""
-
-        git                         \
-            checkout                \
-            ${REPOSITORY_BRANCH}
-
-        echo ""
-        echo "*** PULL ***************************************************************************************************************"
-        echo ""
-
-        git                         \
-            pull                    \
-            --recurse-submodules    \
-            --all
-
-        echo ""
-        echo "*** LOG ****************************************************************************************************************"
-        echo ""
-
-        git     \
-            log \
-            -n1
-
-        echo ""
-
-        popd > /dev/null
-
-        popd > /dev/null
-    fi
-}
-
 function ProcessGitRepositories {
     local REMOTE_BASE_PATH=""
     local LOCAL_BASE_PATH=""
     local REPOSITORIES=()
     local BRANCHES=()
 
-    if [[ ${PARAMETER_DISABLE_CLONE} -eq 0 ]];
-    then
-        while [[ $# -ne 0 ]];
-        do
-            case $1 in
-                --remote-base-path=*|--local-base-path=*|--repository=*)
-                    arg="$1"
-                    shift
-                    set -- "${arg%%=*}" "${arg#*=}" "$@"
-                    continue
-                    ;;
-                --remote-base-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepositories: No argument after --remote-base-path"
-                        exit 1
-                    fi
-
-                    shift
-                    REMOTE_BASE_PATH="$1"
-                    ;;
-                --local-base-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepositories: No argument after --local-base-path"
-                        exit 1
-                    fi
-
-                    shift
-                    LOCAL_BASE_PATH="$1"
-                    ;;
-                --repository)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepositories: No argument after --repository"
-                        exit 1
-                    fi
-
-                    shift
-                    REPOSITORIES+=("$1")
-                    ;;
-                --branch)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessGitRepositories: No argument after --branch"
-                        exit 1
-                    fi
-
-                    shift
-                    BRANCHES+=("$1")
-                    ;;
-                *)
-                    echo "ProcessGitRepositories: Unknown argument $1."
-                    exit 1
-                    ;;
-            esac
-
-            shift
-        done
-
-        for INDEX in "${!REPOSITORIES[@]}";
-        do
-            CURRENT_REPOSITORY="${REPOSITORIES[${INDEX}]}"
-            CURRENT_BRANCH="${BRANCHES[${INDEX}]}"
-
-            PrintBanner "${REMOTE_BASE_PATH}/${CURRENT_REPOSITORY} - ${CURRENT_BRANCH}"
-
-            docker \
-                run \
-                    -it \
-                    --rm \
-                    --mount "type=bind,src=${LOCAL_BASE_PATH},dst=/work" \
-                    development-git \
-                        --remote "${REMOTE_BASE_PATH}" \
-                        --name "${CURRENT_REPOSITORY}" \
-                        --branch "${CURRENT_BRANCH}"
-        done
-    fi
-}
-
-function ProcessMakeBuild {
-    local SOURCE_PATH=""
-    local BUILD_PATH=""
-    local COMPILER=""
-    local BUILD_TYPE=""
-
     while [[ $# -ne 0 ]];
     do
         case $1 in
-            --source-path=*|--build-path=*|--compiler=*|--build-type=*)
+            --remote-base-path=*|--local-base-path=*|--repository=*)
                 arg="$1"
                 shift
                 set -- "${arg%%=*}" "${arg#*=}" "$@"
                 continue
                 ;;
-            --source-path)
+            --remote-base-path)
                 if [[ $# -lt 2 ]];
                 then
-                    echo "ProcessMakeBuild: No argument after --source-path"
+                    echo "ProcessGitRepositories: No argument after --remote-base-path"
                     exit 1
                 fi
 
                 shift
-                SOURCE_PATH="$1"
+                REMOTE_BASE_PATH="$1"
                 ;;
-            --build-path)
+            --local-base-path)
                 if [[ $# -lt 2 ]];
                 then
-                    echo "ProcessMakeBuild: No argument after --build-path"
+                    echo "ProcessGitRepositories: No argument after --local-base-path"
                     exit 1
                 fi
 
                 shift
-                BUILD_PATH="$1"
+                LOCAL_BASE_PATH="$1"
                 ;;
-            --compiler)
+            --repository)
                 if [[ $# -lt 2 ]];
                 then
-                    echo "ProcessMakeBuild: No argument after --compiler"
+                    echo "ProcessGitRepositories: No argument after --repository"
                     exit 1
                 fi
 
                 shift
-                COMPILER="$1"
+                REPOSITORIES+=("$1")
                 ;;
-            --build-type)
+            --branch)
                 if [[ $# -lt 2 ]];
                 then
-                    echo "ProcessMakeBuild: No argument after --build-type"
+                    echo "ProcessGitRepositories: No argument after --branch"
                     exit 1
                 fi
 
                 shift
-                BUILD_TYPE="$1"
+                BRANCHES+=("$1")
                 ;;
             *)
-                echo "ProcessMakeBuild: Unknown argument $1."
+                echo "ProcessGitRepositories: Unknown argument $1."
                 exit 1
                 ;;
         esac
@@ -361,1039 +80,25 @@ function ProcessMakeBuild {
         shift
     done
 
-    if [ "${COMPILER}" = "gnu" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_GNU_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_GNU_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_GNU_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** MAKE - GNU - DEBUG *************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** MAKE - GNU - RELEASE ***********************************************************************************************"
-        else
-            echo "*** MAKE - GNU - UNKNOWN ***********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "llvm" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_LLVM_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_LLVM_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_LLVM_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** MAKE - LLVM - DEBUG ************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** MAKE - LLVM - RELEASE **********************************************************************************************"
-        else
-            echo "*** MAKE - LLVM - UNKNOWN **********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "amd" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_AMD_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_AMD_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_AMD_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** MAKE - AMD - DEBUG *************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** MAKE - AMD - RELEASE ***********************************************************************************************"
-        else
-            echo "*** MAKE - AMD - UNKNOWN ***********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "intel" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_INTEL_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_INTEL_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** MAKE - INTEL - DEBUG ***********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** MAKE - INTEL - RELEASE *********************************************************************************************"
-        else
-            echo "*** MAKE - INTEL - UNKNOWN *********************************************************************************************"
-        fi
-    else
-        _CONTAINER_C_COMPILER=${TOOL_NONE_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_NONE_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_NONE_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** MAKE - UNKNOWN - DEBUG *********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** MAKE - UNKNOWN - RELEASE *******************************************************************************************"
-        else
-            echo "*** MAKE - UNKNOWN - UNKNOWN *******************************************************************************************"
-        fi
-    fi
-
-    echo ""
-
-    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}"
-
-    mkdir -p ${_BUILD_PATH_FINAL}
-
-    pushd ${_BUILD_PATH_FINAL} > /dev/null
-
-    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
-    source /opt/intel/oneapi/setvars.sh > /dev/null
-
-    CC=${_CONTAINER_C_COMPILER} \
-    CXX=${_CONTAINER_CPP_COMPILER} \
-    LD=${_CONTAINER_LINKER} \
-        make \
-            --always-make \
-            --directory=${SOURCE_PATH} \
-            --jobs=6
-
-    popd > /dev/null
-
-    echo ""
-}
-
-function ProcessMake {
-    local SOURCE_PATH=$3
-    local BUILD_PATH=$4
-
-    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
-    then
-        while [[ $# -ne 0 ]];
-        do
-            case $1 in
-                --source-path=*|--build-path=*|--compiler=*|--build-type=*)
-                    arg="$1"
-                    shift
-                    set -- "${arg%%=*}" "${arg#*=}" "$@"
-                    continue
-                    ;;
-                --source-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessMake: No argument after --source-path"
-                        exit 1
-                    fi
-
-                    shift
-                    SOURCE_PATH="$1"
-                    ;;
-                --build-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessMake: No argument after --build-path"
-                        exit 1
-                    fi
-
-                    shift
-                    BUILD_PATH="$1"
-                    ;;
-                *)
-                    echo "ProcessMake: Unknown argument $1."
-                    exit 1
-                    ;;
-            esac
-
-            shift
-        done
-
-        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_COMPILERS[@]}"
-        do
-            for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_MAKE_BUILD_TYPES[@]}"
-            do
-                ProcessMakeBuild                        \
-                    --source-path ${SOURCE_PATH}        \
-                    --build-path ${BUILD_PATH}          \
-                    --compiler ${CURRENT_COMPILER}      \
-                    --build-type ${CURRENT_BUILD_TYPE}
-            done
-        done
-    fi
-}
-
-function ProcessBazelTest {
-    local SOURCE_PATH=""
-    local BUILD_PATH=""
-    local COMPILER=""
-    local BUILD_TYPE=""
-
-    while [[ $# -ne 0 ]];
+    for INDEX in "${!REPOSITORIES[@]}";
     do
-        case $1 in
-            --source-path=*|--build-path=*|--compiler=*|--build-type=*)
-                arg="$1"
-                shift
-                set -- "${arg%%=*}" "${arg#*=}" "$@"
-                continue
-                ;;
-            --source-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessBazelTest: No argument after --source-path"
-                    exit 1
-                fi
+        CURRENT_REPOSITORY="${REPOSITORIES[${INDEX}]}"
+        CURRENT_BRANCH="${BRANCHES[${INDEX}]}"
 
-                shift
-                SOURCE_PATH="$1"
-                ;;
-            --build-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessBazelTest: No argument after --build-path"
-                    exit 1
-                fi
+        PrintBanner "${REMOTE_BASE_PATH}/${CURRENT_REPOSITORY}"
 
-                shift
-                BUILD_PATH="$1"
-                ;;
-            --compiler)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessBazelTest: No argument after --compiler"
-                    exit 1
-                fi
+        mkdir -p "${LOCAL_BASE_PATH}"
 
-                shift
-                COMPILER="$1"
-                ;;
-            --build-type)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessBazelTest: No argument after --build-type"
-                    exit 1
-                fi
-
-                shift
-                BUILD_TYPE="$1"
-                ;;
-            *)
-                echo "ProcessBazelTest: Unknown argument $1."
-                exit 1
-                ;;
-        esac
-
-        shift
+        docker \
+            run \
+                -it \
+                --rm \
+                --mount "type=bind,src=${LOCAL_BASE_PATH},dst=/work" \
+                development-git \
+                    --remote "${REMOTE_BASE_PATH}" \
+                    --name "${CURRENT_REPOSITORY}" \
+                    --branch "${CURRENT_BRANCH}"
     done
-
-    if [ "${COMPILER}" = "gnu" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_GNU_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_GNU_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_GNU_LINKER}
-
-        if [ "${BUILD_TYPE}" = "dbg" ];
-        then
-            echo "*** TEST - GNU - DEBUG *************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "fastbuild" ];
-        then
-            echo "*** TEST - GNU - FAST BUILD ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "opt" ];
-        then
-            echo "*** TEST - GNU - OPTIMIZED *********************************************************************************************"
-        else
-            echo "*** TEST - GNU - UNKNOWN ***********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "llvm" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_LLVM_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_LLVM_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_LLVM_LINKER}
-
-        if [ "${BUILD_TYPE}" = "dbg" ];
-        then
-            echo "*** TEST - LLVM - DEBUG ************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "fastbuild" ];
-        then
-            echo "*** TEST - LLVM - FAST BUILD *******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "opt" ];
-        then
-            echo "*** TEST - LLVM - OPTIMIZED ********************************************************************************************"
-        else
-            echo "*** TEST - LLVM - UNKNOWN **********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "amd" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_AMD_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_AMD_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_AMD_LINKER}
-
-        if [ "${BUILD_TYPE}" = "dbg" ];
-        then
-            echo "*** TEST - AMD - DEBUG *************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "fastbuild" ];
-        then
-            echo "*** TEST - AMD - FAST BUILD ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "opt" ];
-        then
-            echo "*** TEST - AMD - OPTIMIZED *********************************************************************************************"
-        else
-            echo "*** TEST - AMD - UNKNOWN ***********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "intel" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_INTEL_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_INTEL_LINKER}
-
-        if [ "${BUILD_TYPE}" = "dbg" ];
-        then
-            echo "*** TEST - INTEL - DEBUG ***********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "fastbuild" ];
-        then
-            echo "*** TEST - INTEL - FAST BUILD ******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "opt" ];
-        then
-            echo "*** TEST - INTEL - OPTIMIZED *******************************************************************************************"
-        else
-            echo "*** TEST - INTEL - UNKNOWN *********************************************************************************************"
-        fi
-    else
-        _CONTAINER_C_COMPILER=${TOOL_NONE_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_NONE_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_NONE_LINKER}
-
-        if [ "${BUILD_TYPE}" = "dbg" ];
-        then
-            echo "*** TEST - UNKNOWN - DEBUG *********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "fastbuild" ];
-        then
-            echo "*** TEST - UNKNOWN - FAST BUILD ****************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "opt" ];
-        then
-            echo "*** TEST - UNKNOWN - OPTIMIZED *****************************************************************************************"
-        else
-            echo "*** TEST - UNKNOWN - UNKNOWN *******************************************************************************************"
-        fi
-    fi
-
-    echo ""
-
-    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}"
-
-    mkdir -p ${_BUILD_PATH_FINAL}
-
-    pushd ${SOURCE_PATH} > /dev/null
-
-    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
-    source /opt/intel/oneapi/setvars.sh > /dev/null
-
-    bazel                                               \
-        --output_base=${_BUILD_PATH_FINAL}              \
-        test                                            \
-            --symlink_prefix=/                          \
-            --compilation_mode=${BUILD_TYPE}            \
-            --repo_env=CC=${_CONTAINER_C_COMPILER}      \
-            --repo_env=CXX=${_CONTAINER_CPP_COMPILER}   \
-            --repo_env=LD=${_CONTAINER_LINKER}          \
-            //...
-
-    popd > /dev/null
-
-    echo ""
-}
-
-function ProcessBazel {
-    local SOURCE_PATH=$3
-    local BUILD_PATH=$4
-
-    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
-    then
-        while [[ $# -ne 0 ]];
-        do
-            case $1 in
-                --source-path=*|--build-path=*|--compiler=*|--build-type=*)
-                    arg="$1"
-                    shift
-                    set -- "${arg%%=*}" "${arg#*=}" "$@"
-                    continue
-                    ;;
-                --source-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessBazel: No argument after --source-path"
-                        exit 1
-                    fi
-
-                    shift
-                    SOURCE_PATH="$1"
-                    ;;
-                --build-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessBazel: No argument after --build-path"
-                        exit 1
-                    fi
-
-                    shift
-                    BUILD_PATH="$1"
-                    ;;
-                *)
-                    echo "ProcessBazel: Unknown argument $1."
-                    exit 1
-                    ;;
-            esac
-
-            shift
-        done
-
-        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_COMPILERS[@]}"
-        do
-            for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_BAZEL_BUILD_TYPES[@]}"
-            do
-                ProcessBazelTest                        \
-                    --source-path ${SOURCE_PATH}        \
-                    --build-path ${BUILD_PATH}          \
-                    --compiler ${CURRENT_COMPILER}      \
-                    --build-type ${CURRENT_BUILD_TYPE}
-            done
-        done
-    fi
-}
-
-function ProcessCMakeGenerate {
-    local SOURCE_PATH=""
-    local BUILD_PATH=""
-    local EXTRA_PARAMETERS_WORK=()
-    local COMPILER=""
-    local BUILD_TYPE=""
-
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --source-path=*|--build-path=*|--extra-parameters=*|--compiler=*|--build-type=*)
-                arg="$1"
-                shift
-                set -- "${arg%%=*}" "${arg#*=}" "$@"
-                continue
-                ;;
-            --source-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeGenerate: No argument after --source-path"
-                    exit 1
-                fi
-
-                shift
-                SOURCE_PATH="$1"
-                ;;
-            --build-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeGenerate: No argument after --build-path"
-                    exit 1
-                fi
-
-                shift
-                BUILD_PATH="$1"
-                ;;
-            --extra-parameters)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeGenerate: No argument after --extra-parameters"
-                    exit 1
-                fi
-
-                shift
-                EXTRA_PARAMETERS_WORK+=("$1")
-                ;;
-            --compiler)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeGenerate: No argument after --compiler"
-                    exit 1
-                fi
-
-                shift
-                COMPILER="$1"
-                ;;
-            --build-type)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeGenerate: No argument after --build-type"
-                    exit 1
-                fi
-
-                shift
-                BUILD_TYPE="$1"
-                ;;
-            *)
-                echo "ProcessCMakeGenerate: Unknown argument $1."
-                exit 1
-                ;;
-        esac
-
-        shift
-    done
-
-    local _CONTAINER_C_COMPILER=""
-    local _CONTAINER_CPP_COMPILER=""
-    local _CONTAINER_LINKER=""
-
-    if [ "${COMPILER}" = "gnu" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_GNU_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_GNU_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_GNU_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** GENERATE - GNU - DEBUG *********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** GENERATE - GNU - RELEASE WITH DEBUG ********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** GENERATE - GNU - RELEASE *******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** GENERATE - GNU - MINIMUM SIZE RELEASE ******************************************************************************"
-        else
-            echo "*** GENERATE - GNU - UNKNOWN *******************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "llvm" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_LLVM_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_LLVM_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_LLVM_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** GENERATE - LLVM - DEBUG ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** GENERATE - LLVM - RELEASE WITH DEBUG *******************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** GENERATE - LLVM - RELEASE ******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** GENERATE - LLVM - MINIMUM SIZE RELEASE *****************************************************************************"
-        else
-            echo "*** GENERATE - LLVM - UNKNOWN ******************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "amd" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_AMD_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_AMD_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_AMD_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** GENERATE - AMD - DEBUG *********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** GENERATE - AMD - RELEASE WITH DEBUG ********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** GENERATE - AMD - RELEASE *******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** GENERATE - AMD - MINIMUM SIZE RELEASE ******************************************************************************"
-        else
-            echo "*** GENERATE - AMD - UNKNOWN *******************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "intel" ];
-    then
-        _CONTAINER_C_COMPILER=${TOOL_INTEL_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_INTEL_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_INTEL_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** GENERATE - INTEL - DEBUG *******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** GENERATE - INTEL - RELEASE WITH DEBUG ******************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** GENERATE - INTEL - RELEASE *****************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** GENERATE - INTEL - MINIMUM SIZE RELEASE ****************************************************************************"
-        else
-            echo "*** GENERATE - INTEL - UNKNOWN *****************************************************************************************"
-        fi
-    else
-        _CONTAINER_C_COMPILER=${TOOL_NONE_C_COMPILER}
-        _CONTAINER_CPP_COMPILER=${TOOL_NONE_CPP_COMPILER}
-        _CONTAINER_LINKER=${TOOL_NONE_LINKER}
-
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** GENERATE - UNKNOWN - DEBUG *****************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** GENERATE - UNKNOWN - RELEASE WITH DEBUG ****************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** GENERATE - UNKNOWN - RELEASE ***************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** GENERATE - UNKNOWN - MINIMUM SIZE RELEASE **************************************************************************"
-        else
-            echo "*** GENERATE - UNKNOWN - UNKNOWN ***************************************************************************************"
-        fi
-    fi
-
-    local EXTRA_PARAMETERS=()
-
-    for CURRENT_EXTRA_PARAMETER in "${EXTRA_PARAMETERS_WORK[@]}"
-    do
-        local REPLACE_COMPILER="${CURRENT_EXTRA_PARAMETER/__BUILD_COMPILER__/"$COMPILER"}"
-        local REPLACE_CONFIGURATION="${REPLACE_COMPILER/__BUILD_CONFIGURATION__/"$BUILD_TYPE"}"
-
-        EXTRA_PARAMETERS+=("${REPLACE_CONFIGURATION}")
-    done
-
-    echo ""
-
-    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}/build"
-    local _INSTALL_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}/install"
-
-    mkdir -p ${_BUILD_PATH_FINAL}
-    mkdir -p ${_INSTALL_PATH_FINAL}
-
-    pushd ${_BUILD_PATH_FINAL} > /dev/null
-
-    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
-    source /opt/intel/oneapi/setvars.sh > /dev/null
-
-    CC=${_CONTAINER_C_COMPILER} CXX=${_CONTAINER_CPP_COMPILER} LD=${_CONTAINER_LINKER} cmake    \
-        -G Ninja                                                                                \
-        -DCMAKE_BUILD_TYPE=${BUILD_TYPE}                                                        \
-        -DCMAKE_INSTALL_PREFIX=${_INSTALL_PATH_FINAL}                                           \
-        ${EXTRA_PARAMETERS[@]}                                                                  \
-        ${SOURCE_PATH}
-
-    popd > /dev/null
-
-    echo ""
-}
-
-function ProcessCMakeBuild {
-    local SOURCE_MOUNT=""
-    local BUILD_PATH=""
-    local COMPILER=""
-    local BUILD_TYPE=""
-
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --source-path=*|--build-path=*|--compiler=*|--build-type=*)
-                arg="$1"
-                shift
-                set -- "${arg%%=*}" "${arg#*=}" "$@"
-                continue
-                ;;
-            --source-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeBuild: No argument after --source-path"
-                    exit 1
-                fi
-
-                shift
-                SOURCE_PATH="$1"
-                ;;
-            --build-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeBuild: No argument after --build-path"
-                    exit 1
-                fi
-
-                shift
-                BUILD_PATH="$1"
-                ;;
-            --compiler)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeBuild: No argument after --compiler"
-                    exit 1
-                fi
-
-                shift
-                COMPILER="$1"
-                ;;
-            --build-type)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeBuild: No argument after --build-type"
-                    exit 1
-                fi
-
-                shift
-                BUILD_TYPE="$1"
-                ;;
-            *)
-                echo "ProcessCMakeBuild: Unknown argument $1."
-                exit 1
-                ;;
-        esac
-
-        shift
-    done
-
-    if [ "${COMPILER}" = "gnu" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** BUILD - GNU - DEBUG ************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** BUILD - GNU - RELEASE WITH DEBUG ***********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** BUILD - GNU - RELEASE **********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** BUILD - GNU - MINIMUM SIZE RELEASE *********************************************************************************"
-        else
-            echo "*** BUILD - GNU - UNKNOWN **********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "llvm" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** BUILD - LLVM - DEBUG ***********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** BUILD - LLVM - RELEASE WITH DEBUG **********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** BUILD - LLVM - RELEASE *********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** BUILD - LLVM - MINIMUM SIZE RELEASE ********************************************************************************"
-        else
-            echo "*** BUILD - LLVM - UNKNOWN *********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "amd" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** BUILD - AMD - DEBUG ************************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** BUILD - AMD - RELEASE WITH DEBUG ***********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** BUILD - AMD - RELEASE **********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** BUILD - AMD - MINIMUM SIZE RELEASE *********************************************************************************"
-        else
-            echo "*** BUILD - AMD - UNKNOWN **********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "intel" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** BUILD - INTEL - DEBUG **********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** BUILD - INTEL - RELEASE WITH DEBUG *********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** BUILD - INTEL - RELEASE ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** BUILD - INTEL - MINIMUM SIZE RELEASE *******************************************************************************"
-        else
-            echo "*** BUILD - INTEL - UNKNOWN ********************************************************************************************"
-        fi
-    else
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** BUILD - UNKNOWN - DEBUG ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** BUILD - UNKNOWN - RELEASE WITH DEBUG *******************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** BUILD - UNKNOWN - RELEASE ******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** BUILD - UNKNOWN - MINIMUM SIZE RELEASE *****************************************************************************"
-        else
-            echo "*** BUILD - UNKNOWN - UNKNOWN ******************************************************************************************"
-        fi
-    fi
-
-    echo ""
-
-    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}/build"
-
-    pushd ${_BUILD_PATH_FINAL} > /dev/null
-
-    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
-    source /opt/intel/oneapi/setvars.sh > /dev/null
-
-    cmake           \
-        --build .
-
-    popd > /dev/null
-
-    echo ""
-}
-
-function ProcessCMakeInstall {
-    local SOURCE_MOUNT=""
-    local BUILD_PATH=""
-    local COMPILER=""
-    local BUILD_TYPE=""
-
-    while [[ $# -ne 0 ]];
-    do
-        case $1 in
-            --source-path=*|--build-path=*|--compiler=*|--build-type=*)
-                arg="$1"
-                shift
-                set -- "${arg%%=*}" "${arg#*=}" "$@"
-                continue
-                ;;
-            --source-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeInstall: No argument after --source-path"
-                    exit 1
-                fi
-
-                shift
-                SOURCE_PATH="$1"
-                ;;
-            --build-path)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeInstall: No argument after --build-path"
-                    exit 1
-                fi
-
-                shift
-                BUILD_PATH="$1"
-                ;;
-            --compiler)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeInstall: No argument after --compiler"
-                    exit 1
-                fi
-
-                shift
-                COMPILER="$1"
-                ;;
-            --build-type)
-                if [[ $# -lt 2 ]];
-                then
-                    echo "ProcessCMakeInstall: No argument after --build-type"
-                    exit 1
-                fi
-
-                shift
-                BUILD_TYPE="$1"
-                ;;
-            *)
-                echo "ProcessCMakeInstall: Unknown argument $1."
-                exit 1
-                ;;
-        esac
-
-        shift
-    done
-
-    if [ "${COMPILER}" = "gnu" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** INSTALL - GNU - DEBUG **********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** INSTALL - GNU - RELEASE WITH DEBUG *********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** INSTALL - GNU - RELEASE ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** INSTALL - GNU - MINIMUM SIZE RELEASE *******************************************************************************"
-        else
-            echo "*** INSTALL - GNU - UNKNOWN ********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "llvm" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** INSTALL - LLVM - DEBUG *********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** INSTALL - LLVM - RELEASE WITH DEBUG ********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** INSTALL - LLVM - RELEASE *******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** INSTALL - LLVM - MINIMUM SIZE RELEASE ******************************************************************************"
-        else
-            echo "*** INSTALL - LLVM - UNKNOWN *******************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "amd" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** INSTALL - AMD - DEBUG **********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** INSTALL - AMD - RELEASE WITH DEBUG *********************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** INSTALL - AMD - RELEASE ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** INSTALL - AMD - MINIMUM SIZE RELEASE *******************************************************************************"
-        else
-            echo "*** INSTALL - AMD - UNKNOWN ********************************************************************************************"
-        fi
-    elif [ "${COMPILER}" = "intel" ];
-    then
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** INSTALL - INTEL - DEBUG ********************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** INSTALL - INTEL - RELEASE WITH DEBUG *******************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** INSTALL - INTEL - RELEASE ******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** INSTALL - INTEL - MINIMUM SIZE RELEASE *****************************************************************************"
-        else
-            echo "*** INSTALL - INTEL - UNKNOWN ******************************************************************************************"
-        fi
-    else
-        if [ "${BUILD_TYPE}" = "debug" ];
-        then
-            echo "*** INSTALL - UNKNOWN - DEBUG ******************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "relwithdebinfo" ];
-        then
-            echo "*** INSTALL - UNKNOWN - RELEASE WITH DEBUG *****************************************************************************"
-        elif [ "${BUILD_TYPE}" = "release" ];
-        then
-            echo "*** INSTALL - UNKNOWN - RELEASE ****************************************************************************************"
-        elif [ "${BUILD_TYPE}" = "minsizerel" ];
-        then
-            echo "*** INSTALL - UNKNOWN - MINIMUM SIZE RELEASE ***************************************************************************"
-        else
-            echo "*** INSTALL - UNKNOWN - UNKNOWN ****************************************************************************************"
-        fi
-    fi
-
-    echo ""
-
-    local _BUILD_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}/build"
-    local _INSTALL_PATH_FINAL="${BUILD_PATH}/${COMPILER}/${BUILD_TYPE}/install"
-
-    pushd ${_BUILD_PATH_FINAL} > /dev/null
-
-    source /opt/AMD/aocc-compiler-3.1.0/setenv_AOCC.sh > /dev/null
-    source /opt/intel/oneapi/setvars.sh > /dev/null
-
-    cmake                                   \
-        --install .                         \
-        --prefix "${_INSTALL_PATH_FINAL}"
-
-    popd > /dev/null
-
-    echo ""
-}
-
-function ProcessCMake {
-    local SOURCE_PATH=""
-    local BUILD_PATH=""
-    local EXTRA_PARAMETERS=()
-
-    if [[ ${PARAMETER_DISABLE_BUILD} -eq 0 ]];
-    then
-        while [[ $# -ne 0 ]];
-        do
-            case $1 in
-                --source-path=*|--build-path=*|--extra-parameters=*)
-                    arg="$1"
-                    shift
-                    set -- "${arg%%=*}" "${arg#*=}" "$@"
-                    continue
-                    ;;
-                --source-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessCMake: No argument after --source-path"
-                        exit 1
-                    fi
-
-                    shift
-                    SOURCE_PATH="$1"
-                    ;;
-                --build-path)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessCMake: No argument after --build-path"
-                        exit 1
-                    fi
-
-                    shift
-                    BUILD_PATH="$1"
-                    ;;
-                --extra-parameters)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "ProcessCMake: No argument after --extra-parameters"
-                        exit 1
-                    fi
-
-                    shift
-                    EXTRA_PARAMETERS+=("--extra-parameters $1")
-                    ;;
-                *)
-                    echo "ProcessCMake: Unknown argument $1."
-                    exit 1
-                    ;;
-            esac
-
-            shift
-        done
-
-        for CURRENT_COMPILER in "${DEFAULT_SUPPORTED_COMPILERS[@]}"
-        do
-            for CURRENT_BUILD_TYPE in "${DEFAULT_SUPPORTED_CMAKE_BUILD_TYPES[@]}"
-            do
-                ProcessCMakeGenerate                        \
-                    --source-path ${SOURCE_PATH}            \
-                    --build-path ${BUILD_PATH}              \
-                    ${EXTRA_PARAMETERS[@]} \
-                    --compiler ${CURRENT_COMPILER}          \
-                    --build-type ${CURRENT_BUILD_TYPE}
-
-                ProcessCMakeBuild                       \
-                    --source-path ${SOURCE_PATH}        \
-                    --build-path ${BUILD_PATH}          \
-                    --compiler ${CURRENT_COMPILER}      \
-                    --build-type ${CURRENT_BUILD_TYPE}
-
-                ProcessCMakeInstall                     \
-                    --source-path ${SOURCE_PATH}        \
-                    --build-path ${BUILD_PATH}          \
-                    --compiler ${CURRENT_COMPILER}      \
-                    --build-type ${CURRENT_BUILD_TYPE}
-            done
-        done
-    fi
 }
 
 function ProcessCommonArguments {
@@ -1405,30 +110,6 @@ function ProcessCommonArguments {
                 ;;
             --disable-prune)
                 PARAMETER_DISABLE_PRUNE=1
-                ;;
-            --disable-content)
-                PARAMETER_DISABLE_CONTENT=1
-                ;;
-            --disable-services)
-                PARAMETER_DISABLE_SERVICES=1
-                ;;
-            --disable-deluge)
-                PARAMETER_DISABLE_DELUGE=1
-                ;;
-            --disable-plex)
-                PARAMETER_DISABLE_PLEX=1
-                ;;
-            --disable-development)
-                PARAMETER_DISABLE_DEVELOPMENT=1
-                ;;
-            --disable-repositories)
-                PARAMETER_DISABLE_REPOSITORIES=1
-                ;;
-            --disable-clone)
-                PARAMETER_DISABLE_CLONE=1
-                ;;
-            --disable-build)
-                PARAMETER_DISABLE_BUILD=1
                 ;;
             *)
                 echo "Process: Unknown argument $1."
@@ -1458,60 +139,58 @@ function ProcessCommonPost {
     fi
 }
 
-function ProcessCallSubScripts {
-    local REPOSITORIES_ARGUMENTS=()
-
-    REPOSITORIES_ARGUMENTS+=("--disable-clear")
-    REPOSITORIES_ARGUMENTS+=("--disable-prune")
-
-    if [[ ${PARAMETER_DISABLE_CONTENT} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-content")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_SERVICES} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-services")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_DELUGE} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-deluge")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_PLEX} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-plex")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_DEVELOPMENT} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-development")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-repositories")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_CLONE} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-clone")
-    fi
-
-    if [[ ${PARAMETER_DISABLE_BUILD} -eq 1 ]];
-    then
-        REPOSITORIES_ARGUMENTS+=("--disable-build")
-    fi
+function ProcessSubScripts {
+    local SUB_SCRIPT_ROOT=""
+    local SUB_SCRIPTS=()
+    local SUB_SCRIPT_ARGUMENTS=()
 
     while [[ $# -ne 0 ]];
     do
-        local REPOSITORY_SCRIPT_NAME=$1
+        case $1 in
+            --root=*|--script=*)
+                arg="$1"
+                shift
+                set -- "${arg%%=*}" "${arg#*=}" "$@"
+                continue
+                ;;
+            --root)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessSubScripts: No argument after --root"
+                    exit 1
+                fi
 
-        chmod +x "${REPOSITORY_SCRIPT_NAME}"
+                shift
+                SUB_SCRIPT_ROOT="$1"
+                ;;
+            --script)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "ProcessSubScripts: No argument after --script"
+                    exit 1
+                fi
 
-        "${REPOSITORY_SCRIPT_NAME}" ${REPOSITORIES_ARGUMENTS[@]}
+                shift
+                SUB_SCRIPTS+=("$1")
+                ;;
+            *)
+                echo "ProcessSubScripts: Unknown argument $1."
+                exit 1
+                ;;
+        esac
 
         shift
+    done
+
+    SUB_SCRIPT_ARGUMENTS+=("--disable-clear")
+    SUB_SCRIPT_ARGUMENTS+=("--disable-prune")
+
+    for CURRENT_SUB_SCRIPT in "${SUB_SCRIPTS[@]}";
+    do
+        SUB_SCRIPT_RESOLVED_PATH="${SUB_SCRIPT_ROOT}/${CURRENT_SUB_SCRIPT}"
+
+        chmod +x "${SUB_SCRIPT_RESOLVED_PATH}"
+
+        "${SUB_SCRIPT_RESOLVED_PATH}" ${SUB_SCRIPT_ARGUMENTS[@]}
     done
 }
