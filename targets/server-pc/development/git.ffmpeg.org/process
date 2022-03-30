@@ -10,7 +10,7 @@ function Process {
     ProcessCommonPre
 
     ProcessGitRepositories \
-        --remote-base-path "https://git.ffmpeg.org" \
+        --remote-base-path "git://git.ffmpeg.org" \
         --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/git.ffmpeg.org" \
         --repository "ffmpeg" --branch "master"
 

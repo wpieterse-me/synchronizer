@@ -10,7 +10,7 @@ function Process {
     ProcessCommonPre
 
     ProcessGitRepositories \
-        --remote-base-path "https://git.freebsd.org" \
+        --remote-base-path "git://git.freebsd.org" \
         --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/git.freebsd.org" \
         --repository "doc" --branch "main" \
         --repository "ports" --branch "main" \

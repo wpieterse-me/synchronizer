@@ -10,7 +10,7 @@ function Process {
     ProcessCommonPre
 
     ProcessGitRepositories \
-        --remote-base-path "https://git.savannah.gnu.org/git" \
+        --remote-base-path "git://git.savannah.gnu.org/git" \
         --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/git.savannah.gnu.org/git" \
         --repository "grub" --branch "master" \
         --repository "grub-extras" --branch "master"

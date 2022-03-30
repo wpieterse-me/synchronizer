@@ -93,6 +93,8 @@ function ProcessGitRepositories {
             run \
                 -it \
                 --rm \
+                --volume "$(dirname ${SSH_AUTH_SOCK})" \
+                --env SSH_AUTH_SOCK="${SSH_AUTH_SOCK}" \
                 --mount "type=bind,src=${LOCAL_BASE_PATH},dst=/work" \
                 development-git \
                     --remote "${REMOTE_BASE_PATH}" \

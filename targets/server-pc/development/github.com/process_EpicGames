@@ -10,7 +10,7 @@ function Process {
     ProcessCommonPre
 
     # ProcessGitRepositories \
-    #     --remote-base-path "github-wpieterse2825:EpicGames" \
+    #     --remote-base-path "ssh://git@github.com:EpicGames" \
     #     --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/EpicGames" \
     #     --repository "UnrealEngine" --branch "release" \
     #     --repository "UnrealTournament" --branch "clean-master" \

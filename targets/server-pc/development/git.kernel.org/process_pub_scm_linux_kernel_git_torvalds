@@ -10,7 +10,7 @@ function Process {
     ProcessCommonPre
 
     ProcessGitRepositories \
-        --remote-base-path "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds" \
+        --remote-base-path "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds" \
         --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/git.kernel.org/pub/scm/linux/kernel/git/torvalds" \
         --repository "linux" --branch "master"
 

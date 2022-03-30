@@ -10,7 +10,7 @@ function Process {
     ProcessCommonPre
 
     ProcessGitRepositories \
-        --remote-base-path "github-wpieterse2825:wpieterse2825" \
+        --remote-base-path "ssh://git@github.com:wpieterse2825" \
         --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/wpieterse2825" \
         --repository "paxbox" --branch "main" \
         --repository "game-assets" --branch "main" \
