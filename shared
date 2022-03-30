@@ -65,6 +65,14 @@ declare -a DEFAULT_SUPPORTED_CMAKE_BUILD_TYPES=(
     "minsizerel"
 )
 
+function PrintBanner {
+    echo ""
+    echo "************************************************************************************************************************"
+    echo "* $1"
+    echo "************************************************************************************************************************"
+    echo ""
+}
+
 function ProcessGitRepository {
     local REPOSITORY_REMOTE_BASE_PATH=""
     local REPOSITORY_LOCAL_BASE_PATH=""
@@ -200,6 +208,92 @@ function ProcessGitRepository {
         popd > /dev/null
 
         popd > /dev/null
+    fi
+}
+
+function ProcessGitRepositories {
+    local REMOTE_BASE_PATH=""
+    local LOCAL_BASE_PATH=""
+    local REPOSITORIES=()
+    local BRANCHES=()
+
+    if [[ ${PARAMETER_DISABLE_CLONE} -eq 0 ]];
+    then
+        while [[ $# -ne 0 ]];
+        do
+            case $1 in
+                --remote-base-path=*|--local-base-path=*|--repository=*)
+                    arg="$1"
+                    shift
+                    set -- "${arg%%=*}" "${arg#*=}" "$@"
+                    continue
+                    ;;
+                --remote-base-path)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessGitRepositories: No argument after --remote-base-path"
+                        exit 1
+                    fi
+
+                    shift
+                    REMOTE_BASE_PATH="$1"
+                    ;;
+                --local-base-path)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessGitRepositories: No argument after --local-base-path"
+                        exit 1
+                    fi
+
+                    shift
+                    LOCAL_BASE_PATH="$1"
+                    ;;
+                --repository)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessGitRepositories: No argument after --repository"
+                        exit 1
+                    fi
+
+                    shift
+                    REPOSITORIES+=("$1")
+                    ;;
+                --branch)
+                    if [[ $# -lt 2 ]];
+                    then
+                        echo "ProcessGitRepositories: No argument after --branch"
+                        exit 1
+                    fi
+
+                    shift
+                    BRANCHES+=("$1")
+                    ;;
+                *)
+                    echo "ProcessGitRepositories: Unknown argument $1."
+                    exit 1
+                    ;;
+            esac
+
+            shift
+        done
+
+        for INDEX in "${!REPOSITORIES[@]}";
+        do
+            CURRENT_REPOSITORY="${REPOSITORIES[${INDEX}]}"
+            CURRENT_BRANCH="${BRANCHES[${INDEX}]}"
+
+            PrintBanner "${REMOTE_BASE_PATH}/${CURRENT_REPOSITORY} - ${CURRENT_BRANCH}"
+
+            docker \
+                run \
+                    -it \
+                    --rm \
+                    --mount "type=bind,src=${LOCAL_BASE_PATH},dst=/work" \
+                    development-git \
+                        --remote "${REMOTE_BASE_PATH}" \
+                        --name "${CURRENT_REPOSITORY}" \
+                        --branch "${CURRENT_BRANCH}"
+        done
     fi
 }
 
@@ -1300,14 +1394,6 @@ function ProcessCMake {
             done
         done
     fi
-}
-
-function PrintBanner {
-    echo ""
-    echo "************************************************************************************************************************"
-    echo "* $1"
-    echo "************************************************************************************************************************"
-    echo ""
 }
 
 function ProcessCommonArguments {

@@ -5,19 +5,17 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
-REPOSITORIES_SCRIPT="${THIS_SCRIPT_DIRECTORY}/repositories/process"
-
 function Process {
     ProcessCommonArguments $@
     ProcessCommonPre
 
-    . "${THIS_SCRIPT_DIRECTORY}/do_docker_git"
-
-    if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
-    then
-        ProcessCallSubScripts \
-            "${REPOSITORIES_SCRIPT}"
-    fi
+    docker \
+        build \
+            --tag development-git \
+            --build-arg USER_ID=$(id -u) \
+            --build-arg GROUP_ID=$(id -g) \
+            --file "${THIS_SCRIPT_DIRECTORY}/process_docker_git.Dockerfile" \
+            ${THIS_SCRIPT_DIRECTORY}
 
     ProcessCommonPost
 }

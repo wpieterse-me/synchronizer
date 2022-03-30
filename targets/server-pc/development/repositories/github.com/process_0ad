@@ -1,0 +1,20 @@
+#!/bin/bash
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessCommonArguments $@
+    ProcessCommonPre
+
+    ProcessGitRepositories \
+        --remote-base-path "https://github.com/0ad" \
+        --local-base-path "${SERVER_PC_SHARED_DEVELOPMENT_PATH}/github.com/0ad" \
+        --repository "0ad" --branch "master"
+
+    ProcessCommonPost
+}
+
+Process $@
