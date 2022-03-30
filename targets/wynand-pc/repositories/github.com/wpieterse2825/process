@@ -1,13 +1,9 @@
 #!/bin/bash
 
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
-
-REPOSITORY_REMOTE_BASE_PATH="github-wpieterse2825:wpieterse2825"
-REPOSITORY_LOCAL_BASE_PATH="${WYNAND_PC_REPOSITORIES_PATH}/github.com/wpieterse2825"
-BUILD_BASE_PATH="${WYNAND_PC_BUILDS_PATH}/github.com/wpieterse2825"
 
 function Process {
     ProcessCommonArguments $@

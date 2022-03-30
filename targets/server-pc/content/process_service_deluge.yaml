@@ -6,11 +6,6 @@ services:
     container_name: deluge
     restart: unless-stopped
     network_mode: host
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - capabilities: [gpu]
     devices:
       - /dev/dri:/dev/dri
     environment:
