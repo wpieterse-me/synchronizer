@@ -25,10 +25,6 @@ function Process {
         --name "${REPOSITORY_UNREALENGINE_NAME}" \
         --branch "release"
 
-    # pushd ${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_UNREALENGINE_NAME} > /dev/null
-    # ./Setup.sh
-    # popd > /dev/null
-
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME}"
 
     ProcessGitRepository \
@@ -36,10 +32,6 @@ function Process {
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_UNREALTOURNAMENT_NAME}" \
         --branch "clean-master"
-
-    # pushd ${REPOSITORY_LOCAL_BASE_PATH}/${REPOSITORY_UNREALTOURNAMENT_NAME} > /dev/null
-    # ./Setup.sh
-    # popd > /dev/null
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_BLENDERTOOLS_NAME}"
 

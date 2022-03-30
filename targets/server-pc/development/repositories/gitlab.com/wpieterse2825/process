@@ -12,13 +12,16 @@ BUILD_BASE_PATH="${SERVER_PC_SHARED_BUILDS_PERSONAL_PATH}/gitlab.com/wpieterse28
 REPOSITORY_GAME_ASSETS_NAME="game-assets"
 REPOSITORY_UNREALENGINE_1_1996_NAME="unrealengine-1-1996"
 REPOSITORY_UNREALENGINE_1_1997_NAME="unrealengine-1-1997"
-REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
-REPOSITORY_WINDOWS_10_NAME="windows-10"
+REPOSITORY_QUAKE_4_SDK_NAME="quake-4-sdk"
+REPOSITORY_QUAKE_WARS_SDK_NAME="quake-wars-sdk"
+REPOSITORY_PREY_SDK_NAME="prey-sdk"
 REPOSITORY_WINDOWS_NT_350_NAME="windows-nt-350"
 REPOSITORY_WINDOWS_NT_400_NAME="windows-nt-400"
+REPOSITORY_OPEN_NT_400_NAME="open-nt-400"
 REPOSITORY_WINDOWS_NT_600_NAME="windows-nt-600"
 REPOSITORY_WINDOWS_RESEARCH_KERNEL_NAME="windows-research-kernel"
 REPOSITORY_XBOX_NAME="xbox"
+REPOSITORY_WINDOWS_10_NAME="windows-10"
 
 function Process {
     ProcessCommonArguments $@
@@ -48,20 +51,28 @@ function Process {
         --name "${REPOSITORY_UNREALENGINE_1_1997_NAME}" \
         --branch "main"
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_4_SDK_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_OPEN_NT_400_NAME}" \
+        --name "${REPOSITORY_QUAKE_4_SDK_NAME}" \
         --branch "main"
 
-    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_10_NAME}"
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_QUAKE_WARS_SDK_NAME}"
 
     ProcessGitRepository \
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
-        --name "${REPOSITORY_WINDOWS_10_NAME}" \
+        --name "${REPOSITORY_QUAKE_WARS_SDK_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_PREY_SDK_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_PREY_SDK_NAME}" \
         --branch "main"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_350_NAME}"
@@ -78,6 +89,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_WINDOWS_NT_400_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_OPEN_NT_400_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_OPEN_NT_400_NAME}" \
         --branch "main"
 
     PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_NT_600_NAME}"
@@ -102,6 +121,14 @@ function Process {
         --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
         --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
         --name "${REPOSITORY_XBOX_NAME}" \
+        --branch "main"
+
+    PrintBanner "${REPOSITORY_REMOTE_BASE_PATH}/${REPOSITORY_WINDOWS_10_NAME}"
+
+    ProcessGitRepository \
+        --remote-base-path "${REPOSITORY_REMOTE_BASE_PATH}" \
+        --local-base-path "${REPOSITORY_LOCAL_BASE_PATH}" \
+        --name "${REPOSITORY_WINDOWS_10_NAME}" \
         --branch "main"
 
     ProcessCommonPost

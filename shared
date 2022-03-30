@@ -158,9 +158,9 @@ function ProcessGitRepository {
         # echo ""
         # echo "Cleaning"
 
-        # git         \
-        #     clean   \
-        #     -dxf
+        git         \
+            clean   \
+            -dxf
 
         echo ""
         echo "*** RESET **************************************************************************************************************"

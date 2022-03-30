@@ -26,10 +26,10 @@ function Process {
     if [[ ${PARAMETER_DISABLE_REPOSITORIES} -eq 0 ]];
     then
         ProcessCallSubScripts \
-            "${PROCESS_CGIT_FREEBSD_ORG_SCRIPT}" \
             "${PROCESS_GCC_GNU_ORG_SCRIPT}" \
             "${PROCESS_GIT_BLENDER_ORG_SCRIPT}" \
             "${PROCESS_GIT_FFMPEG_ORG_SCRIPT}" \
+            "${PROCESS_GIT_FREEBSD_ORG_SCRIPT}" \
             "${PROCESS_GIT_KERNEL_ORG_SCRIPT}" \
             "${PROCESS_GIT_SAVANNAH_GNU_ORG_SCRIPT}" \
             "${PROCESS_GITEE_COM_SCRIPT}" \
