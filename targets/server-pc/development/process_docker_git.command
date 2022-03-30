@@ -5,124 +5,123 @@ function Process {
     local NAME=""
     local BRANCH=""
 
-    if [[ ${PARAMETER_DISABLE_CLONE} -eq 0 ]];
-    then
-        while [[ $# -ne 0 ]];
-        do
-            case $1 in
-                --remote=*|--name=*|--branch=*)
-                    arg="$1"
-                    shift
-                    set -- "${arg%%=*}" "${arg#*=}" "$@"
-                    continue
-                    ;;
-                --remote)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "Process: No argument after --remote"
-                        exit 1
-                    fi
-
-                    shift
-                    REMOTE="$1"
-                    ;;
-                --name)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "Process: No argument after --name"
-                        exit 1
-                    fi
-
-                    shift
-                    NAME="$1"
-                    ;;
-                --branch)
-                    if [[ $# -lt 2 ]];
-                    then
-                        echo "Process: No argument after --branch"
-                        exit 1
-                    fi
-
-                    shift
-                    BRANCH="$1"
-                    ;;
-                *)
-                    echo "Process: Unknown argument $1."
+    while [[ $# -ne 0 ]];
+    do
+        case $1 in
+            --remote=*|--name=*|--branch=*)
+                arg="$1"
+                shift
+                set -- "${arg%%=*}" "${arg#*=}" "$@"
+                continue
+                ;;
+            --remote)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "Process: No argument after --remote"
                     exit 1
-                    ;;
-            esac
+                fi
 
-            shift
-        done
+                shift
+                REMOTE="$1"
+                ;;
+            --name)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "Process: No argument after --name"
+                    exit 1
+                fi
 
-        pushd /work > /dev/null
+                shift
+                NAME="$1"
+                ;;
+            --branch)
+                if [[ $# -lt 2 ]];
+                then
+                    echo "Process: No argument after --branch"
+                    exit 1
+                fi
 
-        if [ ! -d "${NAME}" ];
-        then
-            echo "*** INITIAL CLONE ******************************************************************************************************"
-            echo ""
+                shift
+                BRANCH="$1"
+                ;;
+            *)
+                echo "Process: Unknown argument $1."
+                exit 1
+                ;;
+        esac
 
-            git                                                         \
-                clone                                                   \
-                "${REMOTE}/${NAME}.git" \
-                --recurse-submodules
+        shift
+    done
 
-            echo ""
-        fi
+    ssh-add -l
 
-        pushd "/work/${NAME}"  > /dev/null
+    pushd /work > /dev/null
 
-        git                 \
-            config          \
-            pager.log false
-
-        echo "*** CLEAN **************************************************************************************************************"
-        echo ""
-        echo "Cleaning"
-
-        git         \
-            clean   \
-            -dxf
-
-        echo ""
-        echo "*** RESET **************************************************************************************************************"
-        echo ""
-
-        git                             \
-            reset                       \
-            --hard ${BRANCH}
-
-        echo ""
-        echo "*** CHECKOUT ***********************************************************************************************************"
+    if [ ! -d "${NAME}" ];
+    then
+        echo "*** INITIAL CLONE ******************************************************************************************************"
         echo ""
 
-        git                         \
-            checkout                \
-            ${BRANCH}
+        git                                                         \
+            clone                                                   \
+            "${REMOTE}/${NAME}.git" \
+            --recurse-submodules
 
         echo ""
-        echo "*** PULL ***************************************************************************************************************"
-        echo ""
-
-        git                         \
-            pull                    \
-            --recurse-submodules    \
-            --all
-
-        echo ""
-        echo "*** LOG ****************************************************************************************************************"
-        echo ""
-
-        git     \
-            log \
-            -n1
-
-        echo ""
-
-        popd > /dev/null
-
-        popd > /dev/null
     fi
+
+    pushd "/work/${NAME}"  > /dev/null
+
+    git                 \
+        config          \
+        pager.log false
+
+    echo "*** CLEAN **************************************************************************************************************"
+    echo ""
+    echo "Cleaning"
+
+    git         \
+        clean   \
+        -dxf
+
+    echo ""
+    echo "*** RESET **************************************************************************************************************"
+    echo ""
+
+    git                             \
+        reset                       \
+        --hard ${BRANCH}
+
+    echo ""
+    echo "*** CHECKOUT ***********************************************************************************************************"
+    echo ""
+
+    git                         \
+        checkout                \
+        ${BRANCH}
+
+    echo ""
+    echo "*** PULL ***************************************************************************************************************"
+    echo ""
+
+    git                         \
+        pull                    \
+        --recurse-submodules    \
+        --all
+
+    echo ""
+    echo "*** LOG ****************************************************************************************************************"
+    echo ""
+
+    git     \
+        log \
+        -n1
+
+    echo ""
+
+    popd > /dev/null
+
+    popd > /dev/null
 }
 
 Process $@
