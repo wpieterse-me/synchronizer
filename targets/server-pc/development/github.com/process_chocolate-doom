@@ -16,7 +16,6 @@ function Process {
         --repository "chocolate-doom" --branch "master"                             \
         --repository "master-server" --branch "master"                              \
         --repository "music-packs" --branch "master"                                \
-        --repository "quickcheck" --branch "master"                                 \
         --repository "statcheck" --branch "master"                                  \
         --repository "icon" --branch "master"
 

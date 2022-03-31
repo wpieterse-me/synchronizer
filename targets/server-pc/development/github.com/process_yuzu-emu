@@ -16,8 +16,7 @@ function Process {
         --repository "yuzu" --branch "master"                                   \
         --repository "yuzu-emu.github.io" --branch "master"                     \
         --repository "yuzu-games-wiki" --branch "master"                        \
-        --repository "build-environments" --branch "master"                     \
-        --repository "unicorn" --branch "master"
+        --repository "build-environments" --branch "master"
 
     ProcessPost
 }

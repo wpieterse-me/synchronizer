@@ -14,10 +14,6 @@ function Process {
         --remote_base_path "https://gitlab.gnome.org/GNOME"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.gnome.org/GNOME"    \
         --repository "gimp" --branch "master"                                       \
-        --repository "gimp-book-painting" --branch "master"                         \
-        --repository "gimp-data-extras" --branch "master"                           \
-        --repository "gimp-gap" --branch "master"                                   \
-        --repository "gimp-help" --branch "master"                                  \
         --repository "glib" --branch "master"                                       \
         --repository "gparted" --branch "master"
 
