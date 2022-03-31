@@ -10,9 +10,10 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CallSubScripts                          \
-        --root "${THIS_SCRIPT_DIRECTORY}"   \
-        --script "process_wpieterse2825"
+    CallSubScripts                              \
+        --root "${THIS_SCRIPT_DIRECTORY}"       \
+        --script "process_wpieterse-general"    \
+        --script "process_wpieterse-paxbox"
 
     ProcessPost
 }
