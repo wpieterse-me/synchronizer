@@ -27,8 +27,6 @@ function Process {
         --script "process_Croteam-official"     \
         --script "process_CRYTEK"               \
         --script "process_David-Haim"           \
-        --script "process_electronicarts"       \
-        --script "process_EpicGames"            \
         --script "process_facebook"             \
         --script "process_facebookexperimental" \
         --script "process_FreeCAD"              \
