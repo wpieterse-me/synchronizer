@@ -21,7 +21,7 @@ function Process {
         --repository "emu2149" --branch "master"                                            \
         --repository "kss2vgm" --branch "master"                                            \
         --repository "emu2413" --branch "master"                                            \
-        --repository "pb3kss" --branch "master"                                             \
+        --repository "pb3kss" --branch "main"                                             \
         --repository "emu8950" --branch "master"                                            \
         --repository "mgsc" --branch "master"                                               \
         --repository "emu2212" --branch "master"                                            \

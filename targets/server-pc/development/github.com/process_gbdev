@@ -16,7 +16,7 @@ function Process {
         --repository "hardware.inc" --branch "master"                       \
         --repository "pandocs" --branch "master"                            \
         --repository "rgbds" --branch "master"                              \
-        --repository "gbdev.github.io" --branch "master"                    \
+        --repository "gbdev.github.io" --branch "dev"                       \
         --repository "database" --branch "master"                           \
         --repository "rgbds-www2" --branch "master"                         \
         --repository "awesome-gbdev" --branch "master"                      \

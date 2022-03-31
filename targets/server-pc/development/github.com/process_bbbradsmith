@@ -16,10 +16,7 @@ function Process {
         --repository "NESertGolfing" --branch "master"                              \
         --repository "nsfplay" --branch "master"                                    \
         --repository "huffmunch" --branch "master"                                  \
-        --repository "nes-audio-tests" --branch "master"                            \
-        --repository "libvgm" --branch "master"                                     \
-        --repository "vgmplay-libvgm" --branch "master"                             \
-        --repository "MidiConverters" --branch "master"
+        --repository "nes-audio-tests" --branch "master"
 
     ProcessPost
 }

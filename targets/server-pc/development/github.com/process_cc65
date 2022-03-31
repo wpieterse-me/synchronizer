@@ -14,7 +14,7 @@ function Process {
         --remote_base_path "https://github.com/cc65"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/cc65"   \
         --repository "cc65" --branch "master"                               \
-        --repository "ip65" --branch "master"                               \
+        --repository "ip65" --branch "main"                                 \
         --repository "cc65.github.io" --branch "master"                     \
         --repository "doc" --branch "master"                                \
         --repository "wiki" --branch "master"
