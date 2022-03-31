@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/mgba-emu"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/mgba-emu"   \
+        --repository "mgba" --branch "master"                                   \
+        --repository "dependencies" --branch "master"                           \
+        --repository "suite" --branch "master"                                  \
+        --repository "www" --branch "master"                                    \
+        --repository "mgba-news" --branch "master"                              \
+        --repository "gbatests" --branch "master"                               \
+        --repository "bios-dump" --branch "master"                              \
+        --repository "chip-assets" --branch "master"                            \
+        --repository "mgba-infrastructure" --branch "master"                    \
+        --repository "gbdoc" --branch "master"
+
+    ProcessPost
+}
+
+Process $@

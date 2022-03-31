@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories                                                                    \
+        --remote_base_path "https://github.com/digital-sound-antiques"                      \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/digital-sound-antiques" \
+        --repository "km6502" --branch "master"                                             \
+        --repository "digital-sound-antiques.github.io" --branch "master"                   \
+        --repository "in_msx" --branch "master"                                             \
+        --repository "emu2413-legacy" --branch "master"                                     \
+        --repository "libkss" --branch "master"                                             \
+        --repository "emu2149" --branch "master"                                            \
+        --repository "kss2vgm" --branch "master"                                            \
+        --repository "emu2413" --branch "master"                                            \
+        --repository "pb3kss" --branch "master"                                             \
+        --repository "emu8950" --branch "master"                                            \
+        --repository "mgsc" --branch "master"                                               \
+        --repository "emu2212" --branch "master"                                            \
+        --repository "emu76489" --branch "master"                                           \
+        --repository "kmz80" --branch "master"                                              \
+        --repository "kss-drivers" --branch "master"                                        \
+        --repository "vm2413" --branch "master"
+
+    ProcessPost
+}
+
+Process $@

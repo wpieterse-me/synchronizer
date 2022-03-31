@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/mamedev"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/mamedev"    \
+        --repository "mame" --branch "master"                                   \
+        --repository "www.mamedev.org" --branch "master"                        \
+        --repository "buildtools" --branch "master"                             \
+        --repository "discrete" --branch "master"                               \
+        --repository "netedit" --branch "master"                                \
+        --repository "delegates" --branch "master"                              \
+        --repository "retrocmd" --branch "master"                               \
+        --repository "dosplay" --branch "master"
+
+    ProcessPost
+}
+
+Process $@

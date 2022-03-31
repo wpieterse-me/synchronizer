@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories                                                    \
+        --remote_base_path "https://github.com/madler"                      \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/madler" \
+        --repository "sunzip" --branch "master"                             \
+        --repository "brotli" --branch "master"                             \
+        --repository "unzip" --branch "master"                              \
+        --repository "infgen" --branch "master"                             \
+        --repository "pigz" --branch "master"                               \
+        --repository "zlib" --branch "master"
+
+    ProcessPost
+}
+
+Process $@

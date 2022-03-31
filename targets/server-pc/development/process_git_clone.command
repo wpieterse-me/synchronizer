@@ -83,9 +83,6 @@ function Process {
 
     git                             \
         fetch                       \
-            --recurse-submodules    \
-            --jobs=16               \
-            --multiple              \
             origin
 
     echo ""
