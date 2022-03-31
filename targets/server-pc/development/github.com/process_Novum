@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/Novum" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/Novum" \
+    CloneGitRepositories                                                    \
+        --remote_base_path "https://github.com/Novum"                       \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/Novum"  \
         --repository "vkQuake" --branch "master"
 
     ProcessPost

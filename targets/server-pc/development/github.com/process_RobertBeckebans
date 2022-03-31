@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/RobertBeckebans" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/RobertBeckebans" \
+    CloneGitRepositories                                                                \
+        --remote_base_path "https://github.com/RobertBeckebans"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/RobertBeckebans"    \
         --repository "RBDOOM-3-BFG" --branch "master"
 
     ProcessPost

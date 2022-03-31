@@ -10,13 +10,13 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/ioquake" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ioquake" \
-        --repository "ioq3" --branch "main" \
-        --repository "jedi-outcast" --branch "main" \
-        --repository "three" --branch "main" \
-        --repository "launch" --branch "main" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/ioquake"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ioquake"    \
+        --repository "ioq3" --branch "main"                                     \
+        --repository "jedi-outcast" --branch "main"                             \
+        --repository "three" --branch "main"                                    \
+        --repository "launch" --branch "main"                                   \
         --repository "jedi-academy" --branch "main"
 
     ProcessPost

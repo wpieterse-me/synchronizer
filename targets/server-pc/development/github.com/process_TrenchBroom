@@ -10,13 +10,13 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/TrenchBroom" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/TrenchBroom" \
-        --repository "TrenchBroom" --branch "main" \
-        --repository "vecmath" --branch "main" \
-        --repository "dev-tools" --branch "main" \
-        --repository "TrenchBroom.github.io" --branch "main" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://github.com/TrenchBroom"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/TrenchBroom"    \
+        --repository "TrenchBroom" --branch "main"                                  \
+        --repository "vecmath" --branch "main"                                      \
+        --repository "dev-tools" --branch "main"                                    \
+        --repository "TrenchBroom.github.io" --branch "main"                        \
         --repository "manual" --branch "main"
 
     ProcessPost

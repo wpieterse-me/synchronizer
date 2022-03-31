@@ -10,10 +10,10 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/CRYTEK" \
+    CloneGitRepositories                                                    \
+        --remote_base_path "https://github.com/CRYTEK"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/CRYTEK" \
-        --repository "CRYENGINE" --branch "release" \
+        --repository "CRYENGINE" --branch "release"                         \
         --repository "GameSDK" --branch "release"
 
     ProcessPost

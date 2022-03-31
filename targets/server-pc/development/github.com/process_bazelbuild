@@ -10,32 +10,32 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/bazelbuild" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/bazelbuild"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/bazelbuild" \
-        --repository "bazel" --branch "master" \
-        --repository "rules_go" --branch "master" \
-        --repository "bazel-skylib" --branch "master" \
-        --repository "continuous-integration" --branch "master" \
-        --repository "examples" --branch "master" \
-        --repository "rules_apple" --branch "master" \
-        --repository "rules_pkg" --branch "master" \
-        --repository "rules_proto" --branch "master" \
-        --repository "bazelisk" --branch "master" \
-        --repository "bazel-central-registry" --branch "master" \
-        --repository "rules_license" --branch "master" \
-        --repository "rules_python" --branch "master" \
-        --repository "bazel-integration-testing" --branch "master" \
-        --repository "bazel-blog" --branch "master" \
-        --repository "stardoc" --branch "master" \
-        --repository "buildtools" --branch "master" \
-        --repository "rules_jsonnet" --branch "master" \
-        --repository "rules_cc" --branch "master" \
-        --repository "starlark" --branch "master" \
-        --repository "rules_android" --branch "master" \
-        --repository "remote-apis" --branch "master" \
-        --repository "bazel-website" --branch "master" \
-        --repository "platforms" --branch "master" \
+        --repository "bazel" --branch "master"                                  \
+        --repository "rules_go" --branch "master"                               \
+        --repository "bazel-skylib" --branch "master"                           \
+        --repository "continuous-integration" --branch "master"                 \
+        --repository "examples" --branch "master"                               \
+        --repository "rules_apple" --branch "master"                            \
+        --repository "rules_pkg" --branch "master"                              \
+        --repository "rules_proto" --branch "master"                            \
+        --repository "bazelisk" --branch "master"                               \
+        --repository "bazel-central-registry" --branch "master"                 \
+        --repository "rules_license" --branch "master"                          \
+        --repository "rules_python" --branch "master"                           \
+        --repository "bazel-integration-testing" --branch "master"              \
+        --repository "bazel-blog" --branch "master"                             \
+        --repository "stardoc" --branch "master"                                \
+        --repository "buildtools" --branch "master"                             \
+        --repository "rules_jsonnet" --branch "master"                          \
+        --repository "rules_cc" --branch "master"                               \
+        --repository "starlark" --branch "master"                               \
+        --repository "rules_android" --branch "master"                          \
+        --repository "remote-apis" --branch "master"                            \
+        --repository "bazel-website" --branch "master"                          \
+        --repository "platforms" --branch "master"                              \
         --repository "rules_fuzzing" --branch "master"
 
     ProcessPost

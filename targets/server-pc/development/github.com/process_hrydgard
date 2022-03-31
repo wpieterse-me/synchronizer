@@ -10,17 +10,17 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/hrydgard" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/hrydgard" \
-        --repository "ppsspp" --branch "master" \
-        --repository "pspautotests" --branch "master" \
-        --repository "minitrace" --branch "master" \
-        --repository "ppsspp-ffmpeg" --branch "master" \
-        --repository "minidx9" --branch "master" \
-        --repository "glslang" --branch "master" \
-        --repository "ppsspp-freetype" --branch "master" \
-        --repository "miniupnp" --branch "master" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/hrydgard"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/hrydgard"   \
+        --repository "ppsspp" --branch "master"                                 \
+        --repository "pspautotests" --branch "master"                           \
+        --repository "minitrace" --branch "master"                              \
+        --repository "ppsspp-ffmpeg" --branch "master"                          \
+        --repository "minidx9" --branch "master"                                \
+        --repository "glslang" --branch "master"                                \
+        --repository "ppsspp-freetype" --branch "master"                        \
+        --repository "miniupnp" --branch "master"                               \
         --repository "ppsspp-mac-sdl" --branch "master"
 
     ProcessPost

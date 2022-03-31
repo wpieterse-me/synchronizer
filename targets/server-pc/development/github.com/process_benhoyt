@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/benhoyt" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/benhoyt" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/benhoyt"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/benhoyt"    \
         --repository "inih" --branch "master"
 
     ProcessPost

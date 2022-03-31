@@ -10,8 +10,8 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/leandromoreira" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://github.com/leandromoreira"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/leandromoreira" \
         --repository "digital_video_introduction" --branch "master"
 

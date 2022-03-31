@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/Croteam-official" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/Croteam-official" \
+    CloneGitRepositories                                                                \
+        --remote_base_path "https://github.com/Croteam-official"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/Croteam-official"   \
         --repository "Serious-Engine" --branch "master"
 
     ProcessPost

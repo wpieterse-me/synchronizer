@@ -10,22 +10,22 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/OpenRCT2" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenRCT2" \
-        --repository "OpenRCT2" --branch "develop" \
-        --repository "objects" --branch "master" \
-        --repository "Localisation" --branch "master" \
-        --repository "replays" --branch "master" \
-        --repository "title-sequence-editor" --branch "master" \
-        --repository "OpenGraphics" --branch "master" \
-        --repository "docs" --branch "master" \
-        --repository "openrct2-docker-build" --branch "master" \
-        --repository "openrct2-docker" --branch "master" \
-        --repository "OpenScenarios" --branch "master" \
-        --repository "openrct2.github.io" --branch "master" \
-        --repository "OpenSoundEffects" --branch "master" \
-        --repository "OpenMusic" --branch "master" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/OpenRCT2"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenRCT2"   \
+        --repository "OpenRCT2" --branch "develop"                              \
+        --repository "objects" --branch "master"                                \
+        --repository "Localisation" --branch "master"                           \
+        --repository "replays" --branch "master"                                \
+        --repository "title-sequence-editor" --branch "master"                  \
+        --repository "OpenGraphics" --branch "master"                           \
+        --repository "docs" --branch "master"                                   \
+        --repository "openrct2-docker-build" --branch "master"                  \
+        --repository "openrct2-docker" --branch "master"                        \
+        --repository "OpenScenarios" --branch "master"                          \
+        --repository "openrct2.github.io" --branch "master"                     \
+        --repository "OpenSoundEffects" --branch "master"                       \
+        --repository "OpenMusic" --branch "master"                              \
         --repository "title-sequences" --branch "master"
 
     ProcessPost

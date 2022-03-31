@@ -12,13 +12,13 @@ function Process {
 
     PrintBanner "plex-project"
 
-    docker-compose \
-        --project-name "plex-project" \
+    docker-compose                                                  \
+        --project-name "plex-project"                               \
         --file "${THIS_SCRIPT_DIRECTORY}/process_service_plex.yaml" \
-        up \
-            --detach \
-            --force-recreate \
-            --build \
+        up                                                          \
+            --detach                                                \
+            --force-recreate                                        \
+            --build                                                 \
             --remove-orphans
 
     ProcessPost

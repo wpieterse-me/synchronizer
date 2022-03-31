@@ -10,8 +10,8 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/tensorflow" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/tensorflow"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/tensorflow" \
         --repository "tensorflow" --branch "master"
 

@@ -10,13 +10,13 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/postgres" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/postgres" \
-        --repository "postgres" --branch "master" \
-        --repository "pgweb" --branch "master" \
-        --repository "test" --branch "master" \
-        --repository "pgagent" --branch "master" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/postgres"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/postgres"   \
+        --repository "postgres" --branch "master"                               \
+        --repository "pgweb" --branch "master"                                  \
+        --repository "test" --branch "master"                                   \
+        --repository "pgagent" --branch "master"                                \
         --repository "pgweb-static" --branch "master"
 
     ProcessPost

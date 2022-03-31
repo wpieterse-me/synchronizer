@@ -10,11 +10,11 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/powervs-graphics" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/powervs-graphics" \
-        --repository "PowerVR-Series1" --branch "main" \
-        --repository "powervr-graphics.github.io" --branch "main" \
+    CloneGitRepositories                                                                \
+        --remote_base_path "https://github.com/powervs-graphics"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/powervs-graphics"   \
+        --repository "PowerVR-Series1" --branch "main"                                  \
+        --repository "powervr-graphics.github.io" --branch "main"                       \
         --repository "PVRCapabilities" --branch "main"
 
     ProcessPost

@@ -10,16 +10,16 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/SFTtech" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/SFTtech" \
-        --repository "openage" --branch "master" \
-        --repository "nyan" --branch "master" \
-        --repository "openage-data" --branch "master" \
-        --repository "openage-masterserver" --branch "master" \
-        --repository "openage-webdoc" --branch "master" \
-        --repository "openage-website" --branch "master" \
-        --repository "openage-data-3dmodels" --branch "master" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/SFTtech"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/SFTtech"    \
+        --repository "openage" --branch "master"                                \
+        --repository "nyan" --branch "master"                                   \
+        --repository "openage-data" --branch "master"                           \
+        --repository "openage-masterserver" --branch "master"                   \
+        --repository "openage-webdoc" --branch "master"                         \
+        --repository "openage-website" --branch "master"                        \
+        --repository "openage-data-3dmodels" --branch "master"                  \
         --repository "openage-modding" --branch "master"
 
     ProcessPost

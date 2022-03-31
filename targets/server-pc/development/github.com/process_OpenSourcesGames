@@ -10,24 +10,24 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/OpenSourcedGames" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenSourcedGames" \
-        --repository "keen" --branch "master" \
-        --repository "CatacombArmageddon" --branch "master" \
-        --repository "CatacombAbyss" --branch "master" \
-        --repository "Catacomb3D" --branch "master" \
-        --repository "TheCatacomb" --branch "master" \
-        --repository "Catacomb" --branch "master" \
-        --repository "Heretic" --branch "master" \
-        --repository "Hexen" --branch "master" \
-        --repository "Arx-Fatalis" --branch "master" \
-        --repository "jedi_academy" --branch "master" \
-        --repository "Rise-of-the-Triad" --branch "master" \
-        --repository "Descent-2" --branch "master" \
-        --repository "Descent" --branch "master" \
-        --repository "Homeworld" --branch "master" \
-        --repository "Aliens-vs-Predator" --branch "master" \
+    CloneGitRepositories                                                                \
+        --remote_base_path "https://github.com/OpenSourcedGames"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenSourcedGames"   \
+        --repository "keen" --branch "master"                                           \
+        --repository "CatacombArmageddon" --branch "master"                             \
+        --repository "CatacombAbyss" --branch "master"                                  \
+        --repository "Catacomb3D" --branch "master"                                     \
+        --repository "TheCatacomb" --branch "master"                                    \
+        --repository "Catacomb" --branch "master"                                       \
+        --repository "Heretic" --branch "master"                                        \
+        --repository "Hexen" --branch "master"                                          \
+        --repository "Arx-Fatalis" --branch "master"                                    \
+        --repository "jedi_academy" --branch "master"                                   \
+        --repository "Rise-of-the-Triad" --branch "master"                              \
+        --repository "Descent-2" --branch "master"                                      \
+        --repository "Descent" --branch "master"                                        \
+        --repository "Homeworld" --branch "master"                                      \
+        --repository "Aliens-vs-Predator" --branch "master"                             \
         --repository "Prince-of-Persia" --branch "master"
 
     ProcessPost

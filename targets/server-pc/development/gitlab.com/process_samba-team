@@ -10,8 +10,8 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://gitlab.com/samba-team" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://gitlab.com/samba-team"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.com/samba-team" \
         --repository "samba" --branch "master"
 

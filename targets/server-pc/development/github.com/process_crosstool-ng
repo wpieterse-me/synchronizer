@@ -10,10 +10,10 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/crosstool-ng" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/crosstool-ng" \
-        --repository "crosstool-ng" --branch "release" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://github.com/crosstool-ng"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/crosstool-ng"   \
+        --repository "crosstool-ng" --branch "release"                              \
         --repository "crosstool-ng.github.io" --branch "release"
 
     ProcessPost

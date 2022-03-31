@@ -10,13 +10,13 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "git://git.blender.org" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.blender.org" \
-        --repository "blender" --branch "master" \
-        --repository "blender-addons" --branch "master" \
-        --repository "blender-addons-contrib" --branch "master" \
-        --repository "blender-translations" --branch "master" \
+    CloneGitRepositories                                                    \
+        --remote_base_path "git://git.blender.org"                          \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.blender.org"   \
+        --repository "blender" --branch "master"                            \
+        --repository "blender-addons" --branch "master"                     \
+        --repository "blender-addons-contrib" --branch "master"             \
+        --repository "blender-translations" --branch "master"               \
         --repository "blender-dev-tools" --branch "master"
 
     ProcessPost

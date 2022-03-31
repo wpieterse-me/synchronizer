@@ -12,13 +12,13 @@ function Process {
 
     PrintBanner "deluge-project"
 
-    docker-compose \
-        --project-name "deluge-project" \
-        --file "${THIS_SCRIPT_DIRECTORY}/process_service_deluge.yaml" \
-        up \
-            --detach \
-            --force-recreate \
-            --build \
+    docker-compose                                                      \
+        --project-name "deluge-project"                                 \
+        --file "${THIS_SCRIPT_DIRECTORY}/process_service_deluge.yaml"   \
+        up                                                              \
+            --detach                                                    \
+            --force-recreate                                            \
+            --build                                                     \
             --remove-orphans
 
     ProcessPost

@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.kernel.org/pub/scm/linux/kernel/git/torvalds" \
+    CloneGitRepositories                                                                                    \
+        --remote_base_path "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.kernel.org/pub/scm/linux/kernel/git/torvalds"  \
         --repository "linux" --branch "master"
 
     ProcessPost

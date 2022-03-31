@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CallSubScripts \
-        --root "${THIS_SCRIPT_DIRECTORY}" \
-        --script "process_service_deluge" \
+    CallSubScripts                          \
+        --root "${THIS_SCRIPT_DIRECTORY}"   \
+        --script "process_service_deluge"   \
         --script "process_service_plex"
 
     ProcessPost

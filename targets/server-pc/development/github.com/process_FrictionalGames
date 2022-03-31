@@ -10,12 +10,12 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/FrictionalGames" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/FrictionalGames" \
-        --repository "AmnesiaAMachineForPigs" --branch "master" \
-        --repository "AmnesiaTheDarkDescent" --branch "master" \
-        --repository "HPL1Engine" --branch "master" \
+    CloneGitRepositories                                                                \
+        --remote_base_path "https://github.com/FrictionalGames"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/FrictionalGames"    \
+        --repository "AmnesiaAMachineForPigs" --branch "master"                         \
+        --repository "AmnesiaTheDarkDescent" --branch "master"                          \
+        --repository "HPL1Engine" --branch "master"                                     \
         --repository "PenumbraOverture" --branch "master"
 
     ProcessPost

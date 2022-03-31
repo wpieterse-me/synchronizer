@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/ihhub" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ihhub" \
+    CloneGitRepositories                                                    \
+        --remote_base_path "https://github.com/ihhub"                       \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ihhub"  \
         --repository "fheroes2" --branch "master"
 
     ProcessPost

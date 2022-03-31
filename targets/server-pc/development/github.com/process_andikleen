@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/andikleen" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/andikleen" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/andikleen"                       \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/andikleen"  \
         --repository "pmu-tools" --branch "master"
 
     ProcessPost

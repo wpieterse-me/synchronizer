@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://gitlab.kitware.com/cmake" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.kitware.com/cmake" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://gitlab.kitware.com/cmake"                       \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.kitware.com/cmake"  \
         --repository "cmake" --branch "master"
 
     ProcessPost

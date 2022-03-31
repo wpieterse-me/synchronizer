@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/KhronosGroup" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/KhronosGroup" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://github.com/KhronosGroup"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/KhronosGroup"   \
         --repository "glslang" --branch "master"
 
     ProcessPost

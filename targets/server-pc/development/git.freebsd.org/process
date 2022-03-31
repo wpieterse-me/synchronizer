@@ -10,11 +10,11 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://git.freebsd.org" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.freebsd.org" \
-        --repository "doc" --branch "main" \
-        --repository "ports" --branch "main" \
+    CloneGitRepositories                                                    \
+        --remote_base_path "https://git.freebsd.org"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.freebsd.org"   \
+        --repository "doc" --branch "main"                                  \
+        --repository "ports" --branch "main"                                \
         --repository "src" --branch "main"
 
     ProcessPost

@@ -10,16 +10,16 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/yquake2" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/yquake2" \
-        --repository "yquake2" --branch "master" \
-        --repository "ctf" --branch "master" \
-        --repository "ref_vk" --branch "master" \
-        --repository "rogue" --branch "master" \
-        --repository "xatrix" --branch "master" \
-        --repository "maptools" --branch "master" \
-        --repository "pakextract" --branch "master" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/yquake2"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/yquake2"    \
+        --repository "yquake2" --branch "master"                                \
+        --repository "ctf" --branch "master"                                    \
+        --repository "ref_vk" --branch "master"                                 \
+        --repository "rogue" --branch "master"                                  \
+        --repository "xatrix" --branch "master"                                 \
+        --repository "maptools" --branch "master"                               \
+        --repository "pakextract" --branch "master"                             \
         --repository "extractfunctions" --branch "master"
 
     ProcessPost

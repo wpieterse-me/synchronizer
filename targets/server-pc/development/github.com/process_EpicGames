@@ -10,11 +10,11 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    # CloneGitRepositories \
-    #     --remote_base_path "ssh://git@github.com:EpicGames" \
-    #     --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/EpicGames" \
-    #     --repository "UnrealEngine" --branch "release" \
-    #     --repository "UnrealTournament" --branch "clean-master" \
+    # CloneGitRepositories                                                          \
+    #     --remote_base_path "ssh://git@github.com:EpicGames"                       \
+    #     --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/EpicGames"    \
+    #     --repository "UnrealEngine" --branch "release"                            \
+    #     --repository "UnrealTournament" --branch "clean-master"                   \
     #     --repository "BlenderTools" --branch "master"
 
     ProcessPost

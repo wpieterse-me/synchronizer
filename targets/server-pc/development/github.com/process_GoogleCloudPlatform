@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/GoogleCloudPlatform" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/GoogleCloudPlatform" \
+    CloneGitRepositories                                                                    \
+        --remote_base_path "https://github.com/GoogleCloudPlatform"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/GoogleCloudPlatform"    \
         --repository "cloud-spanner-emulator" --branch "master"
 
     ProcessPost

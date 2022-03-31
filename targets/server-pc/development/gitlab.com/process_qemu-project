@@ -10,32 +10,32 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://gitlab.com/qemu-project" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.com/qemu-project" \
-        --repository "qemu" --branch "master" \
-        --repository "seabios" --branch "master" \
-        --repository "SLOF" --branch "master" \
-        --repository "ipxe" --branch "master" \
-        --repository "openbios" --branch "master" \
-        --repository "qemu-palcode" --branch "master" \
-        --repository "sgabios" --branch "master" \
-        --repository "dtc" --branch "master" \
-        --repository "u-boot" --branch "master" \
-        --repository "skiboot" --branch "master" \
-        --repository "QemuMacDrivers" --branch "master" \
-        --repository "keycodemapdb" --branch "master" \
-        --repository "capstone" --branch "master" \
-        --repository "seabios-hppa" --branch "master" \
-        --repository "u-boot-sam460ex" --branch "master" \
-        --repository "barkeley-testfloat-3" --branch "master" \
-        --repository "barkeley-softfloat-3" --branch "master" \
-        --repository "edk2" --branch "master" \
-        --repository "libslirp" --branch "master" \
-        --repository "opensbi" --branch "master" \
-        --repository "qboot" --branch "master" \
-        --repository "meson" --branch "master" \
-        --repository "vbootrom" --branch "master" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://gitlab.com/qemu-project"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.com/qemu-project"   \
+        --repository "qemu" --branch "master"                                       \
+        --repository "seabios" --branch "master"                                    \
+        --repository "SLOF" --branch "master"                                       \
+        --repository "ipxe" --branch "master"                                       \
+        --repository "openbios" --branch "master"                                   \
+        --repository "qemu-palcode" --branch "master"                               \
+        --repository "sgabios" --branch "master"                                    \
+        --repository "dtc" --branch "master"                                        \
+        --repository "u-boot" --branch "master"                                     \
+        --repository "skiboot" --branch "master"                                    \
+        --repository "QemuMacDrivers" --branch "master"                             \
+        --repository "keycodemapdb" --branch "master"                               \
+        --repository "capstone" --branch "master"                                   \
+        --repository "seabios-hppa" --branch "master"                               \
+        --repository "u-boot-sam460ex" --branch "master"                            \
+        --repository "barkeley-testfloat-3" --branch "master"                       \
+        --repository "barkeley-softfloat-3" --branch "master"                       \
+        --repository "edk2" --branch "master"                                       \
+        --repository "libslirp" --branch "master"                                   \
+        --repository "opensbi" --branch "master"                                    \
+        --repository "qboot" --branch "master"                                      \
+        --repository "meson" --branch "master"                                      \
+        --repository "vbootrom" --branch "master"                                   \
         --repository "libvirt-ci" --branch "master"
 
     ProcessPost

@@ -10,17 +10,17 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://git.savannah.gnu.org/git" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.savannah.gnu.org/git" \
-        --repository "bash" --branch "master" \
-        --repository "bison" --branch "master" \
-        --repository "cpio" --branch "master" \
-        --repository "fastcgi" --branch "master" \
-        --repository "fastcgipp" --branch "master" \
-        --repository "grub-extras" --branch "master" \
-        --repository "grub" --branch "master" \
-        --repository "make" --branch "master" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://git.savannah.gnu.org/git"                       \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/git.savannah.gnu.org/git"  \
+        --repository "bash" --branch "master"                                       \
+        --repository "bison" --branch "master"                                      \
+        --repository "cpio" --branch "master"                                       \
+        --repository "fastcgi" --branch "master"                                    \
+        --repository "fastcgipp" --branch "master"                                  \
+        --repository "grub-extras" --branch "master"                                \
+        --repository "grub" --branch "master"                                       \
+        --repository "make" --branch "master"                                       \
         --repository "nano" --branch "master"
 
     ProcessPost

@@ -10,11 +10,11 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/reactos" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/reactos" \
-        --repository "reactos" --branch "master" \
-        --repository "rapps-db" --branch "master" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/reactos"                         \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/reactos"    \
+        --repository "reactos" --branch "master"                                \
+        --repository "rapps-db" --branch "master"                               \
         --repository "web-content" --branch "master"
 
     ProcessPost

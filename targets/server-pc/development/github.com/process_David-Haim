@@ -10,8 +10,8 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/David-Haim" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/David-Haim"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/David-Haim" \
         --repository "concurrencpp" --branch "main"
 

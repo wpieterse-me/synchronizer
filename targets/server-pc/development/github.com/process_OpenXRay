@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/OpenXRay" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenXRay" \
+    CloneGitRepositories                                                        \
+        --remote_base_path "https://github.com/OpenXRay"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenXRay"   \
         --repository "xray-16" --branch "dev"
 
     ProcessPost

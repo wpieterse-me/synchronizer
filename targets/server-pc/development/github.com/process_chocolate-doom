@@ -10,14 +10,14 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/chocolate-doom" \
+    CloneGitRepositories                                                            \
+        --remote_base_path "https://github.com/chocolate-doom"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/chocolate-doom" \
-        --repository "chocolate-doom" --branch "master" \
-        --repository "master-server" --branch "master" \
-        --repository "music-packs" --branch "master" \
-        --repository "quickcheck" --branch "master" \
-        --repository "statcheck" --branch "master" \
+        --repository "chocolate-doom" --branch "master"                             \
+        --repository "master-server" --branch "master"                              \
+        --repository "music-packs" --branch "master"                                \
+        --repository "quickcheck" --branch "master"                                 \
+        --repository "statcheck" --branch "master"                                  \
         --repository "icon" --branch "master"
 
     ProcessPost

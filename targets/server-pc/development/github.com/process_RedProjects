@@ -10,12 +10,12 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories \
-        --remote_base_path "https://github.com/RedPandaProjects" \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/RedPandaProjects" \
-        --repository "XRayEngine" --branch "master" \
-        --repository "RedSource" --branch "master" \
-        --repository "CSEngine" --branch "master" \
+    CloneGitRepositories                                                                \
+        --remote_base_path "https://github.com/RedPandaProjects"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/RedPandaProjects"   \
+        --repository "XRayEngine" --branch "master"                                     \
+        --repository "RedSource" --branch "master"                                      \
+        --repository "CSEngine" --branch "master"                                       \
         --repository "UnrealEngine" --branch "master"
 
     ProcessPost
