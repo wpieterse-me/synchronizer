@@ -54,7 +54,7 @@ function Process {
     done
 
     ssh-add \
-        -l
+        -l > /dev/null
 
     pushd /work > /dev/null
 
@@ -72,7 +72,7 @@ function Process {
         echo ""
     fi
 
-    pushd "/work/${NAME}"  > /dev/null
+    pushd "/work/${NAME}" > /dev/null
 
     git                     \
         config              \

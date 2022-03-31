@@ -65,7 +65,7 @@ function Process {
     done
 
     ssh-add \
-        -l
+        -l > /dev/null
 
     pushd /work > /dev/null
 
