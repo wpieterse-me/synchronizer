@@ -13,13 +13,7 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/minetest"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/minetest"   \
-        --repository "minetest" --branch "master"                               \
-        --repository "minetest_game" --branch "master"                          \
-        --repository "minetest_docs" --branch "master"                          \
-        --repository "contentdb" --branch "master"                              \
-        --repository "minetest.github.io" --branch "master"                     \
-        --repository "minetestmapper" --branch "master"                         \
-        --repository "serverlist" --branch "master"
+        --repository "minetest" --branch "master"
 
     ProcessPost
 }

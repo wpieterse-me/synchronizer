@@ -13,16 +13,7 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/spring"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/spring" \
-        --repository "spring" --branch "develop"                            \
-        --repository "HughAI" --branch "master"                             \
-        --repository "Python" --branch "master"                             \
-        --repository "Shard" --branch "master"                              \
-        --repository "KAIK" --branch "master"                               \
-        --repository "CircuitAI" --branch "master"                          \
-        --repository "pyunitsync" --branch "master"                         \
-        --repository "pr-downloader" --branch "master"                      \
-        --repository "SpringMapConvNG" --branch "master"                    \
-        --repository "AAI" --branch "master"
+        --repository "spring" --branch "develop"
 
     ProcessPost
 }

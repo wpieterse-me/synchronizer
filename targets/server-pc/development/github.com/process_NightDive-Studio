@@ -13,10 +13,7 @@ function Process {
     CloneGitRepositories                                                                \
         --remote_base_path "https://github.com/NightDive-Studio"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/NightDive-Studio"   \
-        --repository "shockmac" --branch "master"                                       \
-        --repository "strife-ve" --branch "master"                                      \
-        --repository "machines" --branch "master"                                       \
-        --repository "sin-ex-game" --branch "master"
+        --repository "shockmac" --branch "master"
 
     ProcessPost
 }

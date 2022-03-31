@@ -13,20 +13,7 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/OpenRA"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenRA" \
-        --repository "OpenRA" --branch "bleed"                              \
-        --repository "openra.github.io" --branch "master"                   \
-        --repository "OpenRAWebsiteV3" --branch "master"                    \
-        --repository "book" --branch "master"                               \
-        --repository "OpenRA-Resources" --branch "master"                   \
-        --repository "ra2" --branch "master"                                \
-        --repository "OpenRAMasterServer" --branch "master"                 \
-        --repository "vscode-openra-lua" --branch "master"                  \
-        --repository "ArtSrc" --branch "master"                             \
-        --repository "OpenRAModSDK" --branch "master"                       \
-        --repository "d2" --branch "master"                                 \
-        --repository "docs" --branch "master"                               \
-        --repository "raclassic" --branch "master"                          \
-        --repository "TilesetBuilder" --branch "master"
+        --repository "OpenRA" --branch "bleed"
 
     ProcessPost
 }

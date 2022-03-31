@@ -13,11 +13,7 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/audacity"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/audacity"   \
-        --repository "audacity" --branch "master"                               \
-        --repository "audacity-support" --branch "master"                       \
-        --repository "audacity-actions" --branch "master"                       \
-        --repository "audacity-project-tools" --branch "master"                 \
-        --repository "audacity-manual" --branch "master"
+        --repository "audacity" --branch "master"
 
     ProcessPost
 }

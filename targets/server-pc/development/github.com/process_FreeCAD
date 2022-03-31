@@ -13,26 +13,7 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/FreeCAD"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/FreeCAD"    \
-        --repository "FreeCAD" --branch "master"                                \
-        --repository "FreeCAD-macros" --branch "master"                         \
-        --repository "FreeCAD-render" --branch "master"                         \
-        --repository "FreeCAD-addons" --branch "master"                         \
-        --repository "FreeCAD-documentation" --branch "master"                  \
-        --repository "FreeCAD-library" --branch "master"                        \
-        --repository "FreeCAD-Homepage" --branch "master"                       \
-        --repository "FPA" --branch "master"                                    \
-        --repository "FreeCAD_Conda" --branch "master"                          \
-        --repository "FreeCAD-CI" --branch "master"                             \
-        --repository "FreeCAD-translations" --branch "master"                   \
-        --repository "Docker" --branch "master"                                 \
-        --repository "SourceDoc" --branch "master"                              \
-        --repository "FreeCAD-Doc" --branch "master"                            \
-        --repository "FreeCAD-Enhancement-Proposals" --branch "master"          \
-        --repository "Examples" --branch "master"                               \
-        --repository "FreeCAD-icons" --branch "master"                          \
-        --repository "FreeCAD-blog" --branch "master"                           \
-        --repository "freecad.github.io" --branch "master"                      \
-        --repository "FreeCAD-symbols" --branch "master"
+        --repository "FreeCAD" --branch "master"
 
     ProcessPost
 }

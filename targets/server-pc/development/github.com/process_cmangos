@@ -13,13 +13,7 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/cmangos"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/cmangos"    \
-        --repository "mangos-tbc" --branch "master"                             \
-        --repository "mangos-classic" --branch "master"                         \
-        --repository "mangos-wotlk" --branch "master"                           \
-        --repository "tbc-db" --branch "master"                                 \
-        --repository "classic-db" --branch "master"                             \
-        --repository "wotlk-db" --branch "master"                               \
-        --repository "mangos-cata" --branch "master"
+        --repository "mangos-tbc" --branch "master"
 
     ProcessPost
 }

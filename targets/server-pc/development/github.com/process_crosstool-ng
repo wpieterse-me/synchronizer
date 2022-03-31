@@ -13,8 +13,7 @@ function Process {
     CloneGitRepositories                                                            \
         --remote_base_path "https://github.com/crosstool-ng"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/crosstool-ng"   \
-        --repository "crosstool-ng" --branch "release"                              \
-        --repository "crosstool-ng.github.io" --branch "release"
+        --repository "crosstool-ng" --branch "release"
 
     ProcessPost
 }

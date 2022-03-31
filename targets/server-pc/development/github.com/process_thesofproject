@@ -13,17 +13,7 @@ function Process {
     CloneGitRepositories \
         --remote_base_path "https://github.com/thesofproject"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/thesofproject"  \
-        --repository "sof-test" --branch "main"                                     \
-        --repository "sof" --branch "main"                                          \
-        --repository "sof-docs" --branch "main"                                     \
-        --repository "thesofproject.github.io" --branch "main"                      \
-        --repository "rimage" --branch "main"                                       \
-        --repository "sof-bin" --branch "main"                                      \
-        --repository "converged-mpp" --branch "main"                                \
-        --repository "converged-sof-modules" --branch "main"                        \
-        --repository "ipc-tuples" --branch "main"                                   \
-        --repository "sof-diagnostic-driver" --branch "main"                        \
-        --repository "build-scripts" --branch "main"
+        --repository "sof" --branch "main"
 
     ProcessPost
 }

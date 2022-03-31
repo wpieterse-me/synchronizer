@@ -13,15 +13,7 @@ function Process {
     CloneGitRepositories                                                            \
         --remote_base_path "https://github.com/electronicarts"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/electronicarts" \
-        --repository "CnC_Remastered_Collection" --branch "master"                  \
-        --repository "EASTL" --branch "master"                                      \
-        --repository "EABase" --branch "master"                                     \
-        --repository "EACopy" --branch "master"                                     \
-        --repository "EAStdC" --branch "master"                                     \
-        --repository "EAThread" --branch "master"                                   \
-        --repository "EATest" --branch "master"                                     \
-        --repository "EAMain" --branch "master"                                     \
-        --repository "EAAssert" --branch "master"
+        --repository "CnC_Remastered_Collection" --branch "master"
 
     ProcessPost
 }
