@@ -89,7 +89,6 @@ function Process {
         config              \
             pager.log false
 
-    echo ""
     echo "*** RESET REMOTES ******************************************************************************************************"
     echo ""
 

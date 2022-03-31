@@ -17,6 +17,8 @@ function Process {
         --file "${THIS_SCRIPT_DIRECTORY}/process_git_synchronize.Dockerfile"    \
         ${THIS_SCRIPT_DIRECTORY}
 
+    echo ""
+
     ProcessPost
 }
 

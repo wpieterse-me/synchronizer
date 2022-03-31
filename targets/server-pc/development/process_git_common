@@ -19,6 +19,8 @@ function Process {
         --file "${THIS_SCRIPT_DIRECTORY}/process_git_common.Dockerfile" \
         ${THIS_SCRIPT_DIRECTORY}
 
+    echo ""
+
     ProcessPost
 }
 

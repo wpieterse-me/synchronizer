@@ -21,6 +21,8 @@ function Process {
             --build                                                 \
             --remove-orphans
 
+    echo ""
+
     ProcessPost
 }
 
