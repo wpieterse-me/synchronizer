@@ -43,6 +43,7 @@ function Process {
         --script "process_ioquake"              \
         --script "process_KDE"                  \
         --script "process_KhronosGroup"         \
+        --script "process_kilograham"           \
         --script "process_KranX"                \
         --script "process_leandromoreira"       \
         --script "process_lewissbaker"          \
