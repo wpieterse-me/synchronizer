@@ -19,7 +19,6 @@ function Process {
         --repository "prey-sdk" --branch "main"                                     \
         --repository "quake-4-sdk" --branch "main"                                  \
         --repository "quake-wars-sdk" --branch "main"                               \
-        --repository "synchronizer" --branch "main"                                 \
         --repository "unrealengine-1-1996" --branch "main"                          \
         --repository "unrealengine-1-1997" --branch "main"                          \
         --repository "windows-10" --branch "main"                                   \
