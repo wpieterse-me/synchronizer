@@ -1,20 +1,25 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/storm-devs" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/storm-devs" \
-        --repository "storm-engine" --branch "develop"
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/storm-devs" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/storm-devs" \
+        --repository "storm-engine" --branch "develop" \
+        --repository "sd-teho-public" --branch "main" \
+        --repository "coas" --branch "main" \
+        --repository "potc" --branch "main" \
+        --repository "seadogs-file-formats" --branch "main"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

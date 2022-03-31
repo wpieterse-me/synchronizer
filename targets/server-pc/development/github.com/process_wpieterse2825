@@ -1,33 +1,35 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "git@github.com:wpieterse2825" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/wpieterse2825" \
-        --repository "paxbox" --branch "main" \
-        --repository "game-assets" --branch "main" \
-        --repository "unrealengine-1-1996" --branch "main" \
-        --repository "unrealengine-1-1997" --branch "main" \
-        --repository "quake-4-sdk" --branch "main" \
-        --repository "quake-wars-sdk" --branch "main" \
-        --repository "prey-sdk" --branch "main" \
-        --repository "windows-nt-350" --branch "main" \
-        --repository "windows-nt-400" --branch "main" \
-        --repository "windows-nt-600" --branch "main" \
-        --repository "open-nt-400" --branch "main" \
-        --repository "windows-research-kernel" --branch "main" \
-        --repository "xbox" --branch "main" \
-        --repository "windows-10" --branch "main"
+    CloneGitRepositories                                                            \
+        --remote_base_path "git@github.com:wpieterse2825"                           \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/wpieterse2825"  \
+        --repository "game-assets" --branch "main"                                  \
+        --repository "open-nt-400" --branch "main"                                  \
+        --repository "paxbox" --branch "main"                                       \
+        --repository "prey-sdk" --branch "main"                                     \
+        --repository "quake-4-sdk" --branch "main"                                  \
+        --repository "quake-wars-sdk" --branch "main"                               \
+        --repository "synchronizer" --branch "main"                                 \
+        --repository "unrealengine-1-1996" --branch "main"                          \
+        --repository "unrealengine-1-1997" --branch "main"                          \
+        --repository "windows-10" --branch "main"                                   \
+        --repository "windows-nt-350" --branch "main"                               \
+        --repository "windows-nt-400" --branch "main"                               \
+        --repository "windows-nt-600" --branch "main"                               \
+        --repository "windows-research-kernel" --branch "main"                      \
+        --repository "xbox" --branch "main"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

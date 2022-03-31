@@ -1,22 +1,23 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    # ProcessGitRepositories \
-    #     --remote-base-path "ssh://git@github.com:EpicGames" \
-    #     --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/EpicGames" \
+    # CloneGitRepositories \
+    #     --remote_base_path "ssh://git@github.com:EpicGames" \
+    #     --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/EpicGames" \
     #     --repository "UnrealEngine" --branch "release" \
     #     --repository "UnrealTournament" --branch "clean-master" \
     #     --repository "BlenderTools" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

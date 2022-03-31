@@ -1,20 +1,25 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/yuzu-emu" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/yuzu-emu" \
-        --repository "yuzu" --branch "master"
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/yuzu-emu" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/yuzu-emu" \
+        --repository "yuzu" --branch "master" \
+        --repository "yuzu-emu.github.io" --branch "master" \
+        --repository "yuzu-games-wiki" --branch "master" \
+        --repository "build-environments" --branch "master" \
+        --repository "unicorn" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

@@ -1,20 +1,27 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/minetest" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/minetest" \
-        --repository "minetest" --branch "master"
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/minetest" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/minetest" \
+        --repository "minetest" --branch "master" \
+        --repository "minetest_game" --branch "master" \
+        --repository "minetest_docs" --branch "master" \
+        --repository "contentdb" --branch "master" \
+        --repository "minetest.github.io" --branch "master" \
+        --repository "minetestmapper" --branch "master" \
+        --repository "serverlist" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

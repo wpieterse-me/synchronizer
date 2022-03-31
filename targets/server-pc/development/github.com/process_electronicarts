@@ -1,17 +1,18 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/electronicarts" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/electronicarts" \
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/electronicarts" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/electronicarts" \
         --repository "CnC_Remastered_Collection" --branch "master" \
         --repository "EASTL" --branch "master" \
         --repository "EABase" --branch "master" \
@@ -22,7 +23,7 @@ function Process {
         --repository "EAMain" --branch "master" \
         --repository "EAAssert" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

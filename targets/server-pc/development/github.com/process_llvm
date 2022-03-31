@@ -1,22 +1,35 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/llvm" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/llvm" \
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/llvm" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/llvm" \
         --repository "llvm-project" --branch "main" \
         --repository "llvm-test-suite" --branch "main" \
-        --repository "llvm-lnt" --branch "main"
+        --repository "llvm-lnt" --branch "main" \
+        --repository "circt" --branch "main" \
+        --repository "mlir-www" --branch "main" \
+        --repository "circt-www" --branch "main" \
+        --repository "llvm-zorg" --branch "main" \
+        --repository "torch-mlir" --branch "main" \
+        --repository "actions" --branch "main" \
+        --repository "llvm-www" --branch "main" \
+        --repository "llvm-blog-www" --branch "main" \
+        --repository "www-releases" --branch "main" \
+        --repository "vscode-mlir" --branch "main" \
+        --repository "clangd-www" --branch "main" \
+        --repository "llvm-www-pubs" --branch "main"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

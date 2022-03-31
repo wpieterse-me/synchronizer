@@ -1,20 +1,21 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessSubScripts \
+    CallSubScripts \
         --root "${THIS_SCRIPT_DIRECTORY}" \
         --script "process_service_deluge" \
         --script "process_service_plex"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

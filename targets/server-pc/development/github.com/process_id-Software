@@ -1,17 +1,18 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/id-Software" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/id-Software" \
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/id-Software" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/id-Software" \
         --repository "DOOM" --branch "master" \
         --repository "DOOM-3" --branch "master" \
         --repository "DOOM-3-BFG" --branch "master" \
@@ -31,7 +32,7 @@ function Process {
         --repository "wolf3d-browser" --branch "master" \
         --repository "Wolf3D-iOS" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

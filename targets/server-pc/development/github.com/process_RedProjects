@@ -1,23 +1,24 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/RedPandaProjects" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/RedPandaProjects" \
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/RedPandaProjects" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/RedPandaProjects" \
         --repository "XRayEngine" --branch "master" \
         --repository "RedSource" --branch "master" \
         --repository "CSEngine" --branch "master" \
         --repository "UnrealEngine" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

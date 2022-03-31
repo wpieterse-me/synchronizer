@@ -1,20 +1,21 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://gitee.com/openarkcompiler" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/gitee.com/openarkcompiler" \
+    CloneGitRepositories \
+        --remote_base_path "https://gitee.com/openarkcompiler" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitee.com/openarkcompiler" \
         --repository "OpenArkCompiler" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

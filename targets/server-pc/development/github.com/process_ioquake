@@ -1,20 +1,25 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/ioquake" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ioquake" \
-        --repository "ioq3" --branch "main"
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/ioquake" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ioquake" \
+        --repository "ioq3" --branch "main" \
+        --repository "jedi-outcast" --branch "main" \
+        --repository "three" --branch "main" \
+        --repository "launch" --branch "main" \
+        --repository "jedi-academy" --branch "main"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

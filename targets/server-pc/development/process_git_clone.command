@@ -53,7 +53,8 @@ function Process {
         shift
     done
 
-    ssh-add -l
+    ssh-add \
+        -l
 
     pushd /work > /dev/null
 
@@ -62,60 +63,74 @@ function Process {
         echo "*** INITIAL CLONE ******************************************************************************************************"
         echo ""
 
-        git                                                         \
-            clone                                                   \
-            "${REMOTE}/${NAME}.git" \
-            --recurse-submodules
+        git                                     \
+            clone                               \
+                --recurse-submodules            \
+                --jobs=16                       \
+                "${REMOTE}/${NAME}.git"
 
         echo ""
     fi
 
     pushd "/work/${NAME}"  > /dev/null
 
-    git                 \
-        config          \
-        pager.log false
+    git                     \
+        config              \
+            pager.log false
+
+    echo ""
+    echo "*** FETCH **************************************************************************************************************"
+    echo ""
+
+    git                             \
+        fetch                       \
+            --recurse-submodules    \
+            --jobs=16               \
+            --multiple              \
+            origin
 
     echo "*** CLEAN **************************************************************************************************************"
     echo ""
-    echo "Cleaning"
 
-    git         \
-        clean   \
-        -dxf
+    git             \
+        clean       \
+            -dx     \
+            --force
 
     echo ""
     echo "*** RESET **************************************************************************************************************"
     echo ""
 
-    git                             \
-        reset                       \
-        --hard ${BRANCH}
+    git                 \
+        reset           \
+            --hard      \
+            ${BRANCH}
 
     echo ""
     echo "*** CHECKOUT ***********************************************************************************************************"
     echo ""
 
-    git                         \
-        checkout                \
-        ${BRANCH}
+    git                 \
+        checkout        \
+            ${BRANCH}
 
     echo ""
     echo "*** PULL ***************************************************************************************************************"
     echo ""
 
-    git                         \
-        pull                    \
-        --recurse-submodules    \
-        --all
+    git                             \
+        pull                        \
+            --recurse-submodules    \
+            --jobs=16               \
+            origin                  \
+            ${BRANCH}
 
     echo ""
     echo "*** LOG ****************************************************************************************************************"
     echo ""
 
     git     \
-        log \
-        -n1
+        log 
 
     echo ""
 

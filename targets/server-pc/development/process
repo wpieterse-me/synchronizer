@@ -1,32 +1,36 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessSubScripts \
-        --root "${THIS_SCRIPT_DIRECTORY}" \
-        --script "process_docker_git" \
-        --script "android.googlesource.com/process" \
-        --script "chromium.googlesource.com/process" \
-        --script "gcc.gnu.org/process" \
-        --script "git.blender.org/process" \
-        --script "git.ffmpeg.org/process" \
-        --script "git.freebsd.org/process" \
-        --script "git.kernel.org/process" \
-        --script "git.savannah.gnu.org/process" \
-        --script "gitee.com/process" \
-        --script "github.com/process" \
-        --script "gitlab.com/process" \
-        --script "gitlab.gnome.org/process" \
-        --script "gitlab.kitware.com/process"
+    CallSubScripts                                      \
+        --root "${THIS_SCRIPT_DIRECTORY}"               \
+        --script "process_git_common"                   \
+        --script "process_git_clone"                    \
+        --script "process_git_synchronize"              \
+        --script "android.googlesource.com/process"     \
+        --script "chromium.googlesource.com/process"    \
+        --script "gcc.gnu.org/process"                  \
+        --script "git.blender.org/process"              \
+        --script "git.ffmpeg.org/process"               \
+        --script "git.freebsd.org/process"              \
+        --script "git.kernel.org/process"               \
+        --script "git.savannah.gnu.org/process"         \
+        --script "gitee.com/process"                    \
+        --script "github.com/process"                   \
+        --script "gitlab.com/process"                   \
+        --script "gitlab.gnome.org/process"             \
+        --script "gitlab.kitware.com/process"           \
+        --script "source.cloud.google.com/process"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

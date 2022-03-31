@@ -1,20 +1,21 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://github.com/axboe" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/axboe" \
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/axboe" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/axboe" \
         --repository "liburing" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

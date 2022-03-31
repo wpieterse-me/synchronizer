@@ -1,20 +1,44 @@
 #!/bin/bash
 
+set -e
+
 THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
 function Process {
-    ProcessCommonArguments $@
-    ProcessCommonPre
+    ProcessPre $@
 
-    ProcessGitRepositories \
-        --remote-base-path "https://gitlab.com/qemu-project" \
-        --local-base-path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.com/qemu-project" \
-        --repository "qemu" --branch "master"
+    CloneGitRepositories \
+        --remote_base_path "https://gitlab.com/qemu-project" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.com/qemu-project" \
+        --repository "qemu" --branch "master" \
+        --repository "seabios" --branch "master" \
+        --repository "SLOF" --branch "master" \
+        --repository "ipxe" --branch "master" \
+        --repository "openbios" --branch "master" \
+        --repository "qemu-palcode" --branch "master" \
+        --repository "sgabios" --branch "master" \
+        --repository "dtc" --branch "master" \
+        --repository "u-boot" --branch "master" \
+        --repository "skiboot" --branch "master" \
+        --repository "QemuMacDrivers" --branch "master" \
+        --repository "keycodemapdb" --branch "master" \
+        --repository "capstone" --branch "master" \
+        --repository "seabios-hppa" --branch "master" \
+        --repository "u-boot-sam460ex" --branch "master" \
+        --repository "barkeley-testfloat-3" --branch "master" \
+        --repository "barkeley-softfloat-3" --branch "master" \
+        --repository "edk2" --branch "master" \
+        --repository "libslirp" --branch "master" \
+        --repository "opensbi" --branch "master" \
+        --repository "qboot" --branch "master" \
+        --repository "meson" --branch "master" \
+        --repository "vbootrom" --branch "master" \
+        --repository "libvirt-ci" --branch "master"
 
-    ProcessCommonPost
+    ProcessPost
 }
 
 Process $@

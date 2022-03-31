@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories \
+        --remote_base_path "https://github.com/mysql" \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/mysql" \
+        --repository "mysql-server" --branch "main" \
+        --repository "mysql-workbench" --branch "main" \
+        --repository "mysql-docker" --branch "main" \
+        --repository "mysql-shell" --branch "main" \
+        --repository "mysql-sys" --branch "main" \
+        --repository "mysql-utilities" --branch "main" \
+        --repository "mysql-router" --branch "main" \
+        --repository "mysql-proxy" --branch "main"
+
+    ProcessPost
+}
+
+Process $@
