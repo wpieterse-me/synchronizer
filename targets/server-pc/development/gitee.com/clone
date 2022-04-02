@@ -12,9 +12,7 @@ function Process {
 
     CallSubScripts                          \
         --root "${THIS_SCRIPT_DIRECTORY}"   \
-        --script "process_qemu-project"     \
-        --script "process_samba-team"   \
-        --script "process_wpieterse2825"
+        --script "clone_openarkcompiler"
 
     ProcessPost
 }

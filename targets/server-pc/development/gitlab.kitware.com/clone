@@ -12,7 +12,7 @@ function Process {
 
     CallSubScripts                          \
         --root "${THIS_SCRIPT_DIRECTORY}"   \
-        --script "process_openarkcompiler"
+        --script "clone_cmake"
 
     ProcessPost
 }

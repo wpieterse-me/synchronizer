@@ -10,10 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CallSubScripts                              \
-        --root "${THIS_SCRIPT_DIRECTORY}"       \
-        --script "process_wpieterse-general"    \
-        --script "process_wpieterse-paxbox"
+    CallSubScripts                                              \
+        --root "${THIS_SCRIPT_DIRECTORY}"                       \
+        --script "clone_pub_scm_linux_kernel_git_torvalds"
 
     ProcessPost
 }

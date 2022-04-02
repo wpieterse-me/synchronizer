@@ -12,7 +12,7 @@ function Process {
 
     CallSubScripts                          \
         --root "${THIS_SCRIPT_DIRECTORY}"   \
-        --script "process_GNOME"
+        --script "clone_GNOME"
 
     ProcessPost
 }

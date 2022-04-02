@@ -12,7 +12,9 @@ function Process {
 
     CallSubScripts                          \
         --root "${THIS_SCRIPT_DIRECTORY}"   \
-        --script "process_cmake"
+        --script "clone_qemu-project"     \
+        --script "clone_samba-team"   \
+        --script "clone_wpieterse2825"
 
     ProcessPost
 }

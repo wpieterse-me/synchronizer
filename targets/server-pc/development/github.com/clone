@@ -1,0 +1,104 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "clone_0ad"                      \
+        --script "clone_andikleen"                \
+        --script "clone_apple"                    \
+        --script "clone_AppleWin"                 \
+        --script "clone_Ardour"                   \
+        --script "clone_audacity"                 \
+        --script "clone_aws"                      \
+        --script "clone_axboe"                    \
+        --script "clone_bazelbuild"               \
+        --script "clone_bbbradsmith"              \
+        --script "clone_boostorg"                 \
+        --script "clone_bsnes-emu"                \
+        --script "clone_bulletphysics"            \
+        --script "clone_cc65"                     \
+        --script "clone_chocolate-doom"           \
+        --script "clone_cmangos"                  \
+        --script "clone_crosstool-ng"             \
+        --script "clone_Croteam-official"         \
+        --script "clone_CRYTEK"                   \
+        --script "clone_David-Haim"               \
+        --script "clone_digital-sound-antiques"   \
+        --script "clone_dolphin-emu"              \
+        --script "clone_facebook"                 \
+        --script "clone_facebookexperimental"     \
+        --script "clone_firewave"                 \
+        --script "clone_FreeCAD"                  \
+        --script "clone_FrictionalGames"          \
+        --script "clone_gbdev"                    \
+        --script "clone_gonetz"                   \
+        --script "clone_google"                   \
+        --script "clone_googleapis"               \
+        --script "clone_GoogleCloudPlatform"      \
+        --script "clone_haiku"                    \
+        --script "clone_hrydgard"                 \
+        --script "clone_id-Software"              \
+        --script "clone_ihhub"                    \
+        --script "clone_ioquake"                  \
+        --script "clone_ISSOtm"                   \
+        --script "clone_KDE"                      \
+        --script "clone_KhronosGroup"             \
+        --script "clone_kilograham"               \
+        --script "clone_KranX"                    \
+        --script "clone_leandromoreira"           \
+        --script "clone_lewissbaker"              \
+        --script "clone_LIJI32"                   \
+        --script "clone_llvm"                     \
+        --script "clone_madler"                   \
+        --script "clone_mamedev"                  \
+        --script "clone_mgba-emu"                 \
+        --script "clone_minetest"                 \
+        --script "clone_mysql"                    \
+        --script "clone_NightDive-Studio"         \
+        --script "clone_Novum"                    \
+        --script "clone_OpenLoco"                 \
+        --script "clone_OpenMSX"                  \
+        --script "clone_OpenMW"                   \
+        --script "clone_OpenRA"                   \
+        --script "clone_OpenRCT2"                 \
+        --script "clone_OpenSourcedGames"         \
+        --script "clone_OpenTTD"                  \
+        --script "clone_OpenXRay"                 \
+        --script "clone_pocl"                     \
+        --script "clone_postgres"                 \
+        --script "clone_powervr-graphics"         \
+        --script "clone_reactos"                  \
+        --script "clone_RedProjects"              \
+        --script "clone_RobertBeckebans"          \
+        --script "clone_runuo"                    \
+        --script "clone_sarah-walker-pcem"        \
+        --script "clone_SFTtech"                  \
+        --script "clone_smparkes"                 \
+        --script "clone_snes9xgit"                \
+        --script "clone_spring"                   \
+        --script "clone_storm-devs"               \
+        --script "clone_TASEmulators"             \
+        --script "clone_tensorflow"               \
+        --script "clone_thesofproject"            \
+        --script "clone_TrenchBroom"              \
+        --script "clone_ValleyBall"               \
+        --script "clone_vdukhovni"                \
+        --script "clone_vgmrips"                  \
+        --script "clone_vgmtrans"                 \
+        --script "clone_wpieterse2825"            \
+        --script "clone_yquake2"                  \
+        --script "clone_yuzu-emu"
+
+    ProcessPost
+}
+
+Process $@
