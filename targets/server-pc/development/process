@@ -7,28 +7,58 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
+function Containers {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "process_git_common"               \
+        --script "process_git_clone"                \
+        --script "process_git_synchronize"
+}
+
+function Clone {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "android.googlesource.com/clone"   \
+        --script "chromium.googlesource.com/clone"  \
+        --script "gcc.gnu.org/clone"                \
+        --script "git.blender.org/clone"            \
+        --script "git.ffmpeg.org/clone"             \
+        --script "git.freebsd.org/clone"            \
+        --script "git.kernel.org/clone"             \
+        --script "git.savannah.gnu.org/clone"       \
+        --script "gitee.com/clone"                  \
+        --script "github.com/clone"                 \
+        --script "gitlab.com/clone"                 \
+        --script "gitlab.gnome.org/clone"           \
+        --script "gitlab.kitware.com/clone"         \
+        --script "source.cloud.google.com/clone"
+}
+
+function Build {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "android.googlesource.com/build"   \
+        --script "chromium.googlesource.com/build"  \
+        --script "gcc.gnu.org/build"                \
+        --script "git.blender.org/build"            \
+        --script "git.ffmpeg.org/build"             \
+        --script "git.freebsd.org/build"            \
+        --script "git.kernel.org/build"             \
+        --script "git.savannah.gnu.org/build"       \
+        --script "gitee.com/build"                  \
+        --script "github.com/build"                 \
+        --script "gitlab.com/build"                 \
+        --script "gitlab.gnome.org/build"           \
+        --script "gitlab.kitware.com/build"         \
+        --script "source.cloud.google.com/build"
+}
+
 function Process {
     ProcessPre $@
 
-    CallSubScripts                                      \
-        --root "${THIS_SCRIPT_DIRECTORY}"               \
-        --script "process_git_common"                   \
-        --script "process_git_clone"                    \
-        --script "process_git_synchronize"              \
-        --script "android.googlesource.com/process"     \
-        --script "chromium.googlesource.com/process"    \
-        --script "gcc.gnu.org/process"                  \
-        --script "git.blender.org/process"              \
-        --script "git.ffmpeg.org/process"               \
-        --script "git.freebsd.org/process"              \
-        --script "git.kernel.org/process"               \
-        --script "git.savannah.gnu.org/process"         \
-        --script "gitee.com/process"                    \
-        --script "github.com/process"                   \
-        --script "gitlab.com/process"                   \
-        --script "gitlab.gnome.org/process"             \
-        --script "gitlab.kitware.com/process"           \
-        --script "source.cloud.google.com/process"
+    Containers
+    Clone
+    Build
 
     ProcessPost
 }
