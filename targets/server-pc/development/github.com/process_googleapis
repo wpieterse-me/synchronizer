@@ -13,7 +13,10 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/googleapis"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/googleapis" \
-        --repository "google-cloud-cpp" --branch "main"
+        --repository "google-cloud-cpp" --branch "main"                         \
+        --repository "google-api-go-client" --branch "main"                     \
+        --repository "google-cloud-go" --branch "main"                          \
+        --repository "googleapis" --branch "main"
 
     ProcessPost
 }

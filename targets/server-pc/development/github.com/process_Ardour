@@ -13,7 +13,8 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/Ardour"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/Ardour" \
-        --repository "ardour" --branch "master"
+        --repository "ardour" --branch "master"                             \
+        --repository "manual" --branch "main"
 
     ProcessPost
 }

@@ -40,7 +40,7 @@ function Process {
         --script "process_FreeCAD"                  \
         --script "process_FrictionalGames"          \
         --script "process_gbdev"                    \
-        --script "process_gonets"                   \
+        --script "process_gonetz"                   \
         --script "process_google"                   \
         --script "process_googleapis"               \
         --script "process_GoogleCloudPlatform"      \

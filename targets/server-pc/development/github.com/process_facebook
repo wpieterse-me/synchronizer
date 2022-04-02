@@ -13,7 +13,11 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/facebook"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/facebook"   \
-        --repository "rocksdb" --branch "main"
+        --repository "rocksdb" --branch "main"                                  \
+        --repository "proxygen" --branch "master"                               \
+        --repository "folly" --branch "master"                                  \
+        --repository "fbthrift" --branch "master"                               \
+        --repository "hermes" --branch "master"
 
     ProcessPost
 }

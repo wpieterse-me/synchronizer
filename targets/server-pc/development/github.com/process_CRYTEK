@@ -13,7 +13,8 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/CRYTEK"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/CRYTEK" \
-        --repository "CRYENGINE" --branch "release"
+        --repository "CRYENGINE" --branch "release"                         \
+        --repository "GameSDK" --branch "master"
 
     ProcessPost
 }

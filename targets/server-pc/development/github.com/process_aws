@@ -13,7 +13,8 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/aws"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/aws"    \
-        --repository "amazon-freertos" --branch "main"
+        --repository "amazon-freertos" --branch "main"                      \
+        --repository "aws-sdk-cpp" --branch "main"
 
     ProcessPost
 }

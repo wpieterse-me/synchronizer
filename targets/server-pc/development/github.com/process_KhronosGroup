@@ -13,7 +13,49 @@ function Process {
     CloneGitRepositories                                                            \
         --remote_base_path "https://github.com/KhronosGroup"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/KhronosGroup"   \
-        --repository "glslang" --branch "master"
+        --repository "glslang" --branch "master"                                    \
+        --repository "Vulkan-ExtensionLayer" --branch "master"                      \
+        --repository "SPIRV-LLVM-Translator" --branch "master"                      \
+        --repository "Vulkan-ValidationLayers" --branch "master"                    \
+        --repository "SYC_Reference" --branch "master"                              \
+        --repository "glTF-Blender-IO" --branch "master"                            \
+        --repository "Vulkan-Docs" --branch "master"                                \
+        --repository "VK-GL-CTS" --branch "master"                                  \
+        --repository "OpenXR-SDK-Source" --branch "master"                          \
+        --repository "Vulkan-Samples" --branch "master"                             \
+        --repository "glTF-Validator" --branch "master"                             \
+        --repository "OpenCL-CTS" --branch "master"                                 \
+        --repository "glTF-Sample-Models" --branch "master"                         \
+        --repository "Vulkan-Profiles" --branch "master"                            \
+        --repository "Vulkan-Loader" --branch "master"                              \
+        --repository "Vulkan-Tools" --branch "master"                               \
+        --repository "Vulkan-Headers" --branch "master"                             \
+        --repository "SPIRV-Tools" --branch "master"                                \
+        --repository "OpenCL-SDK" --branch "master"                                 \
+        --repository "glTF" --branch "master"                                       \
+        --repository "SYCL-CTS" --branch "master"                                   \
+        --repository "SYCL-Docs" --branch "master"                                  \
+        --repository "OpenCL-ICD-Loader" --branch "master"                          \
+        --repository "Vulkan-Hpp" --branch "master"                                 \
+        --repository "OpenCL-Guide" --branch "master"                               \
+        --repository "OpenCL-Registry" --branch "master"                            \
+        --repository "libclcxx" --branch "master"                                   \
+        --repository "Vulkan-Guide" --branch "master"                               \
+        --repository "VK-GL-CTS-Tools" --branch "master"                            \
+        --repository "KTX-Software" --branch "master"                               \
+        --repository "SPIRV-Cross" --branch "master"                                \
+        --repository "OpenXR-CTS" --branch "master"                                 \
+        --repository "OpenCL-Docs" --branch "master"                                \
+        --repository "KTX-Registry" --branch "master"                               \
+        --repository "SPIRV-Guide" --branch "master"                                \
+        --repository "SPIRV-Headers" --branch "master"                              \
+        --repository "SPIRV-Registry" --branch "master"                             \
+        --repository "OpenCL-Headers" --branch "master"                             \
+        --repository "OpenCL-CLHPP" --branch "master"                               \
+        --repository "glTF-Tutorials" --branch "master"                             \
+        --repository "OpenCL-Layers" --branch "master"                              \
+        --repository "Vulkan-Samples-Assets" --branch "master"                      \
+        --repository "SYCL-Registry" --branch "master"
 
     ProcessPost
 }

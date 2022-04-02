@@ -13,7 +13,10 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/andikleen"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/andikleen"  \
-        --repository "pmu-tools" --branch "master"
+        --repository "pmu-tools" --branch "master"                              \
+        --repository "snappy-c" --branch "master"                               \
+        --repository "simple-pt" --branch "master"                              \
+        --repository "spooky-c" --branch "master"
 
     ProcessPost
 }

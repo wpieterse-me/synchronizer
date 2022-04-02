@@ -13,7 +13,11 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/ioquake"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/ioquake"    \
-        --repository "ioq3" --branch "main"
+        --repository "ioq3" --branch "main"                                     \
+        --repository "jedi-outcast" --branch "master"                           \
+        --repository "three" --branch "master"                                  \
+        --repository "launch" --branch "master"                                 \
+        --repository "jedi-academy" --branch "master"
 
     ProcessPost
 }

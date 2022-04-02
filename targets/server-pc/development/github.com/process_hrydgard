@@ -13,7 +13,9 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/hrydgard"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/hrydgard"   \
-        --repository "ppsspp" --branch "master"
+        --repository "ppsspp" --branch "master"                                 \
+        --repository "pspautotests" --branch "master"                           \
+        --repository "minitrace" --branch "master"
 
     ProcessPost
 }

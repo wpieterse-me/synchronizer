@@ -13,7 +13,8 @@ function Process {
     CloneGitRepositories                                                                    \
         --remote_base_path "https://github.com/GoogleCloudPlatform"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/GoogleCloudPlatform"    \
-        --repository "cloud-spanner-emulator" --branch "master"
+        --repository "cloud-spanner-emulator" --branch "master"                             \
+        --repository "gcsfuse" --branch "master"
 
     ProcessPost
 }

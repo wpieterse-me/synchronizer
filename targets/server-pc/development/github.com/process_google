@@ -13,7 +13,26 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/google"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/google" \
-        --repository "zetasql" --branch "master"
+        --repository "zetasql" --branch "master"                            \
+        --repository "docsy" --branch "main"                                \
+        --repository "tink" --branch "main"                                 \
+        --repository "googletest" --branch "main"                           \
+        --repository "benchmark" --branch "main"                            \
+        --repository "flatbuffers" --branch "main"                          \
+        --repository "quiche" --branch "main"                               \
+        --repository "gvisor" --branch "main"                               \
+        --repository "boringssl" --branch "main"                            \
+        --repository "fonts" --branch "main"                                \
+        --repository "perfetto" --branch "main"                             \
+        --repository "uVkCompute" --branch "main"                           \
+        --repository "orbit" --branch "main"                                \
+        --repository "highway" --branch "main"                              \
+        --repository "swiftshader" --branch "main"                          \
+        --repository "mount-zip" --branch "main"                            \
+        --repository "skia" --branch "main"                                 \
+        --repository "tcmalloc" --branch "main"                             \
+        --repository "material-design-icons" --branch "main"                \
+        --repository "re2" --branch "main"
 
     ProcessPost
 }

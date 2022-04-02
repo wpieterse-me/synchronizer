@@ -13,7 +13,25 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/bazelbuild"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/bazelbuild" \
-        --repository "bazel" --branch "master"
+        --repository "bazel" --branch "master"                                  \
+        --repository "rules_go" --branch "master"                               \
+        --repository "rules_apple" --branch "master"                            \
+        --repository "rules_pkg" --branch "master"                              \
+        --repository "bazel-skylib" --branch "master"                           \
+        --repository "rules_kotlin" --branch "master"                           \
+        --repository "rules_rust" --branch "master"                             \
+        --repository "platforms" --branch "master"                              \
+        --repository "rules_python" --branch "master"                           \
+        --repository "bazelisk" --branch "master"                               \
+        --repository "rules_cc" --branch "master"                               \
+        --repository "rules_proto" --branch "master"                            \
+        --repository "continuous-integration" --branch "master"                 \
+        --repository "examples" --branch "master"                               \
+        --repository "rules_docker" --branch "master"                           \
+        --repository "rules_swift" --branch "master"                            \
+        --repository "rules_licensing" --branch "master"                        \
+        --repository "bazel-central-registry" --branch "master"                 \
+        --repository "bazel-integration-testing" --branch "master"
 
     ProcessPost
 }

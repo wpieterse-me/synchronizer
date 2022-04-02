@@ -11,7 +11,7 @@ function Process {
     ProcessPre $@
 
     CloneGitRepositories                                                                \
-        --remote_base_path "https://github.com/powervs-graphics"                        \
+        --remote_base_path "https://github.com/powervr-graphics"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/powervs-graphics"   \
         --repository "PowerVR-Series1" --branch "main"
 

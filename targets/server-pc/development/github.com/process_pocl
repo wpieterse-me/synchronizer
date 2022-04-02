@@ -10,9 +10,9 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories                                                            \
-        --remote_base_path "https://github.com/pocl"                                \
-        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/https://github.com/pocl"   \
+    CloneGitRepositories                                                    \
+        --remote_base_path "https://github.com/pocl"                        \
+        --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/pocl"   \
         --repository "pocl" --branch "master"
 
     ProcessPost

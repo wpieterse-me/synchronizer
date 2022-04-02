@@ -13,7 +13,11 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/apple"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/apple"  \
-        --repository "darwin-xnu" --branch "main"
+        --repository "darwin-xnu" --branch "main"                           \
+        --repository "swift" --branch "main"                                \
+        --repository "swift-llbuild" --branch "main"                        \
+        --repository "foundationdb" --branch "main"                         \
+        --repository "indexstore-db" --branch "main"
 
     ProcessPost
 }
