@@ -13,7 +13,40 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/OpenTTD"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenTTD"    \
-        --repository "OpenTTD" --branch "master"
+        --repository "OpenTTD" --branch "master"                                \
+        --repository "wiki-data" --branch "master"                              \
+        --repository "BaNaNaS" --branch "master"                                \
+        --repository "website" --branch "master"                                \
+        --repository "master-server-web" --branch "master"                      \
+        --repository "master-server" --branch "master"                          \
+        --repository "game-coordinator" --branch "master"                       \
+        --repository "eints" --branch "master"                                  \
+        --repository "bananas-server" --branch "master"                         \
+        --repository "bananas-frontend-web" --branch "master"                   \
+        --repository "bananas-frontend-cli" --branch "master"                   \
+        --repository "bananas-api" --branch "master"                            \
+        --repository "appstore-data" --branch "master"                          \
+        --repository "nml" --branch "master"                                    \
+        --repository "OpenMSX" --branch "master"                                \
+        --repository "OpenSFX" --branch "master"                                \
+        --repository "OpenGFX" --branch "master"                                \
+        --repository "actions" --branch "master"                                \
+        --repository "py-protocol" --branch "master"                            \
+        --repository "workflows" --branch "master"                              \
+        --repository "aws-infra" --branch "master"                              \
+        --repository "py-helpers" --branch "master"                             \
+        --repository "team" --branch "master"                                   \
+        --repository "OpenTTD-git-hooks" --branch "master"                      \
+        --repository "catcodec" --branch "master"                               \
+        --repository "eints-sandbox" --branch "master"                          \
+        --repository "osie" --branch "master"                                   \
+        --repository "grfcodec" --branch "master"                               \
+        --repository "CompileFarm" --branch "master"                            \
+        --repository "binaries-redirect" --branch "master"                      \
+        --repository "binaries-proxy" --branch "master"                         \
+        --repository "infrastructure" --branch "master"                         \
+        --repository "musa" --branch "master"                                   \
+        --repository "MasterServer" --branch "master"
 
     ProcessPost
 }

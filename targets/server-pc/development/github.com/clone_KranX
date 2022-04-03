@@ -13,7 +13,8 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/KranX"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/KranX"  \
-        --repository "Vangers" --branch "master"
+        --repository "Vangers" --branch "master"                            \
+        --repository "vangers_tools" --branch "master"
 
     ProcessPost
 }

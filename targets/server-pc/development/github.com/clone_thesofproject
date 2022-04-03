@@ -13,7 +13,14 @@ function Process {
     CloneGitRepositories \
         --remote_base_path "https://github.com/thesofproject"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/thesofproject"  \
-        --repository "sof" --branch "main"
+        --repository "sof" --branch "main"                                          \
+        --repository "sof-test" --branch "master"                                   \
+        --repository "sof-bin" --branch "master"                                    \
+        --repository "sof-docs" --branch "master"                                   \
+        --repository "thesofproject.github.io" --branch "master"                    \
+        --repository "rimage" --branch "master"                                     \
+        --repository "build-scripts" --branch "master"                              \
+        --repository "sof-manifests" --branch "master"
 
     ProcessPost
 }

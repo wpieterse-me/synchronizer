@@ -13,7 +13,11 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/OpenMW"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenMW" \
-        --repository "openmw" --branch "master"
+        --repository "openmw" --branch "master"                             \
+        --repository "collada-exporter" --branch "master"                   \
+        --repository "example-suite" --branch "master"                      \
+        --repository "openmw.github.io" --branch "master"                   \
+        --repository "UIX-R" --branch "master"
 
     ProcessPost
 }

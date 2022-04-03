@@ -13,7 +13,8 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/smparkes"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/smparkes"   \
-        --repository "sqlite" --branch "master"
+        --repository "sqlite" --branch "master"                                 \
+        --repository "toolchains" --branch "master"
 
     ProcessPost
 }

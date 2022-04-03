@@ -13,7 +13,12 @@ function Process {
     CloneGitRepositories                                                                \
         --remote_base_path "https://github.com/powervr-graphics"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/powervs-graphics"   \
-        --repository "PowerVR-Series1" --branch "main"
+        --repository "PowerVR-Series1" --branch "main"                                  \
+        --repository "Native_SDK" --branch "master"                                     \
+        --repository "powervr-graphics.github.io" --branch "master"                     \
+        --repository "PVRAccelerationStructureHostCommands" --branch "master"           \
+        --repository "perfdoc" --branch "master"                                        \
+        --repository "PVRCapabilities" --branch "master"
 
     ProcessPost
 }

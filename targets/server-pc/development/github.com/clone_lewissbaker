@@ -13,7 +13,9 @@ function Process {
     CloneGitRepositories                                                            \
         --remote_base_path "https://github.com/lewissbaker"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/lewissbaker"    \
-        --repository "cppcoro" --branch "master"
+        --repository "cppcoro" --branch "master"                                    \
+        --repository "cake" --branch "master"                                       \
+        --repository "disruptorplus" --branch "master"
 
     ProcessPost
 }

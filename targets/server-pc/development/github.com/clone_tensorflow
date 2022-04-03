@@ -13,7 +13,20 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/tensorflow"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/tensorflow" \
-        --repository "tensorflow" --branch "master"
+        --repository "tensorflow" --branch "master"                             \
+        --repository "models" --branch "master"                                 \
+        --repository "similarity" --branch "master"                             \
+        --repository "privacy" --branch "master"                                \
+        --repository "runtime" --branch "master"                                \
+        --repository "build" --branch "master"                                  \
+        --repository "graphics" --branch "master"                               \
+        --repository "docs" --branch "master"                                   \
+        --repository "io" --branch "master"                                     \
+        --repository "metadata" --branch "master"                               \
+        --repository "examples" --branch "master"                               \
+        --repository "addons" --branch "master"                                 \
+        --repository "profiler" --branch "master"                               \
+        --repository "tpu" --branch "master"
 
     ProcessPost
 }

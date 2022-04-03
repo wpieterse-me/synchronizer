@@ -13,7 +13,10 @@ function Process {
     CloneGitRepositories                                                            \
         --remote_base_path "https://github.com/TrenchBroom"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/TrenchBroom"    \
-        --repository "TrenchBroom" --branch "main"
+        --repository "TrenchBroom" --branch "main"                                  \
+        --repository "vecmath" --branch "master"                                    \
+        --repository "TrenchBroom.github.io" --branch "master"                      \
+        --repository "manual" --branch "master"
 
     ProcessPost
 }

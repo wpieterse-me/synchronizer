@@ -17,7 +17,7 @@ function Process {
         --repository "Vulkan-ExtensionLayer" --branch "master"                      \
         --repository "SPIRV-LLVM-Translator" --branch "master"                      \
         --repository "Vulkan-ValidationLayers" --branch "master"                    \
-        --repository "SYC_Reference" --branch "master"                              \
+        --repository "SYCL_Reference" --branch "master"                             \
         --repository "glTF-Blender-IO" --branch "master"                            \
         --repository "Vulkan-Docs" --branch "master"                                \
         --repository "VK-GL-CTS" --branch "master"                                  \

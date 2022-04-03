@@ -13,7 +13,10 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/OpenLoco"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/OpenLoco"   \
-        --repository "OpenLoco" --branch "bleed"
+        --repository "OpenLoco" --branch "bleed"                                \
+        --repository "decompilation-tools" --branch "master"                    \
+        --repository "openloco.github.io" --branch "master"                     \
+        --repository "openloco-docker-build" --branch "master"
 
     ProcessPost
 }

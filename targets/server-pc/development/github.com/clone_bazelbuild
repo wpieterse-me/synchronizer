@@ -29,7 +29,6 @@ function Process {
         --repository "examples" --branch "master"                               \
         --repository "rules_docker" --branch "master"                           \
         --repository "rules_swift" --branch "master"                            \
-        --repository "rules_licensing" --branch "master"                        \
         --repository "bazel-central-registry" --branch "master"                 \
         --repository "bazel-integration-testing" --branch "master"
 
