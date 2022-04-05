@@ -14,19 +14,19 @@ function Process {
         --remote_base_path "https://github.com/llvm"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/llvm"   \
         --repository "llvm-project" --branch "main"                         \
-        --repository "circt" --branch "master"                              \
-        --repository "mlir-www" --branch "master"                           \
-        --repository "circt-www" --branch "master"                          \
-        --repository "torch-mlir" --branch "master"                         \
-        --repository "llvm-zorg" --branch "master"                          \
-        --repository "llvm-www" --branch "master"                           \
-        --repository "llvm-test-suite" --branch "master"                    \
-        --repository "llvm-iwg" --branch "master"                           \
-        --repository "llvm-foundation-www" --branch "master"                \
-        --repository "llvm-lnt" --branch "master"                           \
-        --repository "actions" --branch "master"                            \
-        --repository "www-releases" --branch "master"                       \
-        --repository "clangd-www" --branch "master"
+        --repository "circt" --branch "main"                                \
+        --repository "mlir-www" --branch "main"                             \
+        --repository "circt-www" --branch "main"                            \
+        --repository "torch-mlir" --branch "main"                           \
+        --repository "llvm-zorg" --branch "main"                            \
+        --repository "llvm-www" --branch "main"                             \
+        --repository "llvm-test-suite" --branch "main"                      \
+        --repository "llvm-iwg" --branch "main"                             \
+        --repository "llvm-foundation-www" --branch "main"                  \
+        --repository "llvm-lnt" --branch "main"                             \
+        --repository "actions" --branch "main"                              \
+        --repository "www-releases" --branch "main"                         \
+        --repository "clangd-www" --branch "main"
 
     ProcessPost
 }

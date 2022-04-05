@@ -14,10 +14,10 @@ function Process {
         --remote_base_path "https://github.com/facebook"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/facebook"   \
         --repository "rocksdb" --branch "main"                                  \
-        --repository "proxygen" --branch "master"                               \
-        --repository "folly" --branch "master"                                  \
-        --repository "fbthrift" --branch "master"                               \
-        --repository "hermes" --branch "master"
+        --repository "proxygen" --branch "main"                                 \
+        --repository "folly" --branch "main"                                    \
+        --repository "fbthrift" --branch "main"                                 \
+        --repository "hermes" --branch "main"
 
     ProcessPost
 }

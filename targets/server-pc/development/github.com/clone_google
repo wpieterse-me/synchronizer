@@ -15,22 +15,22 @@ function Process {
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/google" \
         --repository "zetasql" --branch "master"                            \
         --repository "docsy" --branch "main"                                \
-        --repository "tink" --branch "main"                                 \
+        --repository "tink" --branch "master"                               \
         --repository "googletest" --branch "main"                           \
         --repository "benchmark" --branch "main"                            \
-        --repository "flatbuffers" --branch "main"                          \
+        --repository "flatbuffers" --branch "master"                        \
         --repository "quiche" --branch "main"                               \
-        --repository "gvisor" --branch "main"                               \
-        --repository "boringssl" --branch "main"                            \
+        --repository "gvisor" --branch "master"                             \
+        --repository "boringssl" --branch "master"                          \
         --repository "fonts" --branch "main"                                \
-        --repository "perfetto" --branch "main"                             \
+        --repository "perfetto" --branch "master"                           \
         --repository "uVkCompute" --branch "main"                           \
         --repository "orbit" --branch "main"                                \
-        --repository "highway" --branch "main"                              \
-        --repository "swiftshader" --branch "main"                          \
+        --repository "highway" --branch "master"                            \
+        --repository "swiftshader" --branch "master"                        \
         --repository "mount-zip" --branch "main"                            \
         --repository "skia" --branch "main"                                 \
-        --repository "tcmalloc" --branch "main"                             \
+        --repository "tcmalloc" --branch "master"                           \
         --repository "material-design-icons" --branch "main"                \
         --repository "re2" --branch "main"
 

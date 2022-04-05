@@ -13,15 +13,15 @@ function Process {
     CloneGitRepositories                                                    \
         --remote_base_path "https://github.com/mysql"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/mysql"  \
-        --repository "mysql-server" --branch "main"                         \
+        --repository "mysql-server" --branch "8.0"                          \
         --repository "mysql-shell-plugins" --branch "master"                \
-        --repository "mysql-operator" --branch "master"                     \
+        --repository "mysql-operator" --branch "trunk"                      \
         --repository "mysql-connector-cpp" --branch "master"                \
-        --repository "mysql-workbench" --branch "master"                    \
+        --repository "mysql-workbench" --branch "8.0"                       \
         --repository "mysql-docker" --branch "master"                       \
         --repository "mysql-shell" --branch "master"                        \
         --repository "mysql-sys" --branch "master"                          \
-        --repository "mysql-proxy" --branch "master"
+        --repository "mysql-proxy" --branch "mysql-proxy-0.8"
 
     ProcessPost
 }

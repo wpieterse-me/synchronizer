@@ -14,13 +14,13 @@ function Process {
         --remote_base_path "https://github.com/thesofproject"                       \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/thesofproject"  \
         --repository "sof" --branch "main"                                          \
-        --repository "sof-test" --branch "master"                                   \
-        --repository "sof-bin" --branch "master"                                    \
-        --repository "sof-docs" --branch "master"                                   \
-        --repository "thesofproject.github.io" --branch "master"                    \
-        --repository "rimage" --branch "master"                                     \
-        --repository "build-scripts" --branch "master"                              \
-        --repository "sof-manifests" --branch "master"
+        --repository "sof-test" --branch "main"                                     \
+        --repository "sof-bin" --branch "main"                                      \
+        --repository "sof-docs" --branch "main"                                     \
+        --repository "thesofproject.github.io" --branch "main"                      \
+        --repository "rimage" --branch "main"                                       \
+        --repository "build-scripts" --branch "main"                                \
+        --repository "sof-manifests" --branch "main"
 
     ProcessPost
 }

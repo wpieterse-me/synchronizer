@@ -22,7 +22,7 @@ function Process {
         --repository "bios-dump" --branch "master"                              \
         --repository "chip-assets" --branch "master"                            \
         --repository "mgba-infrastructure" --branch "master"                    \
-        --repository "gbdoc" --branch "master"
+        --repository "gbdoc" --branch "gh-pages"
 
     ProcessPost
 }

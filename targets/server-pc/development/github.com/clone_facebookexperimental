@@ -14,7 +14,7 @@ function Process {
         --remote_base_path "https://github.com/facebookexperimental"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/facebookexperimental"   \
         --repository "libunifex" --branch "main"                                            \
-        --repository "skybison" --branch "main"
+        --repository "skybison" --branch "trunk"
 
     ProcessPost
 }

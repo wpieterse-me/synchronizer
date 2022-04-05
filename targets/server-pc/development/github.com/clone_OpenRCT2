@@ -18,11 +18,11 @@ function Process {
         --repository "replays" --branch "master"                                \
         --repository "openrct2-docker-build" --branch "master"                  \
         --repository "Localisation" --branch "master"                           \
-        --repository "title-sequence-editor" --branch "master"                  \
+        --repository "title-sequence-editor" --branch "main"                    \
         --repository "OpenRCT2.API" --branch "master"                           \
         --repository "OpenGraphics" --branch "master"                           \
         --repository "docs" --branch "master"                                   \
-        --repository "plugin-devtools" --branch "master"                        \
+        --repository "plugin-devtools" --branch "main"                          \
         --repository "openrct2-docker" --branch "master"                        \
         --repository "OpenScenarios" --branch "master"                          \
         --repository "openrct2.github.io" --branch "master"                     \

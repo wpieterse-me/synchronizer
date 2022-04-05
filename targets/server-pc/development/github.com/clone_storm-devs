@@ -14,7 +14,7 @@ function Process {
         --remote_base_path "https://github.com/storm-devs"                      \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/storm-devs" \
         --repository "storm-engine" --branch "develop"                          \
-        --repository "sd-teho-public" --branch "master"                         \
+        --repository "sd-teho-public" --branch "develop-eng"                    \
         --repository "coas" --branch "master"                                   \
         --repository "potc" --branch "master"                                   \
         --repository "seadogs-file-formats" --branch "master"

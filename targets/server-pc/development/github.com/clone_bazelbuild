@@ -16,20 +16,20 @@ function Process {
         --repository "bazel" --branch "master"                                  \
         --repository "rules_go" --branch "master"                               \
         --repository "rules_apple" --branch "master"                            \
-        --repository "rules_pkg" --branch "master"                              \
-        --repository "bazel-skylib" --branch "master"                           \
+        --repository "rules_pkg" --branch "main"                                \
+        --repository "bazel-skylib" --branch "main"                             \
         --repository "rules_kotlin" --branch "master"                           \
-        --repository "rules_rust" --branch "master"                             \
-        --repository "platforms" --branch "master"                              \
-        --repository "rules_python" --branch "master"                           \
+        --repository "rules_rust" --branch "main"                               \
+        --repository "platforms" --branch "main"                                \
+        --repository "rules_python" --branch "main"                             \
         --repository "bazelisk" --branch "master"                               \
-        --repository "rules_cc" --branch "master"                               \
+        --repository "rules_cc" --branch "main"                                 \
         --repository "rules_proto" --branch "master"                            \
         --repository "continuous-integration" --branch "master"                 \
-        --repository "examples" --branch "master"                               \
+        --repository "examples" --branch "main"                                 \
         --repository "rules_docker" --branch "master"                           \
         --repository "rules_swift" --branch "master"                            \
-        --repository "bazel-central-registry" --branch "master"                 \
+        --repository "bazel-central-registry" --branch "main"                   \
         --repository "bazel-integration-testing" --branch "master"
 
     ProcessPost

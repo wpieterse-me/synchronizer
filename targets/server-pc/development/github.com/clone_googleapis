@@ -16,7 +16,7 @@ function Process {
         --repository "google-cloud-cpp" --branch "main"                         \
         --repository "google-api-go-client" --branch "main"                     \
         --repository "google-cloud-go" --branch "main"                          \
-        --repository "googleapis" --branch "main"
+        --repository "googleapis" --branch "master"
 
     ProcessPost
 }

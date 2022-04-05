@@ -17,45 +17,45 @@ function Process {
         --repository "Vulkan-ExtensionLayer" --branch "master"                      \
         --repository "SPIRV-LLVM-Translator" --branch "master"                      \
         --repository "Vulkan-ValidationLayers" --branch "master"                    \
-        --repository "SYCL_Reference" --branch "master"                             \
+        --repository "SYCL_Reference" --branch "main"                               \
         --repository "glTF-Blender-IO" --branch "master"                            \
         --repository "Vulkan-Docs" --branch "master"                                \
         --repository "VK-GL-CTS" --branch "master"                                  \
-        --repository "OpenXR-SDK-Source" --branch "master"                          \
+        --repository "OpenXR-SDK-Source" --branch "main"                            \
         --repository "Vulkan-Samples" --branch "master"                             \
-        --repository "glTF-Validator" --branch "master"                             \
-        --repository "OpenCL-CTS" --branch "master"                                 \
+        --repository "glTF-Validator" --branch "main"                               \
+        --repository "OpenCL-CTS" --branch "main"                                   \
         --repository "glTF-Sample-Models" --branch "master"                         \
         --repository "Vulkan-Profiles" --branch "master"                            \
         --repository "Vulkan-Loader" --branch "master"                              \
         --repository "Vulkan-Tools" --branch "master"                               \
         --repository "Vulkan-Headers" --branch "master"                             \
         --repository "SPIRV-Tools" --branch "master"                                \
-        --repository "OpenCL-SDK" --branch "master"                                 \
-        --repository "glTF" --branch "master"                                       \
-        --repository "SYCL-CTS" --branch "master"                                   \
-        --repository "SYCL-Docs" --branch "master"                                  \
-        --repository "OpenCL-ICD-Loader" --branch "master"                          \
+        --repository "OpenCL-SDK" --branch "main"                                   \
+        --repository "glTF" --branch "main"                                         \
+        --repository "SYCL-CTS" --branch "SYCL-2020"                                \
+        --repository "SYCL-Docs" --branch "SYCL-2020/master"                        \
+        --repository "OpenCL-ICD-Loader" --branch "main"                            \
         --repository "Vulkan-Hpp" --branch "master"                                 \
-        --repository "OpenCL-Guide" --branch "master"                               \
-        --repository "OpenCL-Registry" --branch "master"                            \
-        --repository "libclcxx" --branch "master"                                   \
+        --repository "OpenCL-Guide" --branch "main"                                 \
+        --repository "OpenCL-Registry" --branch "main"                              \
+        --repository "libclcxx" --branch "main"                                     \
         --repository "Vulkan-Guide" --branch "master"                               \
-        --repository "VK-GL-CTS-Tools" --branch "master"                            \
+        --repository "VK-GL-CTS-Tools" --branch "main"                              \
         --repository "KTX-Software" --branch "master"                               \
         --repository "SPIRV-Cross" --branch "master"                                \
-        --repository "OpenXR-CTS" --branch "master"                                 \
-        --repository "OpenCL-Docs" --branch "master"                                \
-        --repository "KTX-Registry" --branch "master"                               \
+        --repository "OpenXR-CTS" --branch "devel"                                  \
+        --repository "OpenCL-Docs" --branch "main"                                  \
+        --repository "KTX-Registry" --branch "main"                                 \
         --repository "SPIRV-Guide" --branch "master"                                \
         --repository "SPIRV-Headers" --branch "master"                              \
-        --repository "SPIRV-Registry" --branch "master"                             \
-        --repository "OpenCL-Headers" --branch "master"                             \
-        --repository "OpenCL-CLHPP" --branch "master"                               \
+        --repository "SPIRV-Registry" --branch "main"                               \
+        --repository "OpenCL-Headers" --branch "main"                               \
+        --repository "OpenCL-CLHPP" --branch "main"                                 \
         --repository "glTF-Tutorials" --branch "master"                             \
-        --repository "OpenCL-Layers" --branch "master"                              \
+        --repository "OpenCL-Layers" --branch "main"                                \
         --repository "Vulkan-Samples-Assets" --branch "master"                      \
-        --repository "SYCL-Registry" --branch "master"
+        --repository "SYCL-Registry" --branch "main"
 
     ProcessPost
 }

@@ -18,11 +18,11 @@ function Process {
         --repository "FreeCAD-macros" --branch "master"                         \
         --repository "FreeCAD-render" --branch "master"                         \
         --repository "FreeCAD-addons" --branch "master"                         \
-        --repository "FreeCAD-documentation" --branch "master"                  \
+        --repository "FreeCAD-documentation" --branch "main"                    \
         --repository "FreeCAD-library" --branch "master"                        \
         --repository "FreeCAD-Homepage" --branch "master"                       \
-        --repository "FreeCAD-CI" --branch "master"                             \
-        --repository "FreeCAD-translations" --branch "master"                   \
+        --repository "FreeCAD-CI" --branch "main"                               \
+        --repository "FreeCAD-translations" --branch "main"                     \
         --repository "Docker" --branch "master"                                 \
         --repository "FreeCAD-Doc" --branch "master"                            \
         --repository "Examples" --branch "master"                               \
