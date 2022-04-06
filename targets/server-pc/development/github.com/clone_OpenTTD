@@ -25,11 +25,11 @@ function Process {
         --repository "bananas-frontend-web" --branch "main"                     \
         --repository "bananas-frontend-cli" --branch "main"                     \
         --repository "bananas-api" --branch "main"                              \
-        --repository "appstore-data" --branch "main"                            \
-        --repository "nml" --branch "main"                                      \
-        --repository "OpenMSX" --branch "main"                                  \
-        --repository "OpenSFX" --branch "main"                                  \
-        --repository "OpenGFX" --branch "main"                                  \
+        --repository "appstore-data" --branch "master"                          \
+        --repository "nml" --branch "master"                                    \
+        --repository "OpenMSX" --branch "master"                                \
+        --repository "OpenSFX" --branch "master"                                \
+        --repository "OpenGFX" --branch "master"                                \
         --repository "actions" --branch "main"                                  \
         --repository "py-protocol" --branch "main"                              \
         --repository "workflows" --branch "main"                                \
@@ -37,16 +37,16 @@ function Process {
         --repository "py-helpers" --branch "main"                               \
         --repository "team" --branch "main"                                     \
         --repository "OpenTTD-git-hooks" --branch "main"                        \
-        --repository "catcodec" --branch "main"                                 \
-        --repository "eints-sandbox" --branch "main"                            \
-        --repository "osie" --branch "main"                                     \
-        --repository "grfcodec" --branch "main"                                 \
-        --repository "CompileFarm" --branch "main"                              \
-        --repository "binaries-redirect" --branch "main"                        \
-        --repository "binaries-proxy" --branch "main"                           \
-        --repository "infrastructure" --branch "main"                           \
-        --repository "musa" --branch "main"                                     \
-        --repository "MasterServer" --branch "main"
+        --repository "catcodec" --branch "master"                               \
+        --repository "eints-sandbox" --branch "master"                          \
+        --repository "osie" --branch "master"                                   \
+        --repository "grfcodec" --branch "master"                               \
+        --repository "CompileFarm" --branch "master"                            \
+        --repository "binaries-redirect" --branch "master"                      \
+        --repository "binaries-proxy" --branch "master"                         \
+        --repository "infrastructure" --branch "master"                         \
+        --repository "musa" --branch "master"                                   \
+        --repository "MasterServer" --branch "master"
 
     ProcessPost
 }

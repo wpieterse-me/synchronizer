@@ -16,11 +16,11 @@ function Process {
         --repository "sof" --branch "main"                                          \
         --repository "sof-test" --branch "main"                                     \
         --repository "sof-bin" --branch "main"                                      \
-        --repository "sof-docs" --branch "main"                                     \
-        --repository "thesofproject.github.io" --branch "main"                      \
+        --repository "sof-docs" --branch "master"                                   \
+        --repository "thesofproject.github.io" --branch "master"                    \
         --repository "rimage" --branch "main"                                       \
-        --repository "build-scripts" --branch "main"                                \
-        --repository "sof-manifests" --branch "main"
+        --repository "build-scripts" --branch "master"                              \
+        --repository "sof-manifests" --branch "master"
 
     ProcessPost
 }

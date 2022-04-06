@@ -14,7 +14,7 @@ function Process {
         --remote_base_path "https://gitlab.gnome.org/GNOME"                         \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/gitlab.gnome.org/GNOME"    \
         --repository "gimp" --branch "master"                                       \
-        --repository "glib" --branch "master"                                       \
+        --repository "glib" --branch "main"                                         \
         --repository "gparted" --branch "master"
 
     ProcessPost
