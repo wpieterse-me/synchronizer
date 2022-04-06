@@ -10,10 +10,6 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CallSubScripts \
-        --root "${THIS_SCRIPT_DIRECTORY}" \
-        --script "wpieterse2825/process"
-
     ProcessPost
 }
 

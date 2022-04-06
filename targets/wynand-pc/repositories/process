@@ -7,12 +7,23 @@ ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
 
 source "${ROOT_SCRIPT_DIRECTORY}/shared"
 
+function Clone {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "github.com/clone"
+}
+
+function Build {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "github.com/build"
+}
+
 function Process {
     ProcessPre $@
 
-    CallSubScripts \
-        --root "${THIS_SCRIPT_DIRECTORY}" \
-        --script "github.com/process"
+    Clone
+    Build
 
     ProcessPost
 }
