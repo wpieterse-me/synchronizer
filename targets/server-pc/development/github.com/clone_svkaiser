@@ -13,7 +13,6 @@ function Process {
     CloneGitRepositories                                                        \
         --remote_base_path "https://github.com/svkaiser"                        \
         --local_base_path "${SERVER_PC_DEVELOPMENT_PATH}/github.com/svkaiser"   \
-        --repository "Doom64EX" --branch "master"                               \
         --repository "PowerslaveEX" --branch "master"                           \
         --repository "ForsakenEXTools" --branch "master"                        \
         --repository "dlight" --branch "master"                                 \
@@ -21,6 +20,8 @@ function Process {
         --repository "KexLIB" --branch "master"                                 \
         --repository "TurokEX" --branch "master"                                \
         --repository "doom64DS" --branch "master"
+
+    #    --repository "Doom64EX" --branch "master"                               \
 
     ProcessPost
 }

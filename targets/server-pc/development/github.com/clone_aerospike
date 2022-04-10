@@ -32,7 +32,7 @@ function Process {
         --repository "aerospike-client-c-dependencies" --branch "master"        \
         --repository "aerospike-monitoring" --branch "master"                   \
         --repository "aerospike-benchmark" --branch "master"                    \
-        --repository "aerospike-act" --branch "master"                          \
+        --repository "act" --branch "master"                          \
         --repository "aerospike-tools-validation" --branch "master"
 
     ProcessPost
