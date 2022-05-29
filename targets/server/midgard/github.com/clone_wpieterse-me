@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories                                                    \
+        --remote_base_path "git@github.com:wpieterse-me"                    \
+        --local_base_path "${SERVER_MIDGARD_PATH}/github.com/wpieterse-me"  \
+        --repository "prey-sdk" --branch "main"                             \
+        --repository "quake-4-sdk" --branch "main"                          \
+        --repository "quake-wars-sdk" --branch "main"
+
+    ProcessPost
+}
+
+Process $@

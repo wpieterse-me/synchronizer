@@ -1,9 +1,4 @@
-SERVER_PC_CONTENT_PATH="/shared/content"
-SERVER_PC_DEVELOPMENT_PATH="/shared/development"
-SERVER_PC_BUILDS_PATH="/shared/builds"
-
-WYNAND_PC_REPOSITORIES_PATH="/home/wpieterse/repositories"
-WYNAND_PC_BUILDS_PATH="/home/wpieterse/builds"
+SERVER_MIDGARD_PATH="/shared/midgard"
 
 PARAMETER_DISABLE_CLEAR=0
 PARAMETER_DISABLE_PRUNE=0
@@ -94,7 +89,7 @@ function CloneGitRepositories {
             --volume "$(readlink -f ${SSH_AUTH_SOCK})":/ssh-agent \
             --env SSH_AUTH_SOCK=/ssh-agent \
             --volume ${LOCAL_BASE_PATH}:/work \
-            server-pc_development_git-clone \
+            server_midgard_git-clone \
                 --remote "${REMOTE_BASE_PATH}" \
                 --name "${CURRENT_REPOSITORY}" \
                 --branch "${CURRENT_BRANCH}"
@@ -191,7 +186,7 @@ function SynchronizeGitRepositories {
             --volume "$(readlink -f ${SSH_AUTH_SOCK})":/ssh-agent \
             --env SSH_AUTH_SOCK=/ssh-agent \
             --volume ${LOCAL_BASE_PATH}:/work \
-            server-pc_development_git-synchronize \
+            server_midgard_git-synchronize \
                 --remote_upstream "${REMOTE_UPSTREAM_BASE_PATH}" \
                 --remote_origin "${REMOTE_ORIGIN_BASE_PATH}" \
                 --name "${CURRENT_REPOSITORY}" \

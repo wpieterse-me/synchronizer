@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Containers {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "process_git_common"               \
+        --script "process_git_clone"                \
+        --script "process_git_synchronize"
+}
+
+function Clone {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "github.com/clone"                 \
+        --script "gitlab.com/clone"                 \
+        --script "source.cloud.google.com/clone"
+}
+
+function Build {
+    CallSubScripts                                  \
+        --root "${THIS_SCRIPT_DIRECTORY}"           \
+        --script "github.com/build"                 \
+        --script "gitlab.com/build"                 \
+        --script "source.cloud.google.com/build"
+}
+
+function Process {
+    ProcessPre $@
+
+    Containers
+    Clone
+    Build
+
+    ProcessPost
+}
+
+Process $@
