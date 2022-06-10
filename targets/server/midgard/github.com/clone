@@ -12,8 +12,18 @@ function Process {
 
     CallSubScripts                          \
         --root "${THIS_SCRIPT_DIRECTORY}"   \
+        --script "clone_chocolate-doom"     \
+        --script "clone_coelckers"          \
+        --script "clone_dhewm"              \
+        --script "clone_espressif"          \
         --script "clone_id-Software"        \
-        --script "clone_wpieterse-me"
+        --script "clone_ioquake"            \
+        --script "clone_Novum"              \
+        --script "clone_raspberrypi"        \
+        --script "clone_RobertBeckebans"    \
+        --script "clone_suijingfeng"        \
+        --script "clone_wpieterse-me"       \
+        --script "clone_yquake2"
 
     ProcessPost
 }
