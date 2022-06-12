@@ -15,7 +15,9 @@ function Process {
         --local_base_path "${SERVER_MIDGARD_PATH}/github.com/wpieterse-me"  \
         --repository "prey-sdk" --branch "main"                             \
         --repository "quake-4-sdk" --branch "main"                          \
-        --repository "quake-wars-sdk" --branch "main"
+        --repository "quake-wars-sdk" --branch "main"                       \
+        --repository "ioq3" --branch "main"                                 \
+        --repository "dhewm3" --branch "master"
 
     ProcessPost
 }
