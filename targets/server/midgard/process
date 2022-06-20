@@ -16,19 +16,22 @@ function Containers {
 }
 
 function Clone {
-    CallSubScripts                                  \
-        --root "${THIS_SCRIPT_DIRECTORY}"           \
-        --script "github.com/clone"                 \
-        --script "gitlab.com/clone"                 \
-        --script "source.cloud.google.com/clone"
-}
-
-function Build {
-    CallSubScripts                                  \
-        --root "${THIS_SCRIPT_DIRECTORY}"           \
-        --script "github.com/build"                 \
-        --script "gitlab.com/build"                 \
-        --script "source.cloud.google.com/build"
+    CallSubScripts                                              \
+        --root "${THIS_SCRIPT_DIRECTORY}"                       \
+        --script "source.cloud.google.com/clone_wpieterse-me"   \
+        --script "github.com/clone_wpieterse-me"                \
+        --script "gitlab.com/clone_wpieterse-me"                \
+        --script "github.com/clone_chocolate-doom"              \
+        --script "github.com/clone_coelckers"                   \
+        --script "github.com/clone_dhewm"                       \
+        --script "github.com/clone_espressif"                   \
+        --script "github.com/clone_id-Software"                 \
+        --script "github.com/clone_ioquake"                     \
+        --script "github.com/clone_Novum"                       \
+        --script "github.com/clone_raspberrypi"                 \
+        --script "github.com/clone_RobertBeckebans"             \
+        --script "github.com/clone_suijingfeng"                 \
+        --script "github.com/clone_yquake2"
 }
 
 function Process {
@@ -36,7 +39,6 @@ function Process {
 
     Containers
     Clone
-    Build
 
     ProcessPost
 }

@@ -10,14 +10,12 @@ source "${ROOT_SCRIPT_DIRECTORY}/shared"
 function Process {
     ProcessPre $@
 
-    CloneGitRepositories                                                    \
-        --remote_base_path "git@github.com:wpieterse-me"                    \
-        --local_base_path "${SERVER_MIDGARD_PATH}/github.com/wpieterse-me"  \
-        --repository "prey-sdk" --branch "main"                             \
-        --repository "quake-4-sdk" --branch "main"                          \
-        --repository "quake-wars-sdk" --branch "main"                       \
-        --repository "ioq3" --branch "main"                                 \
-        --repository "dhewm3" --branch "master"
+    SynchronizeGitRepositories                                                                                          \
+        --remote_upstream_base_path "ssh://wpieterse2825@gmail.com@source.developers.google.com:2022/p/wpieterse-me/r"  \
+        --remote_origin_base_path "git@github.com:wpieterse-me"                                                         \
+        --local_base_path "${SERVER_MIDGARD_PATH}/github.com/wpieterse-me"                                              \
+        --repository "personal" --branch "master"                                                                       \
+        --repository "synchronizer" --branch "master"
 
     ProcessPost
 }
