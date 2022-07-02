@@ -25,9 +25,11 @@ function Clone {
         --script "github.com/clone_coelckers"                   \
         --script "github.com/clone_dhewm"                       \
         --script "github.com/clone_espressif"                   \
+        --script "github.com/clone_GPUOpen-Drivers"             \
         --script "github.com/clone_id-Software"                 \
         --script "github.com/clone_ioquake"                     \
         --script "github.com/clone_Novum"                       \
+        --script "github.com/clone_pocl"                        \
         --script "github.com/clone_raspberrypi"                 \
         --script "github.com/clone_RobertBeckebans"             \
         --script "github.com/clone_suijingfeng"                 \
