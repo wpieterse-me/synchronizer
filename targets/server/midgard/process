@@ -21,19 +21,49 @@ function Clone {
         --script "source.cloud.google.com/clone_wpieterse-me"   \
         --script "github.com/clone_wpieterse-me"                \
         --script "gitlab.com/clone_wpieterse-me"                \
+        --script "github.com/clone_BaRRaKudaRain"               \
+        --script "github.com/clone_brongo"                      \
         --script "github.com/clone_chocolate-doom"              \
         --script "github.com/clone_coelckers"                   \
+        --script "github.com/clone_coreboot"                    \
+        --script "github.com/clone_CornN64"                     \
+        --script "github.com/clone_David-Haim"                  \
         --script "github.com/clone_dhewm"                       \
+        --script "github.com/clone_diharaw"                     \
+        --script "github.com/clone_emoose"                      \
         --script "github.com/clone_espressif"                   \
+        --script "github.com/clone_floooh"                      \
+        --script "github.com/clone_Garcia6l20"                  \
+        --script "github.com/clone_Gaukler"                     \
+        --script "github.com/clone_gek169"                      \
         --script "github.com/clone_GPUOpen-Drivers"             \
+        --script "github.com/clone_h0MER247"                    \
         --script "github.com/clone_id-Software"                 \
+        --script "github.com/clone_intel"                       \
         --script "github.com/clone_ioquake"                     \
+        --script "github.com/clone_iortcw"                      \
+        --script "github.com/clone_ivanagui2"                   \
+        --script "github.com/clone_kbeckmann"                   \
+        --script "github.com/clone_Kroc"                        \
+        --script "github.com/clone_microsoft"                   \
+        --script "github.com/clone_mikke89"                     \
+        --script "github.com/clone_mukul-rathi"                 \
+        --script "github.com/clone_nikolausrauch"               \
         --script "github.com/clone_Novum"                       \
+        --script "github.com/clone_NVIDIAGameWorks"             \
         --script "github.com/clone_pocl"                        \
         --script "github.com/clone_raspberrypi"                 \
         --script "github.com/clone_RobertBeckebans"             \
+        --script "github.com/clone_RPCS3"                       \
+        --script "github.com/clone_StarsX"                      \
         --script "github.com/clone_suijingfeng"                 \
-        --script "github.com/clone_yquake2"
+        --script "github.com/clone_Timoniche"                   \
+        --script "github.com/clone_voyageur"                    \
+        --script "github.com/clone_wheybags"                    \
+        --script "github.com/clone_WolfireGames"                \
+        --script "github.com/clone_xelatihy"                    \
+        --script "github.com/clone_yquake2"                     \
+        --script "gitlab.freedesktop.org/clone_mesa"
 }
 
 function Process {

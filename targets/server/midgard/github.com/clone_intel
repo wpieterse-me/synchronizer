@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+THIS_SCRIPT_DIRECTORY="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_SCRIPT_DIRECTORY="${THIS_SCRIPT_DIRECTORY}/../../../.."
+
+source "${ROOT_SCRIPT_DIRECTORY}/shared"
+
+function Process {
+    ProcessPre $@
+
+    CloneGitRepositories                                            \
+        --remote_base_path "https://github.com/intel"               \
+        --local_base_path "${SERVER_MIDGARD_PATH}/github.com/intel" \
+        --repository "metrics-discovery" --branch "master"          \
+        --repository "systemc-compiler" --branch "main"             \
+        --repository "pse-fw" --branch "main"
+
+    ProcessPost
+}
+
+Process $@
